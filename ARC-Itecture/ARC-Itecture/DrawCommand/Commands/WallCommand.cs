@@ -15,7 +15,7 @@ namespace ARC_Itecture.DrawCommand.Commands
 
         public void Execute(Point point)
         {
-            throw new NotImplementedException();
+            this._receiver.DrawWall(point);
         }
     }
 }
