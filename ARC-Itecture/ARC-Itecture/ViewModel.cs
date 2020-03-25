@@ -1,27 +1,29 @@
-﻿using ARC_Itecture.DrawCommand.Commands;
+﻿using ARC_Itecture.DrawCommand;
+using ARC_Itecture.DrawCommand.Commands;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Windows;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.IO;
+using System.Windows;
 
-namespace ARC_Itecture.DrawCommand
+namespace ARC_Itecture
 {
     class ViewModel
     {
         private MainWindow _mainWindow;
         private Invoker _invoker;
         private Receiver _receiver;
-        private Plan _plan;
+        public Plan plan;
 
         public ViewModel(MainWindow mainWindow)
         {
             _mainWindow = mainWindow;
             this._invoker = new Invoker();
             this._receiver = new Receiver(_mainWindow.canvas);
+            plan = new Plan();
         }
 
         public void AddArea()
@@ -56,15 +58,28 @@ namespace ARC_Itecture.DrawCommand
 
         public void LoadJson(string filename)
         {
-            _plan = JsonConvert.DeserializeObject<Plan>(File.ReadAllText(filename));
+            plan = JsonConvert.DeserializeObject<Plan>(File.ReadAllText(filename));
         }
 
         public void SaveJson(string filename)
         {
-            using (StreamWriter file = File.CreateText(filename))
+            MessageBox.Show(plan.WallHeight.ToString());
+            /*using (StreamWriter file = File.CreateText(filename))
             {
-                (new JsonSerializer()).Serialize(file, _plan);
+                (new JsonSerializer()).Serialize(file, plan);
+            }*/
+        }
+
+        public bool ValidateConstantePlan()
+        {
+            bool isConstantOk = true;
+            int value;
+            if(_mainWindow.textBoxWindowH2.Text == null || int.TryParse(_mainWindow.textBoxWindowH2.Text, out value))
+            {
+                MessageBox.Show("Window H2 must contain a value or be a number !");
+                isConstantOk = false;
             }
+            return isConstantOk;
         }
     }
 }

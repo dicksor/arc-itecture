@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -89,7 +90,6 @@
     <Compile Include="DrawCommand\Commands\WindowCommand.cs" />
     <Compile Include="DrawCommand\Invoker.cs" />
     <Compile Include="DrawCommand\Receiver.cs" />
-    <Compile Include="DrawCommand\ViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -20,6 +20,8 @@ namespace ARC_Itecture
         {
             InitializeComponent();
             _viewModel = new ViewModel(this);
+
+            DataContext = _viewModel.plan;
         }
 
         private void ButtonAddArea_Click(object sender, EventArgs e)
