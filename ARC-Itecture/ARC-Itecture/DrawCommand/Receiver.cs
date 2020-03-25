@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace ARC_Itecture.Command
+namespace ARC_Itecture.DrawCommand
 {
     class Receiver
     {
@@ -24,6 +24,13 @@ namespace ARC_Itecture.Command
             Canvas.SetTop(el, p.Y);
 
             this._canvas.Children.Add(el);
+        }
+
+        public void DrawLine(Point p)
+        {
+            Line line = new Line();
+            line.X1 = p.X;
+            line.Y1 = p.Y;
         }
     }
 }

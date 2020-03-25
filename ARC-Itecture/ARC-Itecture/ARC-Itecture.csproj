@@ -77,8 +77,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DrawCommand\CameraCommand.cs" />
-    <Compile Include="DrawCommand\IDrawCommand.cs" />
+    <Compile Include="DrawCommand\Commands\AreaCommand.cs" />
+    <Compile Include="DrawCommand\Commands\CameraCommand.cs" />
+    <Compile Include="DrawCommand\Commands\DoorCommand.cs" />
+    <Compile Include="DrawCommand\Commands\IDrawCommand.cs" />
+    <Compile Include="DrawCommand\Commands\WallCommand.cs" />
+    <Compile Include="DrawCommand\Commands\WindowCommand.cs" />
     <Compile Include="DrawCommand\Invoker.cs" />
     <Compile Include="DrawCommand\Receiver.cs" />
     <Compile Include="MainWindow.xaml.cs">
