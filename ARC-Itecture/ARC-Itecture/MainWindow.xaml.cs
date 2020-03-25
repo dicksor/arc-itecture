@@ -1,6 +1,9 @@
 ﻿using ARC_Itecture.DrawCommand;
 using ARC_Itecture.DrawCommand.Commands;
+using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,45 +14,75 @@ namespace ARC_Itecture
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Invoker _invoker;
-        private Receiver _receiver;
+        private ViewModel _viewModel;
 
         public MainWindow()
         {
             InitializeComponent();
-            this._invoker = new Invoker();
-            this._receiver = new Receiver(this.canvas);
+            _viewModel = new ViewModel(this);
         }
 
         private void ButtonAddArea_Click(object sender, EventArgs e)
         {
-            this._invoker.Command = new AreaCommand(this._receiver);
+            _viewModel.AddArea();
         }
         
         private void ButtonAddCamera_Click(object sender, EventArgs e)
         {
-            this._invoker.Command = new CameraCommand(this._receiver);
+            _viewModel.AddCamera();
         }
 
         private void ButtonAddDoor_Click(object sender, EventArgs e)
         {
-            this._invoker.Command = new DoorCommand(this._receiver);
+            _viewModel.AddDoor();
         }
 
         private void ButtonAddWall_Click(object sender, EventArgs e)
         {
-            this._invoker.Command = new WallCommand(this._receiver);
+            _viewModel.AddWall();
         }
 
         private void ButtonAddWindow_Click(object sender, EventArgs e)
         {
-            this._invoker.Command = new WindowCommand(this._receiver);
+            _viewModel.AddWindow();
         }
 
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point p = Mouse.GetPosition(this.canvas);
-            this._invoker.Invoke(p);
+            _viewModel.CanvasClick(p);
+        }
+
+        private void buttonCreatePlan_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
+        private void buttonSavePlan_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog { FileName = "Plan", DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
+
+            if(dlg.ShowDialog() == true)
+            {
+                _viewModel.SaveJson(dlg.FileName);
+            }
+        }
+
+        private void buttonLoadPlan_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog{DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
+
+            if (dlg.ShowDialog() == true)
+            {
+                if (Path.GetExtension(dlg.FileName) == ".json")
+                {
+                    _viewModel.LoadJson(dlg.FileName);
+                }
+                else
+                {
+                    MessageBox.Show("The file must have the .sjson extension !");
+                }
+            }
         }
     }
 }

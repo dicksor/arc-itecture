@@ -25,9 +25,9 @@
         <materialDesign:Card Grid.Row="0" Grid.Column="0" Padding="10" Margin="10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
             <StackPanel DockPanel.Dock="Top">
                 <TextBlock Style="{StaticResource MaterialDesignHeadline3TextBlock}" TextAlignment="Center" FontWeight="Bold" Margin="0,0,0,10">Arc-Itechture</TextBlock>
-                <Button x:Name="buttonCreatePlan" Style="{StaticResource MaterialDesignFlatDarkBgButton}" ToolTip="MaterialDesignFlatDarkButton" Margin="10">Create a plan</Button>
-                <Button x:Name="buttonSavePlan" Style="{StaticResource MaterialDesignFlatDarkBgButton}" ToolTip="MaterialDesignFlatDarkButton" Margin="10">Save the plan</Button>
-                <Button x:Name="buttonLoadPlan" Style="{StaticResource MaterialDesignFlatDarkBgButton}" ToolTip="MaterialDesignFlatDarkButton" Margin="10">Load a plan</Button>
+                <Button x:Name="buttonCreatePlan" Click="buttonCreatePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" ToolTip="MaterialDesignFlatDarkButton" Margin="10">Create a plan</Button>
+                <Button x:Name="buttonSavePlan" Click="buttonSavePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" ToolTip="MaterialDesignFlatDarkButton" Margin="10">Save the plan</Button>
+                <Button x:Name="buttonLoadPlan" Click="buttonLoadPlan_Click"  Style="{StaticResource MaterialDesignFlatDarkBgButton}" ToolTip="MaterialDesignFlatDarkButton" Margin="10">Load a plan</Button>
                 <Separator Style="{StaticResource MaterialDesignDarkSeparator}" />
 
                 <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,30,5,5">Plan properties :</TextBlock>
