@@ -77,6 +77,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DrawCommand\CameraCommand.cs" />
+    <Compile Include="DrawCommand\IDrawCommand.cs" />
+    <Compile Include="DrawCommand\Invoker.cs" />
+    <Compile Include="DrawCommand\Receiver.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

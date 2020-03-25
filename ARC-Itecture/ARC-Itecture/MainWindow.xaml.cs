@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ARC_Itecture.Command;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,23 +21,18 @@ namespace ARC_Itecture
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Invoker _invoker;
+
         public MainWindow()
         {
             InitializeComponent();
+            this._invoker = new Invoker(this.canvas);
         }
 
         private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Point p = Mouse.GetPosition(canvas);
-
-            Ellipse el = new Ellipse();
-            el.Width = 10;
-            el.Height = 10;
-            el.Fill = new SolidColorBrush(Colors.White);
-            Canvas.SetLeft(el, p.X);
-            Canvas.SetTop(el, p.Y);
-
-            canvas.Children.Add(el);
+            Point p = Mouse.GetPosition(this.canvas);
+            this._invoker.Invoke(p);
         }
     }
 }
