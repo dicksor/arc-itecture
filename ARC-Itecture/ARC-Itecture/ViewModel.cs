@@ -22,8 +22,8 @@ namespace ARC_Itecture
         {
             _mainWindow = mainWindow;
             this._invoker = new Invoker();
-            this._receiver = new Receiver(_mainWindow.canvas);
             plan = new Plan();
+            this._receiver = new Receiver(_mainWindow.canvas, plan);
         }
 
         public void AddArea()
@@ -63,11 +63,10 @@ namespace ARC_Itecture
 
         public void SaveJson(string filename)
         {
-            MessageBox.Show(plan.WallHeight.ToString());
-            /*using (StreamWriter file = File.CreateText(filename))
+            using (StreamWriter file = File.CreateText(filename))
             {
                 (new JsonSerializer()).Serialize(file, plan);
-            }*/
+            }
         }
 
         public bool ValidateConstantePlan()

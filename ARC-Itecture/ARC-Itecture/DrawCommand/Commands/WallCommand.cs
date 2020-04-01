@@ -7,6 +7,7 @@ namespace ARC_Itecture.DrawCommand.Commands
     {
 
         private Receiver _receiver;
+        private const ComponentType _componentType = ComponentType.Wall;
 
         public WallCommand(Receiver receiver)
         {
@@ -15,7 +16,7 @@ namespace ARC_Itecture.DrawCommand.Commands
 
         public void Execute(Point point)
         {
-            this._receiver.DrawWall(point);
+            this._receiver.DrawWall(point, _componentType);
         }
     }
 }

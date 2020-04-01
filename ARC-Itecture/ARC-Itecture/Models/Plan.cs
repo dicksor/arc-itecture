@@ -1,10 +1,24 @@
-﻿using Newtonsoft.Json;
+﻿using ARC_Itecture;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Shapes;
+using Point = System.Windows.Point;
 
 [System.Serializable]
 public class Plan
 {
+    public Plan()
+    {
+        entryPoint = new List<float>();
+        segments = new List<Segment>();
+        areas = new List<Area>();
+        doors = new List<Door>();
+    }
+
     [JsonProperty("wallHeight")]
     public float WallHeight { get; set; }
 
@@ -25,4 +39,48 @@ public class Plan
     public List<Area> areas;
     public List<Door> doors;
 
+    private const string SEGMENT_STRING = "seg";
+
+    public void addComponent(Point point1, Point point2, ComponentType componentType)
+    {
+        if (componentType == ComponentType.Area)
+        {
+            List<List<float>> corners = new List<List<float>>
+            {
+                new List<float>() { (float)point1.X, (float)point1.Y },
+                new List<float>() { (float)point2.X, (float)point1.Y },
+                new List<float>() { (float)point2.X, (float)point2.Y },
+                new List<float>() { (float)point1.X, (float)point2.Y }
+            };
+
+            for(int i = 0; i < corners.Count; i++)
+            {
+                List<float> start;
+                List<float> stop;
+
+                if(i != corners.Count - 1)
+                {
+                    start = corners[i];
+                    stop = corners[i + 1];
+                }
+                else
+                {
+                    start = corners[i];
+                    stop = corners[0];
+                }
+                segments.Add(new Segment(SEGMENT_STRING + Segment.nbSegment, start, stop));
+            }
+
+            areas.Add(new Area("Test", corners));
+        }
+    }
+
+    public void addComponent(Point p, ComponentType componentType)
+    {
+        if(componentType == ComponentType.Camera)
+        {
+            entryPoint.Add((float) p.X);
+            entryPoint.Add((float) p.Y);
+        }
+    }
 }

@@ -5,6 +5,7 @@ namespace ARC_Itecture.DrawCommand.Commands
     class CameraCommand : IDrawCommand
     {
         private Receiver _receiver;
+        private const ComponentType _componentType = ComponentType.Camera;
 
         public CameraCommand(Receiver receiver)
         {
@@ -13,7 +14,7 @@ namespace ARC_Itecture.DrawCommand.Commands
 
         public void Execute(Point point)
         {
-            this._receiver.DrawCamera(point);
+            this._receiver.DrawCamera(point, _componentType);
         }
     }
 }

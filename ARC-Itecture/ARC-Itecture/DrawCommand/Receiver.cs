@@ -13,16 +13,18 @@ namespace ARC_Itecture.DrawCommand
         private Brush _brush;
         private Queue<Point> _wallPoints;
         private Stack<Point> _areaPoints;
+        private Plan _plan;
 
-        public Receiver(Canvas canvas)
+        public Receiver(Canvas canvas, Plan plan)
         {
             this._canvas = canvas;
             this._brush = new SolidColorBrush(Colors.White);
             this._wallPoints = new Queue<Point>();
             this._areaPoints = new Stack<Point>();
+            this._plan = plan;
         }
 
-        public void DrawArea(Point p)
+        public void DrawArea(Point p, ComponentType componentType)
         {
             this._areaPoints.Push(p);
             if(this._areaPoints.Count == 2)
@@ -32,6 +34,8 @@ namespace ARC_Itecture.DrawCommand
 
                 Point p2 = this._areaPoints.Pop();
                 Point p1 = this._areaPoints.Pop();
+
+                _plan.addComponent(p1, p2, componentType);
 
                 rectangle.Width = Math.Abs(p2.X - p1.X);
                 rectangle.Height = Math.Abs(p2.Y - p1.Y);
@@ -45,7 +49,7 @@ namespace ARC_Itecture.DrawCommand
             }
         }
 
-        public void DrawCamera(Point p)
+        public void DrawCamera(Point p, ComponentType componentType)
         {
             Ellipse ellipse = new Ellipse();
             ellipse.Fill = this._brush;
@@ -54,10 +58,12 @@ namespace ARC_Itecture.DrawCommand
             Canvas.SetLeft(ellipse, p.X);
             Canvas.SetTop(ellipse, p.Y);
 
+            _plan.addComponent(p, componentType);
+
             this._canvas.Children.Add(ellipse);
         }
 
-        public void DrawWall(Point p)
+        public void DrawWall(Point p, ComponentType componentType)
         {
             this._wallPoints.Enqueue(p);
 
