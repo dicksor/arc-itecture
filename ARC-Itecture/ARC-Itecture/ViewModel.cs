@@ -56,6 +56,12 @@ namespace ARC_Itecture
         {
             plan = JsonConvert.DeserializeObject<Plan>(File.ReadAllText(filename));
             plan.importDraw(_receiver, _invoker);
+
+            _mainWindow.textBoxDoorH2.Text = plan.DoorH2.ToString();
+            _mainWindow.textBoxWallHeight.Text = plan.WallHeight.ToString();
+            _mainWindow.textBoxWallWidth.Text = plan.WallWidth.ToString();
+            _mainWindow.textBoxWindowH1.Text = plan.WindowH1.ToString();
+            _mainWindow.textBoxWindowH2.Text = plan.WindowH2.ToString();
         }
 
         public void SaveJson(string filename)

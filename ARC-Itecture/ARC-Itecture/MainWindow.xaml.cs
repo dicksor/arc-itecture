@@ -21,6 +21,7 @@ namespace ARC_Itecture
         public MainWindow()
         {
             InitializeComponent();
+
             _viewModel = new ViewModel(this);
 
             DataContext = _viewModel.plan;

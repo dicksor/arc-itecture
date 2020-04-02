@@ -22,7 +22,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <materialDesign:Card Grid.Row="0" Grid.Column="0" Padding="10" Margin="10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
+        <materialDesign:Card Grid.Row="0" Grid.Column="0" Padding="10" Margin="10,10,0,10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
             <StackPanel DockPanel.Dock="Top">
                 <TextBlock Style="{StaticResource MaterialDesignHeadline3TextBlock}" TextAlignment="Center" FontWeight="Bold" Margin="0,0,0,10">Arc-Itechture</TextBlock>
                 <Button x:Name="buttonCreatePlan" Click="buttonCreatePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10">Create a plan</Button>
@@ -31,6 +31,7 @@
                 <Separator Style="{StaticResource MaterialDesignDarkSeparator}" />
 
                 <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,30,5,5">Plan properties :</TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignTextBlock}" Margin="5,5,5,5">One block = 1 meter</TextBlock>
                 <TextBox x:Name="textBoxWallHeight"  materialDesign:HintAssist.Hint="Wall Height" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding WallHeight, Mode=TwoWay}"/>
                 <TextBox x:Name="textBoxWallWidth"  materialDesign:HintAssist.Hint="Wall Width" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding WallWidth, Mode=TwoWay}"/>
                 <TextBox x:Name="textBoxDoorH2"  materialDesign:HintAssist.Hint="Height above doors" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding WindowH1, Mode=TwoWay}"/>
@@ -64,15 +65,29 @@
                         </Button>
                         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Area</TextBlock>
                     </StackPanel>
-
                 </WrapPanel>
                 <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" TextWrapping="Wrap" TextAlignment="Center" Margin="0,150,0,0">
                     Developped by Capocasale Romain, Freiburghaus Jonas and Moulin Vincent. He-Arc - 2019/2020
                 </TextBlock>
             </StackPanel>
         </materialDesign:Card>
-        <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
-            <Canvas x:Name="canvas" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black"  />
+        <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="20,10,10,10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
+          <Canvas x:Name="canvas" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Canvas.Background>
+              <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
+                <DrawingBrush.Drawing>
+                  <GeometryDrawing>
+                    <GeometryDrawing.Geometry>
+                      <RectangleGeometry Rect="0,0,20,20"/>
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                      <Pen Brush="Gray" Thickness="0.2"/>
+                    </GeometryDrawing.Pen>
+                  </GeometryDrawing>
+                </DrawingBrush.Drawing>
+              </DrawingBrush>
+            </Canvas.Background>
+          </Canvas>
         </materialDesign:Card>
     </Grid>
 </Window>
