@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Media.Imaging;
+using ARC_Itecture.Utils;
 
 namespace ARC_Itecture.DrawCommand
 {
@@ -51,7 +53,17 @@ namespace ARC_Itecture.DrawCommand
 
         public void DrawCamera(Point p, ComponentType componentType)
         {
-            Ellipse ellipse = new Ellipse();
+            System.Drawing.Bitmap cameraBitmap = Properties.Resources.camera_icon;
+            //cameraBitmap.MakeTransparent(cameraBitmap.GetPixel(0, 0));
+
+            Image cameraImage = new Image();
+            cameraImage.Source = ImageUtil.ImageSourceFromBitmap(cameraBitmap);
+
+            Canvas.SetLeft(cameraImage, p.X);
+            Canvas.SetTop(cameraImage, p.Y);
+            this._canvas.Children.Add(cameraImage);
+
+            /*Ellipse ellipse = new Ellipse();
             ellipse.Fill = this._brush;
             ellipse.Width = 10;
             ellipse.Height = 10;
@@ -60,7 +72,7 @@ namespace ARC_Itecture.DrawCommand
 
             _plan.addComponent(p, componentType);
 
-            this._canvas.Children.Add(ellipse);
+            this._canvas.Children.Add(ellipse);*/
         }
 
         public void DrawWall(Point p, ComponentType componentType)
