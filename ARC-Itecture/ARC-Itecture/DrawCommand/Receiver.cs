@@ -7,7 +7,7 @@ using System.Windows.Shapes;
 
 namespace ARC_Itecture.DrawCommand
 {
-    class Receiver
+    public class Receiver
     {
         private Canvas _canvas;
         private Brush _brush;
@@ -86,5 +86,7 @@ namespace ARC_Itecture.DrawCommand
                 this._canvas.Children.Add(line);
             }
         }
+
+
     }
 }

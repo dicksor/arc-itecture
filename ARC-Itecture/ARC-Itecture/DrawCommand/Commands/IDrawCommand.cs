@@ -2,7 +2,7 @@
 
 namespace ARC_Itecture.DrawCommand.Commands
 {
-    interface IDrawCommand
+    public interface IDrawCommand
     {
         void Execute(Point point);
     }

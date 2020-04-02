@@ -5,7 +5,9 @@ using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace ARC_Itecture
 {
@@ -24,29 +26,38 @@ namespace ARC_Itecture
             DataContext = _viewModel.plan;
         }
 
+        private void ColorCommand(Button button)
+        {
+            Style style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
+            buttonAddArea.Style = style;
+            buttonAddCamera.Style = style;
+            buttonAddDoor.Style = style;
+            buttonAddWindow.Style = style;
+
+            button.Style = FindResource("MaterialDesignFloatingActionLightButton") as Style;
+        }
+
         private void ButtonAddArea_Click(object sender, EventArgs e)
         {
+            ColorCommand((Button)sender);
             _viewModel.AddArea();
         }
         
         private void ButtonAddCamera_Click(object sender, EventArgs e)
         {
+            ColorCommand((Button)sender);
             _viewModel.AddCamera();
         }
 
         private void ButtonAddDoor_Click(object sender, EventArgs e)
         {
+            ColorCommand((Button)sender);
             _viewModel.AddDoor();
-        }
-
-        private void ButtonAddWall_Click(object sender, EventArgs e)
-        {
-            _viewModel.AddWall();
         }
 
         private void ButtonAddWindow_Click(object sender, EventArgs e)
         {
-            _viewModel.AddWindow();
+            ColorCommand((Button)sender);
         }
 
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -57,7 +68,7 @@ namespace ARC_Itecture
 
         private void buttonCreatePlan_Click(object sender, RoutedEventArgs e)
         {
-           
+            _viewModel.ClearCanvas();
         }
 
         private void buttonSavePlan_Click(object sender, RoutedEventArgs e)

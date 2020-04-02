@@ -25,9 +25,9 @@
         <materialDesign:Card Grid.Row="0" Grid.Column="0" Padding="10" Margin="10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
             <StackPanel DockPanel.Dock="Top">
                 <TextBlock Style="{StaticResource MaterialDesignHeadline3TextBlock}" TextAlignment="Center" FontWeight="Bold" Margin="0,0,0,10">Arc-Itechture</TextBlock>
-                <Button x:Name="buttonCreatePlan" Click="buttonCreatePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" ToolTip="MaterialDesignFlatDarkButton" Margin="10">Create a plan</Button>
-                <Button x:Name="buttonSavePlan" Click="buttonSavePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" ToolTip="MaterialDesignFlatDarkButton" Margin="10">Save the plan</Button>
-                <Button x:Name="buttonLoadPlan" Click="buttonLoadPlan_Click"  Style="{StaticResource MaterialDesignFlatDarkBgButton}" ToolTip="MaterialDesignFlatDarkButton" Margin="10">Load a plan</Button>
+                <Button x:Name="buttonCreatePlan" Click="buttonCreatePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10">Create a plan</Button>
+                <Button x:Name="buttonSavePlan" Click="buttonSavePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10">Save the plan</Button>
+                <Button x:Name="buttonLoadPlan" Click="buttonLoadPlan_Click"  Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10">Load a plan</Button>
                 <Separator Style="{StaticResource MaterialDesignDarkSeparator}" />
 
                 <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,30,5,5">Plan properties :</TextBlock>
@@ -40,12 +40,6 @@
 
                 <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"  Margin="5,30,5,5">Click on the buttons to add :</TextBlock>
                 <WrapPanel>
-                    <StackPanel>
-                        <Button x:Name="buttonAddWall" Click="ButtonAddWall_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add a wall" Margin="5">
-                            <materialDesign:PackIcon Kind="Wall" Height="24" Width="24" />
-                        </Button>
-                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Wall</TextBlock>
-                    </StackPanel>
                     <StackPanel>
                         <Button x:Name="buttonAddWindow" Click="ButtonAddWindow_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add a window" Margin="5">
                             <materialDesign:PackIcon Kind="WindowClosedVariant" Height="24" Width="24" />

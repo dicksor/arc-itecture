@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace ARC_Itecture.DrawCommand
 {
-    class Invoker
+    public class Invoker
     {
         private IDrawCommand _command;
 

@@ -41,10 +41,6 @@ namespace ARC_Itecture
             this._invoker.Command = new DoorCommand(this._receiver);
         }
 
-        public void AddWall()
-        {
-            this._invoker.Command = new WallCommand(this._receiver);
-        }
 
         public void AddWindow()
         {
@@ -59,6 +55,7 @@ namespace ARC_Itecture
         public void LoadJson(string filename)
         {
             plan = JsonConvert.DeserializeObject<Plan>(File.ReadAllText(filename));
+            plan.importDraw(_receiver, _invoker);
         }
 
         public void SaveJson(string filename)
@@ -69,16 +66,10 @@ namespace ARC_Itecture
             }
         }
 
-        public bool ValidateConstantePlan()
+        public void ClearCanvas()
         {
-            bool isConstantOk = true;
-            int value;
-            if(_mainWindow.textBoxWindowH2.Text == null || int.TryParse(_mainWindow.textBoxWindowH2.Text, out value))
-            {
-                MessageBox.Show("Window H2 must contain a value or be a number !");
-                isConstantOk = false;
-            }
-            return isConstantOk;
+            _mainWindow.canvas.Children.Clear();
+            plan = new Plan();
         }
     }
 }
