@@ -71,7 +71,22 @@
             </StackPanel>
         </materialDesign:Card>
         <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
-            <Canvas x:Name="canvas" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black"  />
+          <Canvas x:Name="canvas" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Canvas.Background>
+              <DrawingBrush TileMode="Tile" Viewport="0,0,25,25" ViewportUnits="Absolute">
+                <DrawingBrush.Drawing>
+                  <GeometryDrawing>
+                    <GeometryDrawing.Geometry>
+                      <RectangleGeometry Rect="0,0,25,25"/>
+                    </GeometryDrawing.Geometry>
+                    <GeometryDrawing.Pen>
+                      <Pen Brush="Gray" Thickness="0.2"/>
+                    </GeometryDrawing.Pen>
+                  </GeometryDrawing>
+                </DrawingBrush.Drawing>
+              </DrawingBrush>
+            </Canvas.Background>
+          </Canvas>
         </materialDesign:Card>
     </Grid>
 </Window>
