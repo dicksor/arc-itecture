@@ -1,4 +1,5 @@
 ﻿using ARC_Itecture.DrawCommand.Commands;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,6 +8,7 @@ namespace ARC_Itecture.DrawCommand
     public class Invoker
     {
         private IDrawCommand _command;
+        public List<IDrawCommand> history = new List<IDrawCommand>();
 
         public IDrawCommand Command{
             set
@@ -18,7 +20,9 @@ namespace ARC_Itecture.DrawCommand
         public void Invoke(Point point)
         {
             if(this._command != null)
+                history.Add(this._command);
                 this._command.Execute(point);
+                
             // TODO : Else toast -> pick tool
         }
     }

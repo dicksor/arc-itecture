@@ -6,6 +6,7 @@ namespace ARC_Itecture.DrawCommand.Commands
     {
         private Receiver _receiver;
         private const ComponentType _componentType = ComponentType.Camera;
+        private static bool _isAlreadyUsed = false;
 
         public CameraCommand(Receiver receiver)
         {
@@ -14,7 +15,11 @@ namespace ARC_Itecture.DrawCommand.Commands
 
         public void Execute(Point point)
         {
-            this._receiver.DrawCamera(point, _componentType);
+            if (!_isAlreadyUsed)
+            {
+                this._receiver.DrawCamera(point, _componentType);
+                _isAlreadyUsed = !_isAlreadyUsed;
+            }
         }
     }
 }

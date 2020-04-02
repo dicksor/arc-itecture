@@ -64,7 +64,6 @@
                         </Button>
                         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Area</TextBlock>
                     </StackPanel>
-
                 </WrapPanel>
                 <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" TextWrapping="Wrap" TextAlignment="Center" Margin="0,150,0,0">
                     Developped by Capocasale Romain, Freiburghaus Jonas and Moulin Vincent. He-Arc - 2019/2020
