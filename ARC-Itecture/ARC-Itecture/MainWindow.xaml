@@ -31,6 +31,7 @@
                 <Separator Style="{StaticResource MaterialDesignDarkSeparator}" />
 
                 <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,30,5,5">Plan properties :</TextBlock>
+                <TextBox x:Name="textBoxPixelPerMeter"  materialDesign:HintAssist.Hint="Number of pixel per meter" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding PixelPerMeter, Mode=TwoWay}"/>
                 <TextBox x:Name="textBoxWallHeight"  materialDesign:HintAssist.Hint="Wall Height" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding WallHeight, Mode=TwoWay}"/>
                 <TextBox x:Name="textBoxWallWidth"  materialDesign:HintAssist.Hint="Wall Width" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding WallWidth, Mode=TwoWay}"/>
                 <TextBox x:Name="textBoxDoorH2"  materialDesign:HintAssist.Hint="Height above doors" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding WindowH1, Mode=TwoWay}"/>
