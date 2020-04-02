@@ -20,8 +20,14 @@ namespace ARC_Itecture.DrawCommand
         public void Invoke(Point point)
         {
             if(this._command != null)
+            {
                 history.Add(this._command);
                 this._command.Execute(point);
+            }
+            else
+            {
+                MessageBox.Show("Select a tool to draw");
+            }
                 
             // TODO : Else toast -> pick tool
         }

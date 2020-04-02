@@ -24,7 +24,6 @@ namespace ARC_Itecture
             this._invoker = new Invoker();
             plan = new Plan();
             this._receiver = new Receiver(_mainWindow.canvas, plan);
-            this.DrawGrid();
         }
 
         public void AddArea()
@@ -77,11 +76,6 @@ namespace ARC_Itecture
         {
             _mainWindow.canvas.Children.Clear();
             plan = new Plan();
-        }
-
-        private void DrawGrid()
-        {
-            _mainWindow.textBoxPixelPerMeter.Text = "25".ToString();
         }
     }
 }
