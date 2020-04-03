@@ -75,6 +75,7 @@
     </ApplicationDefinition>
     <Compile Include="ComponentType.cs" />
     <Compile Include="Utils\ImageUtil.cs" />
+    <Compile Include="Utils\MathUtil.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

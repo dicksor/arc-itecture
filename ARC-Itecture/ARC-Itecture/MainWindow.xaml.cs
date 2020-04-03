@@ -61,6 +61,12 @@ namespace ARC_Itecture
             ColorCommand((Button)sender);
         }
 
+        private void ButtonAddWall_Click(object sender, EventArgs e)
+        {
+            ColorCommand((Button)sender);
+            _viewModel.AddWall();
+        }
+
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point p = Mouse.GetPosition(this.canvas);

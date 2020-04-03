@@ -54,7 +54,6 @@ namespace ARC_Itecture.DrawCommand
         public void DrawCamera(Point p, ComponentType componentType)
         {
             System.Drawing.Bitmap cameraBitmap = Properties.Resources.camera_icon;
-            //cameraBitmap.MakeTransparent(cameraBitmap.GetPixel(0, 0));
 
             Image cameraImage = new Image();
             cameraImage.Source = ImageUtil.ImageSourceFromBitmap(cameraBitmap);
@@ -62,38 +61,39 @@ namespace ARC_Itecture.DrawCommand
             Canvas.SetLeft(cameraImage, p.X);
             Canvas.SetTop(cameraImage, p.Y);
             this._canvas.Children.Add(cameraImage);
-
-            /*Ellipse ellipse = new Ellipse();
-            ellipse.Fill = this._brush;
-            ellipse.Width = 10;
-            ellipse.Height = 10;
-            Canvas.SetLeft(ellipse, p.X);
-            Canvas.SetTop(ellipse, p.Y);
-
-            _plan.addComponent(p, componentType);
-
-            this._canvas.Children.Add(ellipse);*/
         }
 
         public void DrawWall(Point p, ComponentType componentType)
         {
             this._wallPoints.Enqueue(p);
 
-            if(this._wallPoints.Count % 2 == 0)
+            if (this._wallPoints.Count % 2 == 0)
             {
                 Line line = new Line();
                 line.StrokeThickness = 1;
                 line.Stroke = this._brush;
 
                 Point p1 = this._wallPoints.Dequeue();
-            
+                Point p2 = this._wallPoints.Dequeue();
+
+                double dX = Math.Abs(p2.X - p1.X);
+                double dY = Math.Abs(p2.Y - p1.Y);
+
                 line.X1 = p1.X;
                 line.Y1 = p1.Y;
 
-                Point p2 = this._wallPoints.Peek();
+                if (dX > dY)
+                {
+                    line.Y2 = p1.Y;
+                    line.X2 = p2.X;
+                }
+                else
+                {
+                    line.X2 = p1.X;
+                    line.Y2 = p2.Y;
+                }
 
-                line.X2 = p2.X;
-                line.Y2 = p2.Y;
+                this._wallPoints.Enqueue(new Point(line.X2, line.Y2));
 
                 this._canvas.Children.Add(line);
             }

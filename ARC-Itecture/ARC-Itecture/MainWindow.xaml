@@ -60,7 +60,13 @@
                         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Camera</TextBlock>
                     </StackPanel>
                     <StackPanel>
-                        <Button x:Name="buttonAddArea" Click="ButtonAddArea_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add add area" Margin="5">
+                        <Button x:Name="buttonAddWall" Click="ButtonAddWall_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add walls" Margin="5">
+                            <materialDesign:PackIcon Kind="Wall" Height="24" Width="24" />
+                        </Button>
+                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Wall</TextBlock>
+                    </StackPanel>
+                    <StackPanel>
+                        <Button x:Name="buttonAddArea" Click="ButtonAddArea_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add an area" Margin="5">
                             <materialDesign:PackIcon Kind="CheckboxMultipleBlank" Height="24" Width="24" />
                         </Button>
                         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Area</TextBlock>
@@ -73,8 +79,8 @@
         </materialDesign:Card>
         <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="20,10,10,10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
           <Canvas x:Name="canvas" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Canvas.Background>
-              <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
+                <Canvas.Background>
+                    <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
                 <DrawingBrush.Drawing>
                   <GeometryDrawing>
                     <GeometryDrawing.Geometry>

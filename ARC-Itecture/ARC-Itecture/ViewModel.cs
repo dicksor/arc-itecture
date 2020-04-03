@@ -41,6 +41,10 @@ namespace ARC_Itecture
             this._invoker.Command = new DoorCommand(this._receiver);
         }
 
+        public void AddWall()
+        {
+            this._invoker.Command = new WallCommand(this._receiver);
+        }
 
         public void AddWindow()
         {
