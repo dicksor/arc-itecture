@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Media.Imaging;
 using ARC_Itecture.Utils;
+using ARC_Itecture.Geometry;
 
 namespace ARC_Itecture.DrawCommand
 {
@@ -15,6 +16,7 @@ namespace ARC_Itecture.DrawCommand
         private Brush _brush;
         private Queue<Point> _wallPoints;
         private Stack<Point> _areaPoints;
+        private List<Line> _walls;
         private Plan _plan;
 
         public Receiver(Canvas canvas, Plan plan)
@@ -23,6 +25,7 @@ namespace ARC_Itecture.DrawCommand
             this._brush = new SolidColorBrush(Colors.White);
             this._wallPoints = new Queue<Point>();
             this._areaPoints = new Stack<Point>();
+            this._walls = new List<Line>();
             this._plan = plan;
         }
 
@@ -93,12 +96,27 @@ namespace ARC_Itecture.DrawCommand
                     line.Y2 = p2.Y;
                 }
 
-                this._wallPoints.Enqueue(new Point(line.X2, line.Y2));
+                Intersection intersection = MathUtil.LineIntersect(line, this._walls);
+                if(intersection.IntersectionPoint != null)
+                {
+                    line.X2 = intersection.IntersectionPoint.Value.X;
+                    line.Y2 = intersection.IntersectionPoint.Value.Y;
 
+                    if (intersection.L2.Equals(this._walls[0]))
+                    {
+                        intersection.L2.X1 = line.X2;
+                        intersection.L2.Y1 = line.Y2;
+                    }
+                }
+                else
+                {
+                    this._wallPoints.Enqueue(new Point(line.X2, line.Y2));
+                }
+                
                 this._canvas.Children.Add(line);
+                this._walls.Add(line);
             }
         }
-
 
     }
 }
