@@ -40,6 +40,7 @@ namespace ARC_Itecture
         public void AddWall()
         {
             _invoker.DrawCommand = new WallCommand(this._receiver);
+            _invoker.PreviewCommand = new PreviewWallCommand(this._receiver);
         }
 
         public void AddWindow()
@@ -81,6 +82,7 @@ namespace ARC_Itecture
         {
             _mainWindow.canvas.Children.Clear();
             plan = new Plan();
+            this._receiver = new Receiver(_mainWindow.canvas, plan);
         }
     }
 }

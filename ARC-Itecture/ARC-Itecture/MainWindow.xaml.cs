@@ -83,6 +83,8 @@ namespace ARC_Itecture
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
             _isDrawing = false;
+            Point p = Mouse.GetPosition(this.canvas);
+            _viewModel.CanvasClick(p);
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
@@ -98,7 +100,6 @@ namespace ARC_Itecture
                 Point p = Mouse.GetPosition(this.canvas);
                 _viewModel.CanvasClick(p);
             }
-            
         }
 
         private void ButtonCreatePlan_Click(object sender, RoutedEventArgs e)
@@ -162,7 +163,7 @@ namespace ARC_Itecture
             }
             else if(e.Key == Key.Escape)
             {
-
+                throw new NotImplementedException();
             }
         }
     }

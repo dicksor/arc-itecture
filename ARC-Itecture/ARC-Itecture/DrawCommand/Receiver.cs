@@ -52,10 +52,12 @@ namespace ARC_Itecture.DrawCommand
         public void DrawAreaPreview(Point p)
         {
             Rectangle lastRectangle = _lastShape as Rectangle;
+
             if (lastRectangle != null)
                 _canvas.Children.Remove(lastRectangle);
             
-            _lastShape = DrawRectangle(_areaPoints.Peek(), p);
+            if(_areaPoints.Count > 0)
+                _lastShape = DrawRectangle(_areaPoints.Peek(), p);
         }
 
         public void DrawCamera(Point p, ComponentType componentType)
@@ -86,29 +88,9 @@ namespace ARC_Itecture.DrawCommand
 
             if (this._wallPoints.Count % 2 == 0)
             {
-                Line line = new Line();
-                line.StrokeThickness = 1;
-                line.Stroke = this._strokeBrush;
-
                 Point p1 = _wallPoints.Dequeue();
                 Point p2 = _wallPoints.Dequeue();
-
-                double dX = Math.Abs(p2.X - p1.X);
-                double dY = Math.Abs(p2.Y - p1.Y);
-
-                line.X1 = p1.X;
-                line.Y1 = p1.Y;
-
-                if (dX > dY)
-                {
-                    line.Y2 = p1.Y;
-                    line.X2 = p2.X;
-                }
-                else
-                {
-                    line.X2 = p1.X;
-                    line.Y2 = p2.Y;
-                }
+                Line line = DrawWall(p1, p2);
 
                 Intersection intersection = MathUtil.LineIntersect(line, _walls);
                 if(intersection.IntersectionPoint != null)
@@ -135,6 +117,48 @@ namespace ARC_Itecture.DrawCommand
                 _canvas.Children.Add(line);
                 _walls.Add(line);
             }
+        }
+
+        public void DrawWallPreview(Point p)
+        {
+            Line lastWall = _lastShape as Line;
+
+            if (lastWall != null)
+                _canvas.Children.Remove(lastWall);
+
+            if(_wallPoints.Count > 0)
+            {
+                Line wall = DrawWall(_wallPoints.Peek(), p);
+                _lastShape = wall;
+
+                _canvas.Children.Add(wall);
+            }
+        }
+
+        private Line DrawWall(Point p1, Point p2)
+        {
+            Line line = new Line();
+            line.StrokeThickness = 1;
+            line.Stroke = this._strokeBrush;
+
+            double dX = Math.Abs(p2.X - p1.X);
+            double dY = Math.Abs(p2.Y - p1.Y);
+
+            line.X1 = p1.X;
+            line.Y1 = p1.Y;
+
+            if (dX > dY)
+            {
+                line.Y2 = p1.Y;
+                line.X2 = p2.X;
+            }
+            else
+            {
+                line.X2 = p1.X;
+                line.Y2 = p2.Y;
+            }
+
+            return line;
         }
 
         private Rectangle DrawRectangle(Point p1, Point p2)
