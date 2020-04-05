@@ -55,7 +55,8 @@ namespace ARC_Itecture.DrawCommand
             if (lastRectangle != null)
                 _canvas.Children.Remove(lastRectangle);
             
-            _lastShape = DrawRectangle(_areaPoints.Peek(), p);
+            if(_areaPoints.Count > 0)
+                _lastShape = DrawRectangle(_areaPoints.Peek(), p);
         }
 
         public void DrawCamera(Point p, ComponentType componentType)
@@ -118,9 +119,10 @@ namespace ARC_Itecture.DrawCommand
                         line.X2 = intersection.IntersectionPoint.Value.X;
                         line.Y2 = intersection.IntersectionPoint.Value.Y;
 
-                    
                         intersection.L2.X1 = line.X2;
                         intersection.L2.Y1 = line.Y2;
+
+                        _walls.Clear();
                     }
                     else
                     {
@@ -135,6 +137,12 @@ namespace ARC_Itecture.DrawCommand
                 _canvas.Children.Add(line);
                 _walls.Add(line);
             }
+        }
+
+        public void StartNewWall()
+        {
+            _wallPoints.Clear();
+            _walls.Clear();
         }
 
         private Rectangle DrawRectangle(Point p1, Point p2)

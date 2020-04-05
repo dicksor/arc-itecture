@@ -167,7 +167,7 @@ namespace ARC_Itecture
             }
             else if(e.Key == Key.Escape)
             {
-
+                _viewModel.StartNewWall();
             }
         }
     }

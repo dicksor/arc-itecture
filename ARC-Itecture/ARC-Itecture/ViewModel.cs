@@ -84,5 +84,10 @@ namespace ARC_Itecture
             _receiver = new Receiver(_mainWindow.canvas, plan);
             _invoker = new Invoker();
         }
+
+        public void StartNewWall()
+        {
+            _receiver.StartNewWall();
+        }
     }
 }
