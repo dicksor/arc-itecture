@@ -12,18 +12,19 @@ namespace ARC_Itecture.DrawCommand
     public class Receiver
     {
         private Canvas _canvas;
-        private Brush _stroleBrush;
+        private Brush _strokeBrush;
         private Brush _fillBrush;
         private Queue<Point> _wallPoints;
         private Stack<Point> _areaPoints;
         private List<Line> _walls;
         private Plan _plan;
+        private Shape _lastShape;
 
         public Receiver(Canvas canvas, Plan plan)
         {
             this._canvas = canvas;
-            this._stroleBrush = new SolidColorBrush(Colors.White);
-            this._fillBrush = new SolidColorBrush(Color.FromArgb(100, 50, 50, 50));
+            this._strokeBrush = new SolidColorBrush(Colors.White);
+            this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
             this._wallPoints = new Queue<Point>();
             this._areaPoints = new Stack<Point>();
             this._walls = new List<Line>();
@@ -35,25 +36,26 @@ namespace ARC_Itecture.DrawCommand
             _areaPoints.Push(p);
             if(_areaPoints.Count == 2)
             {
-                Rectangle rectangle = new Rectangle();
-                rectangle.Stroke = _stroleBrush;
-                rectangle.Fill = _fillBrush;
-
                 Point p2 = _areaPoints.Pop();
                 Point p1 = _areaPoints.Pop();
 
+                DrawRectangle(p1, p2);
+
                 _plan.AddComponent(p1, p2, componentType);
 
-                rectangle.Width = Math.Abs(p2.X - p1.X);
-                rectangle.Height = Math.Abs(p2.Y - p1.Y);
+                _lastShape = null;
 
-                double leftMostX = p2.X > p1.X ? p1.X : p2.X;
-                double topMostY = p2.Y > p1.Y ? p1.Y : p2.Y;
-                Canvas.SetLeft(rectangle, leftMostX);
-                Canvas.SetTop(rectangle, topMostY);
-
-                _canvas.Children.Add(rectangle);
+                this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
             }
+        }
+
+        public void DrawAreaPreview(Point p)
+        {
+            Rectangle lastRectangle = _lastShape as Rectangle;
+            if (lastRectangle != null)
+                _canvas.Children.Remove(lastRectangle);
+            
+            _lastShape = DrawRectangle(_areaPoints.Peek(), p);
         }
 
         public void DrawCamera(Point p, ComponentType componentType)
@@ -86,7 +88,7 @@ namespace ARC_Itecture.DrawCommand
             {
                 Line line = new Line();
                 line.StrokeThickness = 1;
-                line.Stroke = this._stroleBrush;
+                line.Stroke = this._strokeBrush;
 
                 Point p1 = _wallPoints.Dequeue();
                 Point p2 = _wallPoints.Dequeue();
@@ -135,7 +137,23 @@ namespace ARC_Itecture.DrawCommand
             }
         }
 
+        private Rectangle DrawRectangle(Point p1, Point p2)
+        {
+            Rectangle rectangle = new Rectangle();
+            rectangle.Fill = _fillBrush;
 
+            rectangle.Width = Math.Abs(p2.X - p1.X);
+            rectangle.Height = Math.Abs(p2.Y - p1.Y);
+
+            double leftMostX = p2.X > p1.X ? p1.X : p2.X;
+            double topMostY = p2.Y > p1.Y ? p1.Y : p2.Y;
+            Canvas.SetLeft(rectangle, leftMostX);
+            Canvas.SetTop(rectangle, topMostY);
+
+            _canvas.Children.Add(rectangle);
+
+            return rectangle;
+        }
 
     }
 }

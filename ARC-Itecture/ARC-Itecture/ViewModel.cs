@@ -23,32 +23,38 @@ namespace ARC_Itecture
 
         public void AddArea()
         {
-            _invoker.Command = new AreaCommand(this._receiver);
+            _invoker.DrawCommand = new AreaCommand(this._receiver);
+            _invoker.PreviewCommand = new PreviewAreaCommand(this._receiver);
         }
 
         public void AddCamera()
         {
-            _invoker.Command = new CameraCommand(this._receiver);
+            _invoker.DrawCommand = new CameraCommand(this._receiver);
         }
 
         public void AddDoor()
         {
-            _invoker.Command = new DoorCommand(this._receiver);
+            _invoker.DrawCommand = new DoorCommand(this._receiver);
         }
 
         public void AddWall()
         {
-            _invoker.Command = new WallCommand(this._receiver);
+            _invoker.DrawCommand = new WallCommand(this._receiver);
         }
 
         public void AddWindow()
         {
-            _invoker.Command = new WindowCommand(this._receiver);
+            _invoker.DrawCommand = new WindowCommand(this._receiver);
         }
 
         public void CanvasClick(Point p)
         {
-            _invoker.Invoke(p);
+            _invoker.InvokeClick(p);
+        }
+
+        public void CanvasMouseMove(Point p)
+        {
+            _invoker.InvokeMouseMove(p);
         }
 
         public void LoadJson(string filename)

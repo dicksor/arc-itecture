@@ -25,9 +25,9 @@
         <materialDesign:Card Grid.Row="0" Grid.Column="0" Padding="10" Margin="10,10,0,10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
             <StackPanel DockPanel.Dock="Top">
                 <TextBlock Style="{StaticResource MaterialDesignHeadline3TextBlock}" TextAlignment="Center" FontWeight="Bold" Margin="0,0,0,10">Arc-Itechture</TextBlock>
-                <Button x:Name="buttonCreatePlan" Click="buttonCreatePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10">Create a plan</Button>
-                <Button x:Name="buttonSavePlan" Click="buttonSavePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10">Save the plan</Button>
-                <Button x:Name="buttonLoadPlan" Click="buttonLoadPlan_Click"  Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10">Load a plan</Button>
+                <Button x:Name="buttonCreatePlan" Click="ButtonCreatePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10">Create a plan</Button>
+                <Button x:Name="buttonSavePlan" Click="ButtonSavePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10">Save the plan</Button>
+                <Button x:Name="buttonLoadPlan" Click="ButtonLoadPlan_Click"  Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10">Load a plan</Button>
                 <Separator Style="{StaticResource MaterialDesignDarkSeparator}" />
 
                 <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,30,5,5">Plan properties :</TextBlock>
@@ -78,7 +78,8 @@
             </StackPanel>
         </materialDesign:Card>
         <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="20,10,10,10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
-          <Canvas x:Name="canvas" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+          <Canvas x:Name="canvas" MouseDown="Canvas_MouseDown" MouseUp="Canvas_MouseUp"
+                  MouseMove="Canvas_MouseMove" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Canvas.Background>
                     <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
                 <DrawingBrush.Drawing>

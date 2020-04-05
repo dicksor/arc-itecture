@@ -74,6 +74,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ComponentType.cs" />
+    <Compile Include="DrawCommand\Commands\PreviewAreaCommand.cs" />
     <Compile Include="Geometry\Intersection.cs" />
     <Compile Include="Utils\ImageUtil.cs" />
     <Compile Include="Utils\MathUtil.cs" />

@@ -17,12 +17,14 @@ namespace ARC_Itecture
     public partial class MainWindow : Window
     {
         private ViewModel _viewModel;
+        private bool _isDrawing;
 
         public MainWindow()
         {
             InitializeComponent();
 
             _viewModel = new ViewModel(this);
+            _isDrawing = false;
 
             DataContext = _viewModel.plan;
 
@@ -70,18 +72,41 @@ namespace ARC_Itecture
             _viewModel.AddWall();
         }
 
-        private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Point p = Mouse.GetPosition(this.canvas);
             _viewModel.CanvasClick(p);
+
+            _isDrawing = true;
         }
 
-        private void buttonCreatePlan_Click(object sender, RoutedEventArgs e)
+        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _isDrawing = false;
+        }
+
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(e.LeftButton == MouseButtonState.Pressed && _isDrawing)
+            {
+                Point p = Mouse.GetPosition(this.canvas);
+                _viewModel.CanvasMouseMove(p);
+            }
+            else if(e.LeftButton == MouseButtonState.Released && _isDrawing)
+            {
+                _isDrawing = false;
+                Point p = Mouse.GetPosition(this.canvas);
+                _viewModel.CanvasClick(p);
+            }
+            
+        }
+
+        private void ButtonCreatePlan_Click(object sender, RoutedEventArgs e)
         {
             _viewModel.ClearCanvas();
         }
 
-        private void buttonSavePlan_Click(object sender, RoutedEventArgs e)
+        private void ButtonSavePlan_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dlg = new SaveFileDialog { FileName = "Plan", DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
 
@@ -91,7 +116,7 @@ namespace ARC_Itecture
             }
         }
 
-        private void buttonLoadPlan_Click(object sender, RoutedEventArgs e)
+        private void ButtonLoadPlan_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog{DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
 

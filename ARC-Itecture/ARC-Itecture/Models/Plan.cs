@@ -86,16 +86,16 @@ public class Plan
     public void ImportDraw(Receiver receiver, Invoker invoker)
     {
         // Entry points
-        invoker.Command = new CameraCommand(receiver);
-        invoker.Invoke(new Point(entryPoint[0], entryPoint[1]));
+        invoker.DrawCommand = new CameraCommand(receiver);
+        invoker.InvokeClick(new Point(entryPoint[0], entryPoint[1]));
 
         // Area
-        invoker.Command = new AreaCommand(receiver);
+        invoker.DrawCommand = new AreaCommand(receiver);
         foreach(Area area in areas)
         {
             Tuple<PointF, PointF> minMaxPoints = area.GetMinMaxPoints();
-            invoker.Invoke(new Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
-            invoker.Invoke(new Point(minMaxPoints.Item2.X, minMaxPoints.Item2.Y));
+            invoker.InvokeClick(new Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
+            invoker.InvokeClick(new Point(minMaxPoints.Item2.X, minMaxPoints.Item2.Y));
         }
     }
 }
