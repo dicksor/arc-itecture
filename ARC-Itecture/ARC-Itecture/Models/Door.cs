@@ -3,9 +3,9 @@
 [System.Serializable]
 public class Door
 {
-    public string name { get; set; }
+    public string Name { get; set; }
 
-    public bool isFrontDoor { get; set; }
-    public List<float> start { get; set; }
-    public List<float> stop { get; set; }
+    public bool IsFrontDoor { get; set; }
+    public List<float> Start { get; set; }
+    public List<float> Stop { get; set; }
 }

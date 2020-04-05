@@ -3,17 +3,17 @@
 [System.Serializable]
 public class Segment
 {
-    public Segment(string name, List<float> start, List<float> stop)
-    {
-        this.name = name;
-        this.start = start;
-        this.stop = stop;
-    }
-
     public static int nbSegment = 0;
 
-    public string name { get; set; }
-    public List<float> start { get; set; }
-    public List<float> stop { get; set; }
-    public HouseWindow window { get; set; }
+    public string Name { get; set; }
+    public List<float> Start { get; set; }
+    public List<float> Stop { get; set; }
+    public HouseWindow Window { get; set; }
+
+    public Segment(string name, List<float> start, List<float> stop)
+    {
+        this.Name = name;
+        this.Start = start;
+        this.Stop = stop;
+    }
 }

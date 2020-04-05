@@ -16,7 +16,7 @@ namespace ARC_Itecture.DrawCommand.Commands
 
         public void Execute(Point point)
         {
-            this._receiver.DrawWall(point, _componentType);
+            _receiver.DrawWall(point, _componentType);
         }
     }
 }

@@ -5,6 +5,6 @@ using System.Runtime.Serialization;
 [System.Serializable]
 public class HouseWindow
 {
-    public List<float> start { get; set; }
-    public List<float> stop { get; set; }
+    public List<float> Start { get; set; }
+    public List<float> Stop { get; set; }
 }

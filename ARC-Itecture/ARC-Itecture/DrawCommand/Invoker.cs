@@ -1,7 +1,6 @@
 ﻿using ARC_Itecture.DrawCommand.Commands;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace ARC_Itecture.DrawCommand
 {
@@ -22,14 +21,12 @@ namespace ARC_Itecture.DrawCommand
             if(this._command != null)
             {
                 history.Add(this._command);
-                this._command.Execute(point);
+                _command.Execute(point);
             }
             else
             {
                 MessageBox.Show("Select a tool to draw");
             }
-                
-            // TODO : Else toast -> pick tool
         }
     }
 }

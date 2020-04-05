@@ -25,6 +25,8 @@ namespace ARC_Itecture
             _viewModel = new ViewModel(this);
 
             DataContext = _viewModel.plan;
+
+            KeyDown += new KeyEventHandler(MainWindow_KeyDown);
         }
 
         private void ColorCommand(Button button)
@@ -34,6 +36,7 @@ namespace ARC_Itecture
             buttonAddCamera.Style = style;
             buttonAddDoor.Style = style;
             buttonAddWindow.Style = style;
+            buttonAddWall.Style = style;
 
             button.Style = FindResource("MaterialDesignFloatingActionLightButton") as Style;
         }
@@ -102,6 +105,39 @@ namespace ARC_Itecture
                 {
                     MessageBox.Show("The file must have the .sjson extension !");
                 }
+            }
+        }
+
+        void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.A)
+            {
+                _viewModel.AddArea();
+                ColorCommand(FindName("buttonAddArea") as Button);
+            }
+            else if (e.Key == Key.C)
+            {
+                _viewModel.AddCamera();
+                ColorCommand(FindName("buttonAddCamera") as Button);
+            }
+            else if (e.Key == Key.D)
+            {
+                _viewModel.AddDoor();
+                ColorCommand(FindName("buttonAddDoor") as Button);
+            }
+            else if (e.Key == Key.F)
+            {
+                _viewModel.AddWindow();
+                ColorCommand(FindName("buttonAddWindow") as Button);
+            }
+            else if (e.Key == Key.W)
+            {
+                _viewModel.AddWall();
+                ColorCommand(FindName("buttonAddWall") as Button);
+            }
+            else if(e.Key == Key.Escape)
+            {
+
             }
         }
     }

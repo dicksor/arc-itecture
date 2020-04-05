@@ -8,7 +8,6 @@ using System.Windows.Shapes;
 
 namespace ARC_Itecture.Geometry
 {
-    [System.Runtime.InteropServices.ComVisible(true)]
     class Intersection
     {
         public Point? IntersectionPoint { get; set; }

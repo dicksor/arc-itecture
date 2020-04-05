@@ -4,24 +4,12 @@ using ARC_Itecture.DrawCommand.Commands;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Shapes;
 using Point = System.Windows.Point;
 
 [System.Serializable]
 public class Plan
 {
-    public Plan()
-    {
-        entryPoint = new List<float>();
-        segments = new List<Segment>();
-        areas = new List<Area>();
-        doors = new List<Door>();
-    }
-
     [JsonProperty("wallHeight")]
     public float WallHeight { get; set; }
 
@@ -44,7 +32,15 @@ public class Plan
 
     private const string SEGMENT_STRING = "seg";
 
-    public void addComponent(Point point1, Point point2, ComponentType componentType)
+    public Plan()
+    {
+        entryPoint = new List<float>();
+        segments = new List<Segment>();
+        areas = new List<Area>();
+        doors = new List<Door>();
+    }
+
+    public void AddComponent(Point point1, Point point2, ComponentType componentType)
     {
         if (componentType == ComponentType.Area)
         {
@@ -78,7 +74,7 @@ public class Plan
         }
     }
 
-    public void addComponent(Point p, ComponentType componentType)
+    public void AddComponent(Point p, ComponentType componentType)
     {
         if(componentType == ComponentType.Camera)
         {
@@ -87,7 +83,7 @@ public class Plan
         }
     }
 
-    public void importDraw(Receiver receiver, Invoker invoker)
+    public void ImportDraw(Receiver receiver, Invoker invoker)
     {
         // Entry points
         invoker.Command = new CameraCommand(receiver);
