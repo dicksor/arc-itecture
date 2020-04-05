@@ -18,6 +18,7 @@ namespace ARC_Itecture
     {
         private ViewModel _viewModel;
         private bool _isDrawing;
+        private SnackbarMessageQueue _snackbarMessageQueue;
 
         public MainWindow()
         {
@@ -25,6 +26,9 @@ namespace ARC_Itecture
 
             _viewModel = new ViewModel(this);
             _isDrawing = false;
+
+            _snackbarMessageQueue = new SnackbarMessageQueue();
+            Snackbar.MessageQueue = _snackbarMessageQueue;
 
             DataContext = _viewModel.plan;
 
@@ -168,6 +172,7 @@ namespace ARC_Itecture
             else if(e.Key == Key.Escape)
             {
                 _viewModel.StartNewWall();
+                _snackbarMessageQueue.Enqueue("Will start drawing from new point");
             }
         }
     }

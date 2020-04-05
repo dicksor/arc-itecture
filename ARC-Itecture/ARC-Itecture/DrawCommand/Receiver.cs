@@ -62,6 +62,7 @@ namespace ARC_Itecture.DrawCommand
         public void DrawCamera(Point p, ComponentType componentType)
         {
             System.Drawing.Bitmap cameraBitmap = Properties.Resources.camera_icon;
+            cameraBitmap.MakeTransparent(cameraBitmap.GetPixel(1, 1));
 
             Image cameraImage = new Image();
             cameraImage.Source = ImageUtil.ImageSourceFromBitmap(cameraBitmap);
