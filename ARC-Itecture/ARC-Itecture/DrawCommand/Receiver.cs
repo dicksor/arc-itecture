@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using ARC_Itecture.Utils;
 using ARC_Itecture.Geometry;
+using System.Windows.Input;
 
 namespace ARC_Itecture.DrawCommand
 {
@@ -137,6 +138,9 @@ namespace ARC_Itecture.DrawCommand
                 
                 _canvas.Children.Add(line);
                 _walls.Add(line);
+
+                line.MouseEnter += (s, e) => Mouse.OverrideCursor = Cursors.Cross;
+                line.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
