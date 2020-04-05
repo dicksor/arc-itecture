@@ -12,7 +12,8 @@ namespace ARC_Itecture.DrawCommand
     public class Receiver
     {
         private Canvas _canvas;
-        private Brush _brush;
+        private Brush _stroleBrush;
+        private Brush _fillBrush;
         private Queue<Point> _wallPoints;
         private Stack<Point> _areaPoints;
         private List<Line> _walls;
@@ -21,7 +22,8 @@ namespace ARC_Itecture.DrawCommand
         public Receiver(Canvas canvas, Plan plan)
         {
             this._canvas = canvas;
-            this._brush = new SolidColorBrush(Colors.White);
+            this._stroleBrush = new SolidColorBrush(Colors.White);
+            this._fillBrush = new SolidColorBrush(Color.FromArgb(100, 50, 50, 50));
             this._wallPoints = new Queue<Point>();
             this._areaPoints = new Stack<Point>();
             this._walls = new List<Line>();
@@ -34,7 +36,8 @@ namespace ARC_Itecture.DrawCommand
             if(_areaPoints.Count == 2)
             {
                 Rectangle rectangle = new Rectangle();
-                rectangle.Stroke = _brush;
+                rectangle.Stroke = _stroleBrush;
+                rectangle.Fill = _fillBrush;
 
                 Point p2 = _areaPoints.Pop();
                 Point p1 = _areaPoints.Pop();
@@ -83,7 +86,7 @@ namespace ARC_Itecture.DrawCommand
             {
                 Line line = new Line();
                 line.StrokeThickness = 1;
-                line.Stroke = this._brush;
+                line.Stroke = this._stroleBrush;
 
                 Point p1 = _wallPoints.Dequeue();
                 Point p2 = _wallPoints.Dequeue();
