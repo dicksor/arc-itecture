@@ -81,6 +81,8 @@ namespace ARC_Itecture
         {
             _mainWindow.canvas.Children.Clear();
             plan = new Plan();
+            _receiver = new Receiver(_mainWindow.canvas, plan);
+            _invoker = new Invoker();
         }
     }
 }

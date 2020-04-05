@@ -97,13 +97,18 @@ namespace ARC_Itecture
                 _isDrawing = false;
                 Point p = Mouse.GetPosition(this.canvas);
                 _viewModel.CanvasClick(p);
-            }
-            
+            } 
         }
 
         private void ButtonCreatePlan_Click(object sender, RoutedEventArgs e)
         {
             _viewModel.ClearCanvas();
+
+            buttonAddArea.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
+            buttonAddCamera.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
+            buttonAddDoor.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
+            buttonAddWindow.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
+            buttonAddWall.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
         }
 
         private void ButtonSavePlan_Click(object sender, RoutedEventArgs e)
