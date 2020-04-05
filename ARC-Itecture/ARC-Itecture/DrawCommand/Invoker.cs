@@ -11,6 +11,10 @@ namespace ARC_Itecture.DrawCommand
         public List<IDrawCommand> history = new List<IDrawCommand>();
 
         public IDrawCommand DrawCommand{
+            get
+            {
+                return this._drawCommand;
+            }
             set
             {
                 this._drawCommand = value;
@@ -19,6 +23,10 @@ namespace ARC_Itecture.DrawCommand
 
         public IDrawCommand PreviewCommand
         {
+            get
+            {
+                return this._drawCommand;
+            }
             set
             {
                 this._previewCommand = value;

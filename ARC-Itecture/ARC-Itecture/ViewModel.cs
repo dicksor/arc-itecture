@@ -13,6 +13,8 @@ namespace ARC_Itecture
         private Receiver _receiver;
         public Plan plan;
 
+        public IDrawCommand Command => _invoker.DrawCommand;
+
         public ViewModel(MainWindow mainWindow)
         {
             _mainWindow = mainWindow;
@@ -82,7 +84,13 @@ namespace ARC_Itecture
         {
             _mainWindow.canvas.Children.Clear();
             plan = new Plan();
-            this._receiver = new Receiver(_mainWindow.canvas, plan);
+            _receiver = new Receiver(_mainWindow.canvas, plan);
+            _invoker = new Invoker();
+        }
+
+        public void StartNewWall()
+        {
+            _receiver.StartNewWall();
         }
     }
 }

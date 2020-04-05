@@ -18,6 +18,7 @@ namespace ARC_Itecture
     {
         private ViewModel _viewModel;
         private bool _isDrawing;
+        private SnackbarMessageQueue _snackbarMessageQueue;
 
         public MainWindow()
         {
@@ -25,6 +26,9 @@ namespace ARC_Itecture
 
             _viewModel = new ViewModel(this);
             _isDrawing = false;
+
+            _snackbarMessageQueue = new SnackbarMessageQueue();
+            Snackbar.MessageQueue = _snackbarMessageQueue;
 
             DataContext = _viewModel.plan;
 
@@ -41,6 +45,8 @@ namespace ARC_Itecture
             buttonAddWall.Style = style;
 
             button.Style = FindResource("MaterialDesignFloatingActionLightButton") as Style;
+
+            _isDrawing = false;
         }
 
         private void ButtonAddArea_Click(object sender, EventArgs e)
@@ -74,37 +80,48 @@ namespace ARC_Itecture
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Point p = Mouse.GetPosition(this.canvas);
-            _viewModel.CanvasClick(p);
+            if (!_isDrawing)
+            {
+                _isDrawing = true;
 
-            _isDrawing = true;
+                Point p = Mouse.GetPosition(this.canvas);
+                _viewModel.CanvasClick(p);
+
+                Mouse.Capture(canvas);
+            }
         }
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            _isDrawing = false;
-            Point p = Mouse.GetPosition(this.canvas);
-            _viewModel.CanvasClick(p);
+            if (_isDrawing)
+            {
+                _isDrawing = false;
+
+                Point p = Mouse.GetPosition(this.canvas);
+                _viewModel.CanvasClick(p);
+
+                Mouse.Capture(null);
+            }
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed && _isDrawing)
+            if(_isDrawing)
             {
                 Point p = Mouse.GetPosition(this.canvas);
                 _viewModel.CanvasMouseMove(p);
-            }
-            else if(e.LeftButton == MouseButtonState.Released && _isDrawing)
-            {
-                _isDrawing = false;
-                Point p = Mouse.GetPosition(this.canvas);
-                _viewModel.CanvasClick(p);
             }
         }
 
         private void ButtonCreatePlan_Click(object sender, RoutedEventArgs e)
         {
             _viewModel.ClearCanvas();
+
+            buttonAddArea.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
+            buttonAddCamera.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
+            buttonAddDoor.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
+            buttonAddWindow.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
+            buttonAddWall.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
         }
 
         private void ButtonSavePlan_Click(object sender, RoutedEventArgs e)
@@ -163,7 +180,8 @@ namespace ARC_Itecture
             }
             else if(e.Key == Key.Escape)
             {
-                throw new NotImplementedException();
+                _viewModel.StartNewWall();
+                _snackbarMessageQueue.Enqueue("Will start drawing from new point");
             }
         }
     }

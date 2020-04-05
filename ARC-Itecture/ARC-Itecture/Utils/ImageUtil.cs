@@ -22,7 +22,10 @@ namespace ARC_Itecture.Utils
             {
                 return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             }
-            finally { DeleteObject(handle); }
+            finally
+            {
+                DeleteObject(handle);
+            }
         }
 
         public static Color RandomColor()
@@ -32,7 +35,7 @@ namespace ARC_Itecture.Utils
             byte G = (byte)rand.Next(0, 255);
             byte B = (byte)rand.Next(0, 255);
 
-            return Color.FromArgb(100, R, G, B);
+            return Color.FromArgb(50, R, G, B);
         }
     }
 }

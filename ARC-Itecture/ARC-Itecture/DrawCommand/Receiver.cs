@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using ARC_Itecture.Utils;
 using ARC_Itecture.Geometry;
+using System.Windows.Input;
 
 namespace ARC_Itecture.DrawCommand
 {
@@ -34,18 +35,17 @@ namespace ARC_Itecture.DrawCommand
         public void DrawArea(Point p, ComponentType componentType)
         {
             _areaPoints.Push(p);
+
             if(_areaPoints.Count == 2)
             {
                 Point p2 = _areaPoints.Pop();
                 Point p1 = _areaPoints.Pop();
 
+                this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
                 DrawRectangle(p1, p2);
 
                 _plan.AddComponent(p1, p2, componentType);
-
                 _lastShape = null;
-
-                this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
             }
         }
 
@@ -63,6 +63,7 @@ namespace ARC_Itecture.DrawCommand
         public void DrawCamera(Point p, ComponentType componentType)
         {
             System.Drawing.Bitmap cameraBitmap = Properties.Resources.camera_icon;
+            cameraBitmap.MakeTransparent(cameraBitmap.GetPixel(1, 1));
 
             Image cameraImage = new Image();
             cameraImage.Source = ImageUtil.ImageSourceFromBitmap(cameraBitmap);
@@ -90,7 +91,7 @@ namespace ARC_Itecture.DrawCommand
             {
                 Point p1 = _wallPoints.Dequeue();
                 Point p2 = _wallPoints.Dequeue();
-                Line line = DrawWall(p1, p2);
+                Line line = DrawSegment(p1, p2);
 
                 Intersection intersection = MathUtil.LineIntersect(line, _walls);
                 if(intersection.IntersectionPoint != null)
@@ -100,9 +101,10 @@ namespace ARC_Itecture.DrawCommand
                         line.X2 = intersection.IntersectionPoint.Value.X;
                         line.Y2 = intersection.IntersectionPoint.Value.Y;
 
-                    
                         intersection.L2.X1 = line.X2;
                         intersection.L2.Y1 = line.Y2;
+
+                        _walls.Clear();
                     }
                     else
                     {
@@ -113,9 +115,12 @@ namespace ARC_Itecture.DrawCommand
                 {
                     _wallPoints.Enqueue(new Point(line.X2, line.Y2));
                 }
-                
-                _canvas.Children.Add(line);
+
                 _walls.Add(line);
+                _canvas.Children.Remove(_lastShape as Line);
+
+                line.MouseEnter += (s, e) => Mouse.OverrideCursor = Cursors.Cross;
+                line.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -127,15 +132,16 @@ namespace ARC_Itecture.DrawCommand
                 _canvas.Children.Remove(lastWall);
 
             if(_wallPoints.Count > 0)
-            {
-                Line wall = DrawWall(_wallPoints.Peek(), p);
-                _lastShape = wall;
-
-                _canvas.Children.Add(wall);
-            }
+                _lastShape = DrawSegment(_wallPoints.Peek(), p);
         }
 
-        private Line DrawWall(Point p1, Point p2)
+        public void StartNewWall()
+        {
+            _wallPoints.Clear();
+            _walls.Clear();
+        }
+
+        private Line DrawSegment(Point p1, Point p2)
         {
             Line line = new Line();
             line.StrokeThickness = 1;
@@ -157,6 +163,8 @@ namespace ARC_Itecture.DrawCommand
                 line.X2 = p1.X;
                 line.Y2 = p2.Y;
             }
+
+            _canvas.Children.Add(line);
 
             return line;
         }
