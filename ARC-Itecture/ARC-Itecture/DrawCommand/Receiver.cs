@@ -116,8 +116,8 @@ namespace ARC_Itecture.DrawCommand
                     _wallPoints.Enqueue(new Point(line.X2, line.Y2));
                 }
 
-                _walls.Add(line);
                 _canvas.Children.Remove(_lastShape as Line);
+                _walls.Add(line);
 
                 line.MouseEnter += (s, e) => Mouse.OverrideCursor = Cursors.Cross;
                 line.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;
