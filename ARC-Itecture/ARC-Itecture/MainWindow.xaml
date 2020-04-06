@@ -24,6 +24,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <materialDesign:Card Grid.Row="0" Grid.Column="0" Padding="10" Margin="10,10,0,10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
+              <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel DockPanel.Dock="Top">
                     <TextBlock Style="{StaticResource MaterialDesignHeadline3TextBlock}" TextAlignment="Center" FontWeight="Bold" Margin="0,0,0,10">Arc-Itechture</TextBlock>
                     <Button x:Name="buttonCreatePlan" Click="ButtonCreatePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,5">Create a plan</Button>
@@ -31,52 +32,53 @@
                     <Button x:Name="buttonLoadPlan" Click="ButtonLoadPlan_Click"  Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,0">Load a plan</Button>
                     <Separator Style="{StaticResource MaterialDesignDarkSeparator}" />
 
-                    <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,5,5,5">Plan properties :</TextBlock>
+                    <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Margin="5,5,5,5">Plan properties</TextBlock>
                     <TextBlock Style="{StaticResource MaterialDesignTextBlock}" Margin="5,5,5,5">One block = 1 meter</TextBlock>
-                    <TextBox x:Name="textBoxWallHeight"  materialDesign:HintAssist.Hint="Wall Height" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding WallHeight, Mode=TwoWay}"/>
-                    <TextBox x:Name="textBoxWallWidth"  materialDesign:HintAssist.Hint="Wall Width" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding WallWidth, Mode=TwoWay}"/>
-                    <TextBox x:Name="textBoxDoorH2"  materialDesign:HintAssist.Hint="Height above doors" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding WindowH1, Mode=TwoWay}"/>
-                    <TextBox x:Name="textBoxWindowH1"  materialDesign:HintAssist.Hint="Height below windows" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding WindowH2, Mode=TwoWay}"/>
-                    <TextBox x:Name="textBoxWindowH2"  materialDesign:HintAssist.Hint="Height above windows" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10" Text="{Binding DoorH2, Mode=TwoWay}"/>
-                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}" Margin="0,5,0,0"/>
+                    <TextBox x:Name="textBoxWallHeight"  materialDesign:HintAssist.Hint="Wall Height" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10,5,10,5" Text="{Binding WallHeight, Mode=TwoWay}"/>
+                    <TextBox x:Name="textBoxWallWidth"  materialDesign:HintAssist.Hint="Wall Width" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10,5,10,5" Text="{Binding WallWidth, Mode=TwoWay}"/>
+                    <TextBox x:Name="textBoxDoorH2"  materialDesign:HintAssist.Hint="Height above doors" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10,5,10,5" Text="{Binding WindowH1, Mode=TwoWay}"/>
+                    <TextBox x:Name="textBoxWindowH1"  materialDesign:HintAssist.Hint="Height below windows" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10,5,10,5" Text="{Binding WindowH2, Mode=TwoWay}"/>
+                    <TextBox x:Name="textBoxWindowH2"  materialDesign:HintAssist.Hint="Height above windows" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10,5,10,5" Text="{Binding DoorH2, Mode=TwoWay}"/>
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
 
-                    <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"  Margin="5,5,5,5">Click on the buttons to add :</TextBlock>
+                    <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"  Margin="5,5,5,5">Choose your tool</TextBlock>
                     <WrapPanel>
                         <StackPanel>
-                            <Button x:Name="buttonAddWindow" Click="ButtonAddWindow_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add a window" Margin="5">
+                            <Button x:Name="buttonAddWindow" Click="ButtonAddWindow_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add a window" Margin="5" Width="40" Height="40">
                                 <materialDesign:PackIcon Kind="WindowClosedVariant" Height="24" Width="24" />
                             </Button>
                             <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Window</TextBlock>
                         </StackPanel>
                         <StackPanel>
-                            <Button x:Name="buttonAddDoor" Click="ButtonAddDoor_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add a door" Margin="5">
+                            <Button x:Name="buttonAddDoor" Click="ButtonAddDoor_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add a door" Margin="5" Width="40" Height="40">
                                 <materialDesign:PackIcon Kind="Door" Height="24" Width="24" />
                             </Button>
                             <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Door</TextBlock>
                         </StackPanel>
                         <StackPanel>
-                            <Button x:Name="buttonAddWall" Click="ButtonAddWall_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add walls" Margin="5">
+                            <Button x:Name="buttonAddWall" Click="ButtonAddWall_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add walls" Margin="5" Width="40" Height="40">
                                 <materialDesign:PackIcon Kind="Wall" Height="24" Width="24" />
                             </Button>
                             <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Wall</TextBlock>
                         </StackPanel>
                         <StackPanel>
-                            <Button x:Name="buttonAddArea" Click="ButtonAddArea_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add an area" Margin="5">
+                            <Button x:Name="buttonAddArea" Click="ButtonAddArea_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add an area" Margin="5" Width="40" Height="40">
                                 <materialDesign:PackIcon Kind="CheckboxMultipleBlank" Height="24" Width="24" />
                             </Button>
                             <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Area</TextBlock>
                         </StackPanel>
                         <StackPanel>
-                            <Button x:Name="buttonAddCamera" Click="ButtonAddCamera_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add start camera position" Margin="5">
+                            <Button x:Name="buttonAddCamera" Click="ButtonAddCamera_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Clic to add start camera position" Margin="5" Width="40" Height="40">
                                 <materialDesign:PackIcon Kind="CameraGopro" Height="24" Width="24" />
                             </Button>
                             <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap">Camera</TextBlock>
                         </StackPanel>
                     </WrapPanel>
-                    <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" TextWrapping="Wrap" TextAlignment="Center" Margin="0,150,0,0">
+                    <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" TextWrapping="Wrap" TextAlignment="Center" Margin="0,25,0,0">
                     Developped by Capocasale Romain, Freiburghaus Jonas and Moulin Vincent. He-Arc - 2019/2020
                     </TextBlock>
                 </StackPanel>
+                </ScrollViewer>
             </materialDesign:Card>
             <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="20,10,10,10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
                 <Canvas x:Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
