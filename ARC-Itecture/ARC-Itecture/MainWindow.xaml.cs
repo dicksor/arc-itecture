@@ -33,6 +33,8 @@ namespace ARC_Itecture
             DataContext = _viewModel.plan;
 
             KeyDown += new KeyEventHandler(MainWindow_KeyDown);
+
+            main = this;
         }
 
         private void ColorCommand(Button button)
@@ -183,6 +185,18 @@ namespace ARC_Itecture
                 _viewModel.StartNewWall();
                 _snackbarMessageQueue.Enqueue("Will start drawing from new point");
             }
+        }
+
+        private void buttonRemoveLastHistory_Click(object sender, RoutedEventArgs e)
+        {
+            listBoxHistory.Items.RemoveAt(0);
+            _snackbarMessageQueue.Enqueue("Remove last trick");
+        }
+
+        internal static MainWindow main;
+        internal String History
+        {
+            set { listBoxHistory.Items.Insert(0, value); }
         }
     }
 }

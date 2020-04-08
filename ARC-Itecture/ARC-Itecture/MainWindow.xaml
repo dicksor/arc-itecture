@@ -101,18 +101,14 @@
                 </Canvas>
             </materialDesign:Card>
             <materialDesign:Card Grid.Row="0" Grid.Column="2" Padding="10" Margin="10,10,10,10" materialDesign:ShadowAssist.ShadowDepth="Depth5">
-              <StackPanel DockPanel.Dock="Top">
-                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"  Margin="5,5,5,5">History</TextBlock>
-                <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
-                <ListBox x:Name="listBoxHistory" Margin="5,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">
-                  <ListBoxItem Content="Coffie"></ListBoxItem>
-                  <ListBoxItem Content="Tea"></ListBoxItem>
-                  <ListBoxItem Content="Orange Juice"></ListBoxItem>
-                  <ListBoxItem Content="Milk"></ListBoxItem>
-                  <ListBoxItem Content="Iced Tea"></ListBoxItem>
-                  <ListBoxItem Content="Mango Shake"></ListBoxItem>
-                </ListBox>
-              </StackPanel>
+              <ScrollViewer VerticalScrollBarVisibility="Auto">  
+                <StackPanel DockPanel.Dock="Top">
+                  <TextBlock Style="{StaticResource MaterialDesignHeadline4TextBlock}" TextWrapping="Wrap" TextAlignment="Center" Margin="0,0,0,10">History</TextBlock>
+                  <Button x:Name="buttonRemoveLastHistory" Click="buttonRemoveLastHistory_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,5">Remove last</Button>
+                  <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/> 
+                  <ListBox x:Name="listBoxHistory" Margin="5,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top"></ListBox>
+                </StackPanel>
+              </ScrollViewer>
             </materialDesign:Card>
             <materialDesign:Snackbar x:Name="Snackbar" MessageQueue="{materialDesign:MessageQueue}" />
         </Grid>
