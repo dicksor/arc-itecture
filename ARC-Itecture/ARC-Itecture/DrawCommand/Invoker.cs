@@ -38,6 +38,7 @@ namespace ARC_Itecture.DrawCommand
             if(this._drawCommand != null)
             {
                 history.Add(this._drawCommand);
+                
                 _drawCommand.Execute(point);
             }
             else

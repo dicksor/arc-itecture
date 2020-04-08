@@ -19,7 +19,8 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -81,7 +82,7 @@
                   </StackPanel>
                 </ScrollViewer>
             </materialDesign:Card>
-            <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="20,10,10,10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
+            <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="20,10,10,10" materialDesign:ShadowAssist.ShadowDepth="Depth5">
                 <Canvas x:Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Canvas.Background>
                         <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
@@ -98,6 +99,20 @@
                         </DrawingBrush>
                     </Canvas.Background>
                 </Canvas>
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Row="0" Grid.Column="2" Padding="10" Margin="10,10,10,10" materialDesign:ShadowAssist.ShadowDepth="Depth5">
+              <StackPanel DockPanel.Dock="Top">
+                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"  Margin="5,5,5,5">History</TextBlock>
+                <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                <ListBox x:Name="listBoxHistory" Margin="5,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">
+                  <ListBoxItem Content="Coffie"></ListBoxItem>
+                  <ListBoxItem Content="Tea"></ListBoxItem>
+                  <ListBoxItem Content="Orange Juice"></ListBoxItem>
+                  <ListBoxItem Content="Milk"></ListBoxItem>
+                  <ListBoxItem Content="Iced Tea"></ListBoxItem>
+                  <ListBoxItem Content="Mango Shake"></ListBoxItem>
+                </ListBox>
+              </StackPanel>
             </materialDesign:Card>
             <materialDesign:Snackbar x:Name="Snackbar" MessageQueue="{materialDesign:MessageQueue}" />
         </Grid>
