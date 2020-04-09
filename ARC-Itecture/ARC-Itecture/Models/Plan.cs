@@ -4,7 +4,9 @@ using ARC_Itecture.DrawCommand.Commands;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Windows;
 using Point = System.Windows.Point;
 
 [System.Serializable]
@@ -40,8 +42,9 @@ public class Plan
         doors = new List<Door>();
     }
 
-    public void AddComponent(Point point1, Point point2, ComponentType componentType)
+    public IDrawComponent AddComponent(Point point1, Point point2, ComponentType componentType)
     {
+        IDrawComponent component = null;
         if (componentType == ComponentType.Area)
         {
             List<List<float>> corners = new List<List<float>>
@@ -51,27 +54,21 @@ public class Plan
                 new List<float>() { (float)point2.X, (float)point2.Y },
                 new List<float>() { (float)point1.X, (float)point2.Y }
             };
-
-            for(int i = 0; i < corners.Count; i++)
-            {
-                List<float> start;
-                List<float> stop;
-
-                if(i != corners.Count - 1)
-                {
-                    start = corners[i];
-                    stop = corners[i + 1];
-                }
-                else
-                {
-                    start = corners[i];
-                    stop = corners[0];
-                }
-                segments.Add(new Segment(SEGMENT_STRING + Segment.nbSegment, start, stop));
-            }
-
-            areas.Add(new Area("Test", corners));
+            component = new Area("Test", corners);
+            areas.Add((Area)component);
         }
+        else if(componentType == ComponentType.Wall)
+        {
+            Debug.WriteLine("point");
+
+            Segment.nbSegment++;
+            List<float> start = new List<float>() { (float)point1.X, (float)point1.Y };
+            List<float> stop = new List<float>() { (float)point2.X, (float)point2.Y };
+
+            component = new Segment(SEGMENT_STRING + Segment.nbSegment, start, stop);
+            segments.Add((Segment)component);
+        }
+        return component;
     }
 
     public void AddComponent(Point p, ComponentType componentType)
@@ -87,15 +84,27 @@ public class Plan
     {
         // Entry points
         invoker.DrawCommand = new CameraCommand(receiver);
-        invoker.InvokeClick(new Point(entryPoint[0], entryPoint[1]));
+        if(entryPoint.Count != 0)
+        {
+            invoker.InvokeClick(new Point(entryPoint[0], entryPoint[1]));
+        }
 
-        // Area
+
+        // Areas
         invoker.DrawCommand = new AreaCommand(receiver);
         foreach(Area area in areas)
         {
             Tuple<PointF, PointF> minMaxPoints = area.GetMinMaxPoints();
             invoker.InvokeClick(new Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
             invoker.InvokeClick(new Point(minMaxPoints.Item2.X, minMaxPoints.Item2.Y));
+        }
+
+        // Segments
+        foreach(Segment segment in segments)
+        {
+            invoker.DrawCommand = new WallCommand(receiver);
+            invoker.InvokeClick(new Point(segment.Start[0], segment.Start[1]));
+            invoker.InvokeClick(new Point(segment.Stop[0], segment.Stop[1]));
         }
     }
 }

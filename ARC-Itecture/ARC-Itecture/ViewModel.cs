@@ -1,17 +1,20 @@
 ﻿using ARC_Itecture.DrawCommand;
 using ARC_Itecture.DrawCommand.Commands;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace ARC_Itecture
 {
-    class ViewModel
+    public class ViewModel
     {
-        private MainWindow _mainWindow;
+        public MainWindow _mainWindow { get; private set; }
         private Invoker _invoker;
-        private Receiver _receiver;
-        public Plan plan;
+        public Receiver _receiver { get; private set; }
+        public Plan plan { get; private set; }
 
         public IDrawCommand Command => _invoker.DrawCommand;
 
@@ -20,7 +23,18 @@ namespace ARC_Itecture
             _mainWindow = mainWindow;
             this._invoker = new Invoker();
             plan = new Plan();
-            this._receiver = new Receiver(_mainWindow.canvas, plan);
+            this._receiver = new Receiver(this);
+        }
+
+        public void UpdateHistory(Stack<Tuple<Shape, IDrawComponent>> history)
+        {
+            _mainWindow.listBoxHistory.Items.Add(history.Peek().Item2.GetName());
+            //object o = _mainWindow.listBoxHistory.SelectedItem;
+        }
+
+        internal void RemoveFromHistory()
+        {
+            
         }
 
         public void AddArea()
@@ -84,7 +98,7 @@ namespace ARC_Itecture
         {
             _mainWindow.canvas.Children.Clear();
             plan = new Plan();
-            _receiver = new Receiver(_mainWindow.canvas, plan);
+            _receiver = new Receiver(this);
             _invoker = new Invoker();
         }
 

@@ -17,8 +17,9 @@
     <materialDesign:DialogHost SnackbarMessageQueue="{Binding ElementName=Snackbar, Path=MessageQueue}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -78,7 +79,7 @@
                     </TextBlock>
                 </StackPanel>
             </materialDesign:Card>
-            <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="20,10,10,10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
+            <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="10,10,0,10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
                 <Canvas x:Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Canvas.Background>
                         <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
@@ -95,6 +96,29 @@
                         </DrawingBrush>
                     </Canvas.Background>
                 </Canvas>
+            </materialDesign:Card>
+            <materialDesign:Card  Grid.Row="0" Grid.Column="2" Margin="20,10,10,10"  materialDesign:ShadowAssist.ShadowDepth="Depth5">
+                <StackPanel>
+                    <GroupBox Header="History" Style="{DynamicResource MaterialDesignGroupBox}" Margin="10" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                        <ListBox x:Name="listBoxHistory">
+                            <!--<TextBlock>
+                            Plain
+                            </TextBlock>
+                            <TextBlock>
+                            Old
+                            </TextBlock>
+                            <TextBlock>
+                            ListBox
+                            </TextBlock>
+                            <TextBlock>
+                            Full of junk
+                            </TextBlock>-->
+                        </ListBox>
+                    </GroupBox>
+                    <Button x:Name="buttonRemoveLastComponent" Click="buttonRemoveLastComponent_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" ToolTip="Clic to remove last component" Margin="10">
+                        Remove last component
+                    </Button>
+                </StackPanel>
             </materialDesign:Card>
             <materialDesign:Snackbar x:Name="Snackbar" MessageQueue="{materialDesign:MessageQueue}" />
         </Grid>

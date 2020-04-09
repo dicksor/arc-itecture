@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using ARC_Itecture;
+using System.Collections.Generic;
 
 [System.Serializable]
-public class Segment
+public class Segment:IDrawComponent
 {
     public static int nbSegment = 0;
 
@@ -15,5 +16,15 @@ public class Segment
         this.Name = name;
         this.Start = start;
         this.Stop = stop;
+    }
+
+    public void RemoveComponent()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public string GetName()
+    {
+        throw new System.NotImplementedException();
     }
 }

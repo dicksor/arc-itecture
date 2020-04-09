@@ -77,6 +77,7 @@
     <Compile Include="DrawCommand\Commands\PreviewAreaCommand.cs" />
     <Compile Include="DrawCommand\Commands\PreviewWallCommand.cs" />
     <Compile Include="Geometry\Intersection.cs" />
+    <Compile Include="IDrawComponent.cs" />
     <Compile Include="Utils\ImageUtil.cs" />
     <Compile Include="Utils\MathUtil.cs" />
     <Compile Include="ViewModel.cs" />

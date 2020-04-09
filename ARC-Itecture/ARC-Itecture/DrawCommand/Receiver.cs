@@ -7,6 +7,7 @@ using System.Windows.Shapes;
 using ARC_Itecture.Utils;
 using ARC_Itecture.Geometry;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace ARC_Itecture.DrawCommand
 {
@@ -20,16 +21,20 @@ namespace ARC_Itecture.DrawCommand
         private List<Line> _walls;
         private Plan _plan;
         private Shape _lastShape;
+        private Stack<Tuple<Shape, IDrawComponent>> _history;
+        private ViewModel _viewModel;
 
-        public Receiver(Canvas canvas, Plan plan)
+        public Receiver(ViewModel viewModel)
         {
-            this._canvas = canvas;
+            this._canvas = viewModel._mainWindow.canvas;
             this._strokeBrush = new SolidColorBrush(Colors.White);
             this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
             this._wallPoints = new Queue<Point>();
             this._areaPoints = new Stack<Point>();
             this._walls = new List<Line>();
-            this._plan = plan;
+            this._plan = viewModel.plan;
+            this._history = new Stack<Tuple<Shape, IDrawComponent>>();
+            this._viewModel = viewModel;
         }
 
         public void DrawArea(Point p, ComponentType componentType)
@@ -42,9 +47,12 @@ namespace ARC_Itecture.DrawCommand
                 Point p1 = _areaPoints.Pop();
 
                 this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
-                DrawRectangle(p1, p2);
 
-                _plan.AddComponent(p1, p2, componentType);
+                IDrawComponent component = _plan.AddComponent(p1, p2, componentType);
+
+                _history.Push(new Tuple<Shape, IDrawComponent>(DrawRectangle(p1, p2), component));
+                _viewModel.UpdateHistory(_history);
+
                 _lastShape = null;
             }
         }
@@ -71,6 +79,7 @@ namespace ARC_Itecture.DrawCommand
             Canvas.SetLeft(cameraImage, p.X);
             Canvas.SetTop(cameraImage, p.Y);
             _canvas.Children.Add(cameraImage);
+            _plan.AddComponent(p, componentType);
         }
 
         public void DrawDoor(Point p, ComponentType componentType)
@@ -93,6 +102,10 @@ namespace ARC_Itecture.DrawCommand
                 Point p2 = _wallPoints.Dequeue();
                 Line line = DrawSegment(p1, p2);
 
+                IDrawComponent component = _plan.AddComponent(p1, p2, componentType);
+                _history.Push(new Tuple<Shape, IDrawComponent>(line, component));
+                _viewModel.UpdateHistory(_history);
+
                 Intersection intersection = MathUtil.LineIntersect(line, _walls);
                 if(intersection.IntersectionPoint != null)
                 {
@@ -103,7 +116,7 @@ namespace ARC_Itecture.DrawCommand
 
                         intersection.L2.X1 = line.X2;
                         intersection.L2.Y1 = line.Y2;
-
+                        
                         _walls.Clear();
                     }
                     else
@@ -163,7 +176,6 @@ namespace ARC_Itecture.DrawCommand
                 line.X2 = p1.X;
                 line.Y2 = p2.Y;
             }
-
             _canvas.Children.Add(line);
 
             return line;

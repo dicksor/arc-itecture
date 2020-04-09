@@ -184,5 +184,10 @@ namespace ARC_Itecture
                 _snackbarMessageQueue.Enqueue("Will start drawing from new point");
             }
         }
+
+        private void buttonRemoveLastComponent_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.RemoveFromHistory();
+        }
     }
 }
