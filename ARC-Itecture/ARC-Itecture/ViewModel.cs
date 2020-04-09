@@ -1,10 +1,13 @@
 ﻿using ARC_Itecture.DrawCommand;
 using ARC_Itecture.DrawCommand.Commands;
+using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 
 namespace ARC_Itecture
@@ -17,6 +20,8 @@ namespace ARC_Itecture
         public Plan plan { get; private set; }
 
         public IDrawCommand Command => _invoker.DrawCommand;
+
+        public DialogClosingEventHandler ClosingEventHandler { get; private set; }
 
         public ViewModel(MainWindow mainWindow)
         {
@@ -62,6 +67,41 @@ namespace ARC_Itecture
         public void CanvasMouseMove(Point p)
         {
             _invoker.InvokeMouseMove(p);
+        }
+
+        public async Task<string> ShowAreaDialog()
+        {
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = "Add area type name";
+
+            ComboBox comboBox = new ComboBox();
+            comboBox.Items.Add("LivingRoom");
+            comboBox.Items.Add("Room");
+            comboBox.Items.Add("Kitchen");
+            comboBox.Items.Add("Bathroom");
+            comboBox.SelectedIndex = 0;
+            comboBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            comboBox.Margin = new Thickness(0, 12, 0, 0);
+
+            Button button = new Button();
+            button.Style = Application.Current.FindResource("MaterialDesignFlatButton") as Style;
+            button.IsDefault = true;
+            button.Margin = new Thickness(0, 8, 8, 0);
+            button.Command = DialogHost.CloseDialogCommand;
+            button.Content = "ADD AREA";
+
+            StackPanel stk = new StackPanel();
+            stk.Margin = new Thickness(16);
+            stk.Children.Add(textBlock);
+            stk.Children.Add(comboBox);
+            stk.Children.Add(button);
+            string areaTypeName = "";
+            object result = await DialogHost.Show(stk, "RootDialog", delegate (object sender, DialogClosingEventArgs args)
+            {
+            StackPanel sp = (StackPanel)args.Session.Content;
+                areaTypeName = ((ComboBox)((StackPanel)args.Session.Content).Children[1]).SelectedItem.ToString();
+            });
+            return areaTypeName;
         }
 
         public void LoadJson(string filename)

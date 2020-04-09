@@ -9,6 +9,7 @@ using ARC_Itecture.Geometry;
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows.Interop;
+using MaterialDesignThemes.Wpf;
 
 namespace ARC_Itecture.DrawCommand
 {
@@ -104,7 +105,7 @@ namespace ARC_Itecture.DrawCommand
                 _lastShape = DrawRectangle(_windowPoints.Peek(), p);
         }
 
-        public void DrawArea(Point p)
+        public async void DrawArea(Point p)
         {
             _areaPoints.Push(p);
 
@@ -114,8 +115,20 @@ namespace ARC_Itecture.DrawCommand
                 Point p1 = _areaPoints.Pop();
 
                 this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
-                
-                _plan.AddArea(p1, p2);
+
+                string areaTypeName = await _viewModel.ShowAreaDialog();
+                _plan.AddArea(p1, p2, areaTypeName);
+
+                TextBlock tb = new TextBlock();
+                tb.Text = areaTypeName;
+                tb.Foreground = Brushes.White;
+                tb.Width = 70;
+                tb.Height = 20;
+                tb.TextAlignment = TextAlignment.Center;
+
+                Canvas.SetLeft(tb, Canvas.GetLeft(_lastShape) + (_lastShape.Width / 2) - (tb.Width/2));
+                Canvas.SetTop(tb, Canvas.GetTop(_lastShape) + (_lastShape.Height / 2) - (tb.Height / 2));
+                _canvas.Children.Add(tb);
 
                 _lastShape = null;
             }

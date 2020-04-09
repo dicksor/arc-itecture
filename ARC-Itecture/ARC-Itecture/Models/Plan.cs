@@ -69,7 +69,7 @@ public class Plan
         wall.Window = new HouseWindow(new List<float>() { (float)window1.X, (float)window1.Y}, new List<float>() { (float)window2.X, (float)window2.Y});
     }
 
-    public void AddArea(Point point1, Point point2)
+    public void AddArea(Point point1, Point point2, string areaTypeName)
     {
         List<List<float>> corners = new List<List<float>>
             {
@@ -78,7 +78,7 @@ public class Plan
                 new List<float>() { (float)point2.X, (float)point2.Y },
                 new List<float>() { (float)point1.X, (float)point2.Y }
             };
-        areas.Add(new Area("Test", corners));
+        areas.Add(new Area(areaTypeName, corners));
     }
 
     public void AddWall(Point point1, Point point2)

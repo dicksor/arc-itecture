@@ -15,8 +15,9 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         MinWidth="1200" MinHeight="550">
-    <materialDesign:DialogHost SnackbarMessageQueue="{Binding ElementName=Snackbar, Path=MessageQueue}">
+    <materialDesign:DialogHost SnackbarMessageQueue="{Binding ElementName=Snackbar, Path=MessageQueue}" Identifier="RootDialog">
         <Grid>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="7*"/>
@@ -25,6 +26,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            
             <materialDesign:Card Grid.Row="0" Grid.Column="0" Padding="10" Margin="10,10,0,10" materialDesign:ShadowAssist.ShadowDepth="Depth5">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel DockPanel.Dock="Top">
