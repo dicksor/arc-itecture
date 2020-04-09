@@ -118,6 +118,7 @@ namespace ARC_Itecture
 
         public void SaveJson(string filename)
         {
+            //MessageBox.Show(plan.segments[0].Window.Start[0].ToString());
             using (StreamWriter file = File.CreateText(filename))
             {
                 (new JsonSerializer()).Serialize(file, plan);

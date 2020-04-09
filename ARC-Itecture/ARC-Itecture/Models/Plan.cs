@@ -105,13 +105,19 @@ public class Plan
             invoker.InvokeClick(new Point(entryPoint[0], entryPoint[1]));
         }
 
-
         // Areas
-        invoker.DrawCommand = new AreaCommand(receiver);
-        foreach(Area area in areas)
+        foreach (Area area in areas)
         {
+            invoker.DrawCommand = new AreaCommand(receiver, area.Type);
+            invoker.PreviewCommand = new PreviewAreaCommand(receiver);
+
             Tuple<PointF, PointF> minMaxPoints = area.GetMinMaxPoints();
+
             invoker.InvokeClick(new Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
+
+            invoker.InvokeMouseMove(new Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
+            invoker.InvokeMouseMove(new Point(minMaxPoints.Item2.X, minMaxPoints.Item2.Y));
+
             invoker.InvokeClick(new Point(minMaxPoints.Item2.X, minMaxPoints.Item2.Y));
         }
 
@@ -121,6 +127,19 @@ public class Plan
             invoker.DrawCommand = new WallCommand(receiver);
             invoker.InvokeClick(new Point(segment.Start[0], segment.Start[1]));
             invoker.InvokeClick(new Point(segment.Stop[0], segment.Stop[1]));
+
+            if (segment.Window != null)
+            {
+                invoker.PreviewCommand = new PreviewWindowCommand(receiver);
+                invoker.DrawCommand = new WindowCommand(receiver);
+
+                invoker.InvokeClick(new Point(segment.Window.Start[0], segment.Window.Start[1]));
+
+                invoker.InvokeMouseMove(new Point(segment.Window.Start[0], segment.Window.Start[1]));
+                invoker.InvokeMouseMove(new Point(segment.Window.Stop[0], segment.Window.Stop[1]));
+     
+                invoker.InvokeClick(new Point(segment.Window.Stop[0], segment.Window.Stop[1]));
+            }
         }
     }
 }

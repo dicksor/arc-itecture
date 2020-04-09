@@ -105,7 +105,7 @@ namespace ARC_Itecture.DrawCommand
                 _lastShape = DrawRectangle(_windowPoints.Peek(), p);
         }
 
-        public async void DrawArea(Point p)
+        public async void DrawArea(Point p, string areaTypeName)
         {
             _areaPoints.Push(p);
 
@@ -116,7 +116,11 @@ namespace ARC_Itecture.DrawCommand
 
                 this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
 
-                string areaTypeName = await _viewModel.ShowAreaDialog();
+                if(areaTypeName == "")
+                {
+                    areaTypeName = await _viewModel.ShowAreaDialog();
+                }
+                
                 _plan.AddArea(p1, p2, areaTypeName);
 
                 TextBlock tb = new TextBlock();

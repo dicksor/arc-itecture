@@ -1,4 +1,5 @@
 ﻿using ARC_Itecture;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -8,9 +9,16 @@ public class Segment
 {
     public static int nbSegment = 0;
 
+    [JsonProperty("name")]
     public string Name { get; set; }
+
+    [JsonProperty("start")]
     public List<float> Start { get; set; }
+
+    [JsonProperty("stop")]
     public List<float> Stop { get; set; }
+
+    [JsonProperty("window")]
     public HouseWindow Window { get; set; }
 
     public Segment(string name, List<float> start, List<float> stop)

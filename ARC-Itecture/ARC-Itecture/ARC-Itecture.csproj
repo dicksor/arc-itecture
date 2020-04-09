@@ -73,7 +73,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ComponentType.cs" />
     <Compile Include="DrawCommand\Commands\PreviewAreaCommand.cs" />
     <Compile Include="DrawCommand\Commands\PreviewWallCommand.cs" />
     <Compile Include="DrawCommand\Commands\PreviewWindowCommand.cs" />
