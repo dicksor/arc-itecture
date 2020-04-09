@@ -26,17 +26,6 @@ namespace ARC_Itecture
             this._receiver = new Receiver(this);
         }
 
-        public void UpdateHistory(Stack<Tuple<Shape, IDrawComponent>> history)
-        {
-            _mainWindow.listBoxHistory.Items.Add(history.Peek().Item2.GetName());
-            //object o = _mainWindow.listBoxHistory.SelectedItem;
-        }
-
-        internal void RemoveFromHistory()
-        {
-            
-        }
-
         public void AddArea()
         {
             _invoker.DrawCommand = new AreaCommand(this._receiver);
@@ -62,6 +51,7 @@ namespace ARC_Itecture
         public void AddWindow()
         {
             _invoker.DrawCommand = new WindowCommand(this._receiver);
+            _invoker.PreviewCommand = new PreviewWindowCommand(this._receiver); 
         }
 
         public void CanvasClick(Point p)

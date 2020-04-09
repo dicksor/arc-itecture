@@ -1,21 +1,19 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ARC_Itecture.DrawCommand.Commands
 {
-    class WallCommand : IDrawCommand
+    class PreviewWindowCommand:IDrawCommand
     {
-
         private Receiver _receiver;
 
-        public WallCommand(Receiver receiver)
+        public PreviewWindowCommand(Receiver receiver)
         {
             this._receiver = receiver;
         }
 
         public void Execute(Point point)
         {
-            _receiver.DrawWall(point);
+            this._receiver.DrawWindowPreview(point);
         }
     }
 }

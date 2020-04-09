@@ -6,7 +6,6 @@ namespace ARC_Itecture.DrawCommand.Commands
     class WindowCommand : IDrawCommand
     {
         private Receiver _receiver;
-        private const ComponentType _componentType = ComponentType.Window;
 
         public WindowCommand(Receiver receiver)
         {
@@ -15,7 +14,7 @@ namespace ARC_Itecture.DrawCommand.Commands
 
         public void Execute(Point point)
         {
-            throw new NotImplementedException();
+            this._receiver.DrawWindow(point);
         }
     }
 }

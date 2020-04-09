@@ -1,8 +1,10 @@
 ﻿using ARC_Itecture;
+using System;
 using System.Collections.Generic;
+using System.Windows;
 
 [System.Serializable]
-public class Segment:IDrawComponent
+public class Segment
 {
     public static int nbSegment = 0;
 
@@ -18,13 +20,19 @@ public class Segment:IDrawComponent
         this.Stop = stop;
     }
 
-    public void RemoveComponent()
+    public Segment FindSegmentByCoord(Point p1, Point p2)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public string GetName()
-    {
-        throw new System.NotImplementedException();
+        Segment s = null;
+        if(Window == null)
+        {
+            if(Math.Floor(p1.X) == Math.Floor(Start[0]) && 
+               Math.Floor(p1.Y) == Math.Floor(Start[1]) && 
+               Math.Floor(p2.X) == Math.Floor(Stop[0]) && 
+               Math.Floor(p2.Y) == Math.Floor(Stop[1]))
+            {
+                s = this;
+            }
+        }
+        return s;
     }
 }

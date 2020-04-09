@@ -5,8 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Windows;
+using System.Windows.Shapes;
+using System.Drawing;
 using Point = System.Windows.Point;
 
 [System.Serializable]
@@ -42,42 +43,57 @@ public class Plan
         doors = new List<Door>();
     }
 
-    public IDrawComponent AddComponent(Point point1, Point point2, ComponentType componentType)
+    private Segment FindSegmentByCoords(Point p1, Point p2)
     {
-        IDrawComponent component = null;
-        if (componentType == ComponentType.Area)
+        Segment segment = null;
+        foreach(Segment s in segments)
         {
-            List<List<float>> corners = new List<List<float>>
+            Segment currentOneTwo = s.FindSegmentByCoord(p1, p2);
+            if(currentOneTwo != null)
+            {
+                segment = currentOneTwo;
+            }
+
+            Segment currentTwoOne = s.FindSegmentByCoord(p2, p1);
+            if(currentTwoOne != null)
+            {
+                segment = currentTwoOne;
+            }
+        }
+        return segment;
+    }
+
+    public void AddWindow(Point window1, Point window2, Point wall1, Point wall2)
+    {
+        Segment wall = FindSegmentByCoords(wall1, wall2);
+        wall.Window = new HouseWindow(new List<float>() { (float)window1.X, (float)window1.Y}, new List<float>() { (float)window2.X, (float)window2.Y});
+    }
+
+    public void AddArea(Point point1, Point point2)
+    {
+        List<List<float>> corners = new List<List<float>>
             {
                 new List<float>() { (float)point1.X, (float)point1.Y },
                 new List<float>() { (float)point2.X, (float)point1.Y },
                 new List<float>() { (float)point2.X, (float)point2.Y },
                 new List<float>() { (float)point1.X, (float)point2.Y }
             };
-            component = new Area("Test", corners);
-            areas.Add((Area)component);
-        }
-        else if(componentType == ComponentType.Wall)
-        {
-            Debug.WriteLine("point");
-
-            Segment.nbSegment++;
-            List<float> start = new List<float>() { (float)point1.X, (float)point1.Y };
-            List<float> stop = new List<float>() { (float)point2.X, (float)point2.Y };
-
-            component = new Segment(SEGMENT_STRING + Segment.nbSegment, start, stop);
-            segments.Add((Segment)component);
-        }
-        return component;
+        areas.Add(new Area("Test", corners));
     }
 
-    public void AddComponent(Point p, ComponentType componentType)
+    public void AddWall(Point point1, Point point2)
     {
-        if(componentType == ComponentType.Camera)
-        {
-            entryPoint.Add((float) p.X);
-            entryPoint.Add((float) p.Y);
-        }
+        Segment.nbSegment++;
+        List<float> start = new List<float>() { (float)point1.X, (float)point1.Y };
+        List<float> stop = new List<float>() { (float)point2.X, (float)point2.Y };
+
+        segments.Add(new Segment(SEGMENT_STRING + Segment.nbSegment, start, stop));
+    }
+
+    public void AddCamera(Point p)
+    {
+        entryPoint.Add((float) p.X);
+        entryPoint.Add((float) p.Y);
     }
 
     public void ImportDraw(Receiver receiver, Invoker invoker)

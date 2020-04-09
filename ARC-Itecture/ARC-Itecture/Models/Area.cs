@@ -5,7 +5,7 @@ using System.Drawing;
 using ARC_Itecture;
 
 [System.Serializable]
-public class Area:IDrawComponent
+public class Area
 {
     public string Type { get; set; }
     public List<List<float>> Points { get; set; }
@@ -42,15 +42,5 @@ public class Area:IDrawComponent
         float maxY = maxPoints[1];
 
         return new Tuple<PointF, PointF>(new PointF(minX, minY), new PointF(maxX, maxY));
-    }
-
-    public void RemoveComponent()
-    {
-        throw new NotImplementedException();
-    }
-
-    public string GetName()
-    {
-        return Type;
     }
 }

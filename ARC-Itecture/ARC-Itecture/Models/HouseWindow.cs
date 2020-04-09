@@ -4,18 +4,14 @@ using System.Runtime.Serialization;
 
 [DataContract(Name = "Window")]
 [System.Serializable]
-public class HouseWindow:IDrawComponent
+public class HouseWindow
 {
     public List<float> Start { get; set; }
     public List<float> Stop { get; set; }
 
-    public string GetName()
+    public HouseWindow(List<float> start, List<float> stop)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void RemoveComponent()
-    {
-        throw new System.NotImplementedException();
+        Start = start;
+        Stop = stop;
     }
 }
