@@ -138,7 +138,15 @@ namespace ARC_Itecture
             Tuple<Object, String> shapeHistory = stackHistory.Pop();
 
             int index = _mainWindow.canvas.Children.IndexOf(shapeHistory.Item1 as UIElement);
-            _mainWindow.canvas.Children.RemoveAt(index);
+            if(shapeHistory.Item2 == "Area")
+            {
+                _mainWindow.canvas.Children.RemoveAt(index);
+                _mainWindow.canvas.Children.RemoveAt(index-1);
+            }
+            else
+            {
+                _mainWindow.canvas.Children.RemoveAt(index);
+            }
         }
 
         public void ClearCanvas()
