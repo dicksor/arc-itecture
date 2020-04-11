@@ -76,6 +76,8 @@ namespace ARC_Itecture.DrawCommand
                             rectangle.Height = intersect.Height + WINDOW_OFFSET;
                             
                             _canvas.Children.Add(rectangle); // Add to history
+                            MainWindow.main.History = "Window";
+                            _viewModel.stackHistory.Push(new Tuple<Object, string>(rectangle, "Window"));
 
                            _plan.AddWindow(new Point(intersect.X, intersect.Y), 
                                new Point(intersect.X + intersect.Width, intersect.Y + intersect.Height),
@@ -133,6 +135,8 @@ namespace ARC_Itecture.DrawCommand
                 Canvas.SetLeft(tb, Canvas.GetLeft(_lastShape) + (_lastShape.Width / 2) - (tb.Width/2));
                 Canvas.SetTop(tb, Canvas.GetTop(_lastShape) + (_lastShape.Height / 2) - (tb.Height / 2));
                 _canvas.Children.Add(tb); // Add to history
+                MainWindow.main.History = "Area";
+                _viewModel.stackHistory.Push(new Tuple<Object, string>(tb, "Area"));
 
                 foreach(Object child in _canvas.Children)
                 {
@@ -165,6 +169,9 @@ namespace ARC_Itecture.DrawCommand
             Canvas.SetLeft(cameraImage, p.X);
             Canvas.SetTop(cameraImage, p.Y);
             _canvas.Children.Add(cameraImage); // Add to history
+            MainWindow.main.History = "Camera";
+            _viewModel.stackHistory.Push(new Tuple<Object, string>(cameraImage, "Camera"));
+
             _plan.AddCamera(p);
         }
 
@@ -214,6 +221,9 @@ namespace ARC_Itecture.DrawCommand
 
                 _canvas.Children.Remove(_lastShape as Line);
                 _currentWalls.Add(line);
+
+                MainWindow.main.History = "Line";
+                _viewModel.stackHistory.Push(new Tuple<Object, string>(line, "Line"));
 
                 line.MouseEnter += (s, e) => Mouse.OverrideCursor = Cursors.Cross;
                 line.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;

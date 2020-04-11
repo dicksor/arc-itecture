@@ -189,7 +189,7 @@ namespace ARC_Itecture
         }
         private void buttonRemoveLastHistory_Click(object sender, RoutedEventArgs e)
         {
-            //listBoxHistory.Items.RemoveAt(0);
+            listBoxHistory.Items.RemoveAt(0);
             _viewModel.RemoveFromHistory();
             _snackbarMessageQueue.Enqueue("Remove last trick");
         }

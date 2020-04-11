@@ -18,6 +18,7 @@ namespace ARC_Itecture
         private Invoker _invoker;
         public Receiver _receiver { get; private set; }
         public Plan plan { get; private set; }
+        public Stack<Tuple<Object, String>> stackHistory { get; set; }
 
         public IDrawCommand Command => _invoker.DrawCommand;
 
@@ -25,6 +26,7 @@ namespace ARC_Itecture
 
         public ViewModel(MainWindow mainWindow)
         {
+            stackHistory = new Stack<Tuple<Object, string>>();
             _mainWindow = mainWindow;
             this._invoker = new Invoker();
             plan = new Plan();
@@ -127,11 +129,16 @@ namespace ARC_Itecture
 
         public void RemoveFromHistory()
         {
-            int historySize = _mainWindow.canvas.Children.Count;
+            /*int historySize = _mainWindow.canvas.Children.Count;
             if(historySize > 0)
             {
                 _mainWindow.canvas.Children.RemoveAt(historySize - 1);
-            }
+            }*/
+
+            Tuple<Object, String> shapeHistory = stackHistory.Pop();
+
+            int index = _mainWindow.canvas.Children.IndexOf(shapeHistory.Item1 as UIElement);
+            _mainWindow.canvas.Children.RemoveAt(index);
         }
 
         public void ClearCanvas()
