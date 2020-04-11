@@ -125,6 +125,15 @@ namespace ARC_Itecture
             }
         }
 
+        public void RemoveFromHistory()
+        {
+            int historySize = _mainWindow.canvas.Children.Count;
+            if(historySize > 0)
+            {
+                _mainWindow.canvas.Children.RemoveAt(historySize - 1);
+            }
+        }
+
         public void ClearCanvas()
         {
             _mainWindow.canvas.Children.Clear();

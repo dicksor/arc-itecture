@@ -75,7 +75,7 @@ namespace ARC_Itecture.DrawCommand
                             rectangle.Width = intersect.Width + WINDOW_OFFSET;
                             rectangle.Height = intersect.Height + WINDOW_OFFSET;
                             
-                            _canvas.Children.Add(rectangle);
+                            _canvas.Children.Add(rectangle); // Add to history
 
                            _plan.AddWindow(new Point(intersect.X, intersect.Y), 
                                new Point(intersect.X + intersect.Width, intersect.Y + intersect.Height),
@@ -132,7 +132,12 @@ namespace ARC_Itecture.DrawCommand
 
                 Canvas.SetLeft(tb, Canvas.GetLeft(_lastShape) + (_lastShape.Width / 2) - (tb.Width/2));
                 Canvas.SetTop(tb, Canvas.GetTop(_lastShape) + (_lastShape.Height / 2) - (tb.Height / 2));
-                _canvas.Children.Add(tb);
+                _canvas.Children.Add(tb); // Add to history
+
+                foreach(Object child in _canvas.Children)
+                {
+                    Debug.WriteLine(child.ToString());
+                }
 
                 _lastShape = null;
             }
@@ -159,7 +164,7 @@ namespace ARC_Itecture.DrawCommand
 
             Canvas.SetLeft(cameraImage, p.X);
             Canvas.SetTop(cameraImage, p.Y);
-            _canvas.Children.Add(cameraImage);
+            _canvas.Children.Add(cameraImage); // Add to history
             _plan.AddCamera(p);
         }
 
@@ -254,7 +259,7 @@ namespace ARC_Itecture.DrawCommand
                 line.X2 = p1.X;
                 line.Y2 = p2.Y;
             }
-            _canvas.Children.Add(line);
+            _canvas.Children.Add(line); // Add to history
 
             return line;
         }
@@ -272,7 +277,7 @@ namespace ARC_Itecture.DrawCommand
             Canvas.SetLeft(rectangle, leftMostX);
             Canvas.SetTop(rectangle, topMostY);
 
-            _canvas.Children.Add(rectangle);
+            _canvas.Children.Add(rectangle); // Add to history
 
             return rectangle;
         }

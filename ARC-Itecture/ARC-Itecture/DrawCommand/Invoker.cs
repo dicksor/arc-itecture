@@ -8,7 +8,6 @@ namespace ARC_Itecture.DrawCommand
     {
         private IDrawCommand _drawCommand;
         private IDrawCommand _previewCommand;
-        public List<IDrawCommand> history = new List<IDrawCommand>();
 
         public IDrawCommand DrawCommand{
             get
@@ -37,9 +36,6 @@ namespace ARC_Itecture.DrawCommand
         {
             if(this._drawCommand != null)
             {
-                history.Add(this._drawCommand);
-                string[] command = this._drawCommand.ToString().Split('.');
-                MainWindow.main.History = command[command.Length-1];
                 _drawCommand.Execute(point);
             }
             else
