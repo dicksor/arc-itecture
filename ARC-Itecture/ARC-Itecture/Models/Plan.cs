@@ -166,7 +166,7 @@ public class Plan
                 Debug.WriteLine("Remove window");
                 break;
             case System.Windows.Controls.Image i:
-                CameraCommand.isAlreadyUsed = false;
+                CameraCommand.ResetIsAlreadyUsed();
                 Debug.WriteLine("Remove camera");
                 break;
             default:
