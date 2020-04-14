@@ -12,6 +12,11 @@ namespace ARC_Itecture.DrawCommand.Commands
             this._receiver = receiver;
         }
 
+        public static void ResetIsAlreadyUsed()
+        {
+            _isAlreadyUsed = false;
+        }
+
         public void Execute(Point point)
         {
             if (!isAlreadyUsed)

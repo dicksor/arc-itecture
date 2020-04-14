@@ -193,6 +193,7 @@ namespace ARC_Itecture
         }
         private void buttonRemoveLastHistory_Click(object sender, RoutedEventArgs e)
         {
+
             CleanHistory();
         }
 
