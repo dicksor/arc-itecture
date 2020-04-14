@@ -186,8 +186,17 @@ namespace ARC_Itecture
                 _viewModel.StartNewWall();
                 _snackbarMessageQueue.Enqueue("Will start drawing from new point");
             }
+            else if(e.Key == Key.Z && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                CleanHistory();
+            }
         }
         private void buttonRemoveLastHistory_Click(object sender, RoutedEventArgs e)
+        {
+            CleanHistory();
+        }
+
+        private void CleanHistory()
         {
             if(listBoxHistory.Items.Count > 0)
             {

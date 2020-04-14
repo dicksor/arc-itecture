@@ -179,12 +179,23 @@ public class Plan
 
     public void RemoveWindow(HouseWindow w)
     {
+        List<HouseWindow> hw = ListWindows();
+        
+        int index = hw.IndexOf(w);
+        segments[index].Window = null;
+
+        Debug.WriteLine(index);
+    }
+
+    public List<HouseWindow> ListWindows()
+    {
+        List<HouseWindow> hw = new List<HouseWindow>();
+
         foreach(Segment s in segments)
         {
-            if(s.Window != null && s.Window.Equals(w))
-            {
-                s.Window = null;
-            }
-        }   
+            hw.Add(s.Window);
+        } 
+
+        return hw;
     }
 }
