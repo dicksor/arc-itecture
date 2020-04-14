@@ -75,14 +75,15 @@ namespace ARC_Itecture.DrawCommand
                             rectangle.Width = intersect.Width + WINDOW_OFFSET;
                             rectangle.Height = intersect.Height + WINDOW_OFFSET;
                             
-                            _canvas.Children.Add(rectangle); // Add to history
-                            MainWindow.main.History = "Window";
-                            _viewModel.stackHistory.Push(new Tuple<Object, string>(rectangle, "Window"));
+                            _canvas.Children.Add(rectangle);
 
-                           _plan.AddWindow(new Point(intersect.X, intersect.Y), 
+                            HouseWindow houseWindow = _plan.AddWindow(new Point(intersect.X, intersect.Y), 
                                new Point(intersect.X + intersect.Width, intersect.Y + intersect.Height),
                                new Point(wall.X, wall.Y),
                                new Point(wall.X + wall.Width, wall.Y + wall.Height));
+
+                            MainWindow.main.History = "Window";
+                            _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(rectangle, houseWindow, "Window"));
 
                             _walls.Remove(wall);
 
@@ -123,7 +124,7 @@ namespace ARC_Itecture.DrawCommand
                     areaTypeName = await _viewModel.ShowAreaDialog();
                 }
                 
-                _plan.AddArea(p1, p2, areaTypeName);
+                Area area = _plan.AddArea(p1, p2, areaTypeName);
 
                 TextBlock tb = new TextBlock();
                 tb.Text = areaTypeName;
@@ -134,9 +135,10 @@ namespace ARC_Itecture.DrawCommand
 
                 Canvas.SetLeft(tb, Canvas.GetLeft(_lastShape) + (_lastShape.Width / 2) - (tb.Width/2));
                 Canvas.SetTop(tb, Canvas.GetTop(_lastShape) + (_lastShape.Height / 2) - (tb.Height / 2));
-                _canvas.Children.Add(tb); // Add to history
+                _canvas.Children.Add(tb);
+
                 MainWindow.main.History = "Area";
-                _viewModel.stackHistory.Push(new Tuple<Object, string>(tb, "Area"));
+                _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(tb, area, "Area"));
 
                 foreach(Object child in _canvas.Children)
                 {
@@ -168,9 +170,10 @@ namespace ARC_Itecture.DrawCommand
 
             Canvas.SetLeft(cameraImage, p.X);
             Canvas.SetTop(cameraImage, p.Y);
-            _canvas.Children.Add(cameraImage); // Add to history
+            _canvas.Children.Add(cameraImage);
+
             MainWindow.main.History = "Camera";
-            _viewModel.stackHistory.Push(new Tuple<Object, string>(cameraImage, "Camera"));
+            _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(cameraImage, cameraImage, "Camera"));
 
             _plan.AddCamera(p);
         }
@@ -194,7 +197,7 @@ namespace ARC_Itecture.DrawCommand
                 Point realP2 = new Point(line.X2, line.Y2);
 
                 _walls.Add(new Rect(realP1, realP2));
-                _plan.AddWall(realP1, realP2);
+                Segment segment = _plan.AddWall(realP1, realP2);
 
                 Intersection intersection = MathUtil.LineIntersect(line, _currentWalls);
                 if(intersection.IntersectionPoint != null)
@@ -222,8 +225,8 @@ namespace ARC_Itecture.DrawCommand
                 _canvas.Children.Remove(_lastShape as Line);
                 _currentWalls.Add(line);
 
-                MainWindow.main.History = "Line";
-                _viewModel.stackHistory.Push(new Tuple<Object, string>(line, "Line"));
+                MainWindow.main.History = "Wall";
+                _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(line, segment, "Wall"));
 
                 line.MouseEnter += (s, e) => Mouse.OverrideCursor = Cursors.Cross;
                 line.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;
@@ -269,7 +272,7 @@ namespace ARC_Itecture.DrawCommand
                 line.X2 = p1.X;
                 line.Y2 = p2.Y;
             }
-            _canvas.Children.Add(line); // Add to history
+            _canvas.Children.Add(line);
 
             return line;
         }
@@ -287,7 +290,7 @@ namespace ARC_Itecture.DrawCommand
             Canvas.SetLeft(rectangle, leftMostX);
             Canvas.SetTop(rectangle, topMostY);
 
-            _canvas.Children.Add(rectangle); // Add to history
+            _canvas.Children.Add(rectangle);
 
             return rectangle;
         }

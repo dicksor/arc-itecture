@@ -5,7 +5,7 @@ namespace ARC_Itecture.DrawCommand.Commands
     class CameraCommand : IDrawCommand
     {
         private Receiver _receiver;
-        private static bool _isAlreadyUsed = false;
+        public static bool isAlreadyUsed = false;
 
         public CameraCommand(Receiver receiver)
         {
@@ -14,10 +14,10 @@ namespace ARC_Itecture.DrawCommand.Commands
 
         public void Execute(Point point)
         {
-            if (!_isAlreadyUsed)
+            if (!isAlreadyUsed)
             {
                 this._receiver.DrawCamera(point);
-                _isAlreadyUsed = !_isAlreadyUsed;
+                isAlreadyUsed = !isAlreadyUsed;
             }
         }
     }

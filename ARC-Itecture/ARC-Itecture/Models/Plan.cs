@@ -37,10 +37,10 @@ public class Plan
 
     public Plan()
     {
-        entryPoint = new List<float>();
-        segments = new List<Segment>();
-        areas = new List<Area>();
-        doors = new List<Door>();
+        entryPoint = new List<float>(); // camera
+        segments = new List<Segment>(); // wall
+        areas = new List<Area>(); // areas
+        doors = new List<Door>(); // doors
     }
 
     private Segment FindSegmentByCoords(Point p1, Point p2)
@@ -63,13 +63,15 @@ public class Plan
         return segment;
     }
 
-    public void AddWindow(Point window1, Point window2, Point wall1, Point wall2)
+    public HouseWindow AddWindow(Point window1, Point window2, Point wall1, Point wall2)
     {
         Segment wall = FindSegmentByCoords(wall1, wall2);
-        wall.Window = new HouseWindow(new List<float>() { (float)window1.X, (float)window1.Y}, new List<float>() { (float)window2.X, (float)window2.Y});
+        HouseWindow houseWindow = new HouseWindow(new List<float>() { (float)window1.X, (float)window1.Y}, new List<float>() { (float)window2.X, (float)window2.Y});
+        wall.Window = houseWindow;
+        return houseWindow;
     }
 
-    public void AddArea(Point point1, Point point2, string areaTypeName)
+    public Area AddArea(Point point1, Point point2, string areaTypeName)
     {
         List<List<float>> corners = new List<List<float>>
             {
@@ -78,16 +80,20 @@ public class Plan
                 new List<float>() { (float)point2.X, (float)point2.Y },
                 new List<float>() { (float)point1.X, (float)point2.Y }
             };
-        areas.Add(new Area(areaTypeName, corners));
+        Area area = new Area(areaTypeName, corners);
+        areas.Add(area);
+        return area;
     }
 
-    public void AddWall(Point point1, Point point2)
+    public Segment AddWall(Point point1, Point point2)
     {
         Segment.nbSegment++;
         List<float> start = new List<float>() { (float)point1.X, (float)point1.Y };
         List<float> stop = new List<float>() { (float)point2.X, (float)point2.Y };
 
-        segments.Add(new Segment(SEGMENT_STRING + Segment.nbSegment, start, stop));
+        Segment segment = new Segment(SEGMENT_STRING + Segment.nbSegment, start, stop);
+        segments.Add(segment);
+        return segment;
     }
 
     public void AddCamera(Point p)
@@ -141,5 +147,44 @@ public class Plan
                 invoker.InvokeClick(new Point(segment.Window.Stop[0], segment.Window.Stop[1]));
             }
         }
+    }
+
+    public void RemoveObject(Object obj)
+    {
+        switch(obj)
+        {
+            case Segment s:
+                segments.Remove(s);
+                Debug.WriteLine("Remove segment");
+                break;
+            case Area a:
+                areas.Remove(a);
+                Debug.WriteLine("Remove area");
+                break;
+            case HouseWindow w:
+                this.RemoveWindow(w);
+                Debug.WriteLine("Remove window");
+                break;
+            case System.Windows.Controls.Image i:
+                CameraCommand.isAlreadyUsed = false;
+                Debug.WriteLine("Remove camera");
+                break;
+            default:
+                Debug.WriteLine("<unknown shape>");
+                break;
+            case null:
+                throw new ArgumentNullException(nameof(obj));
+        }
+    }
+
+    public void RemoveWindow(HouseWindow w)
+    {
+        foreach(Segment s in segments)
+        {
+            if(s.Window != null && s.Window.Equals(w))
+            {
+                s.Window = null;
+            }
+        }   
     }
 }
