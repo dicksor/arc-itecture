@@ -135,8 +135,7 @@ namespace ARC_Itecture
             int index = _mainWindow.canvas.Children.IndexOf(shapeHistory.Item1 as UIElement);
             if(shapeHistory.Item3 == "Area")
             {
-                _mainWindow.canvas.Children.RemoveAt(index);
-                _mainWindow.canvas.Children.RemoveAt(index-1);
+                _mainWindow.canvas.Children.RemoveRange(index-1, 2);
             }
             else
             {
@@ -144,7 +143,6 @@ namespace ARC_Itecture
             }
 
             plan.RemoveObject(shapeHistory.Item2);
-            Debug.WriteLine(shapeHistory.Item2.GetType());
         }
 
         public void ClearCanvas()
