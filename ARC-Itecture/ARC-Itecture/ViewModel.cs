@@ -48,6 +48,7 @@ namespace ARC_Itecture
         public void AddDoor()
         {
             _invoker.DrawCommand = new DoorCommand(this._receiver);
+            _invoker.PreviewCommand = new PreviewDoorCommand(this._receiver);
         }
 
         public void AddWall()
@@ -136,6 +137,12 @@ namespace ARC_Itecture
             if(shapeHistory.Item3 == "Area")
             {
                 _mainWindow.canvas.Children.RemoveRange(index-1, 2);
+            }
+            else if(shapeHistory.Item3 == "Window")
+            {
+                Rectangle rect = shapeHistory.Item1 as Rectangle;
+                _receiver.UpdateAvailableWindowList(rect);
+                _mainWindow.canvas.Children.RemoveAt(index);
             }
             else
             {

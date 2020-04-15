@@ -21,8 +21,10 @@ namespace ARC_Itecture.DrawCommand
         private Queue<Point> _wallPoints;
         private Stack<Point> _areaPoints;
         private Stack<Point> _windowPoints;
+        private Stack<Point> _doorPoints;
         private List<Line> _currentWalls;
-        private List<Rect> _walls;
+        private List<Rect> _windowAvailableWalls;
+        private List<Rect> _doorAvailableWalls;
         private Plan _plan;
         private Shape _lastShape;
         private ViewModel _viewModel;
@@ -37,8 +39,10 @@ namespace ARC_Itecture.DrawCommand
             this._wallPoints = new Queue<Point>();
             this._areaPoints = new Stack<Point>();
             this._windowPoints = new Stack<Point>();
+            this._doorPoints = new Stack<Point>();
             this._currentWalls = new List<Line>();
-            this._walls = new List<Rect>();
+            this._windowAvailableWalls = new List<Rect>();
+            this._doorAvailableWalls = new List<Rect>();
             this._plan = viewModel.plan;
             this._viewModel = viewModel;
         }
@@ -53,11 +57,10 @@ namespace ARC_Itecture.DrawCommand
                 Point p1 = _windowPoints.Pop();
 
                 this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
-                //_plan.AddComponent(p1, p2, componentType);
 
                 Rect rect = new Rect(Canvas.GetLeft(_lastShape), Canvas.GetTop(_lastShape), _lastShape.Width, _lastShape.Height);
 
-                foreach(Rect wall in _walls)
+                foreach(Rect wall in _windowAvailableWalls)
                 {
                     Rect intersect = Rect.Intersect(rect, wall);
 
@@ -85,7 +88,7 @@ namespace ARC_Itecture.DrawCommand
                             MainWindow.main.History = "Window";
                             _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(rectangle, houseWindow, "Window"));
 
-                            _walls.Remove(wall);
+                            _windowAvailableWalls.Remove(wall);
 
                             break; // Allows not to draw 2 windows on parallel walls
                         }
@@ -140,11 +143,6 @@ namespace ARC_Itecture.DrawCommand
                 MainWindow.main.History = "Area";
                 _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(tb, area, "Area"));
 
-                foreach(Object child in _canvas.Children)
-                {
-                    Debug.WriteLine(child.ToString());
-                }
-
                 _lastShape = null;
             }
         }
@@ -180,7 +178,65 @@ namespace ARC_Itecture.DrawCommand
 
         public void DrawDoor(Point p)
         {
-            throw new NotImplementedException();
+            _doorPoints.Push(p);
+
+            if (_doorPoints.Count == 2)
+            {
+                Point p2 = _doorPoints.Pop();
+                Point p1 = _doorPoints.Pop();
+
+                this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
+
+                Rect rect = new Rect(Canvas.GetLeft(_lastShape), Canvas.GetTop(_lastShape), _lastShape.Width, _lastShape.Height);
+
+                foreach (Rect wall in _doorAvailableWalls)
+                {
+                    Rect intersect = Rect.Intersect(rect, wall);
+
+                    if (!intersect.IsEmpty)
+                    {
+                        if ((intersect.X > wall.X && intersect.X + intersect.Width < wall.X + wall.Width) ||
+                            (intersect.Y > wall.Y && intersect.Y + intersect.Height < wall.Y + wall.Height))
+                        {
+                            Rectangle rectangle = new Rectangle();
+                            rectangle.Fill = Application.Current.TryFindResource("PrimaryHueLightBrush") as SolidColorBrush;
+
+                            Canvas.SetLeft(rectangle, intersect.X - (WINDOW_OFFSET / 2));
+                            Canvas.SetTop(rectangle, intersect.Y - (WINDOW_OFFSET / 2));
+
+                            rectangle.Width = intersect.Width + WINDOW_OFFSET;
+                            rectangle.Height = intersect.Height + WINDOW_OFFSET;
+
+                            _canvas.Children.Add(rectangle);
+
+                            Door door = _plan.AddDoor(new Point(intersect.X, intersect.Y),
+                               new Point(intersect.X + intersect.Width, intersect.Y + intersect.Height),
+                               new Point(wall.X, wall.Y),
+                               new Point(wall.X + wall.Width, wall.Y + wall.Height));
+
+                            MainWindow.main.History = "Door";
+                            _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(rectangle, door, "Door"));
+
+                            break; // Allows not to draw 2 doors on parallel walls
+                        }
+                    }
+                }
+
+                _canvas.Children.Remove(_lastShape);
+                _lastShape = null;
+            }
+        }
+
+        public void DrawDoorPreview(Point p)
+        {
+            _fillBrush = new SolidColorBrush(Color.FromArgb(50, 255, 255, 255));
+            Rectangle lastRectangle = _lastShape as Rectangle;
+
+            if (lastRectangle != null)
+                _canvas.Children.Remove(lastRectangle);
+
+            if (_doorPoints.Count > 0)
+                _lastShape = DrawRectangle(_doorPoints.Peek(), p);
         }
 
         public void DrawWall(Point p)
@@ -196,7 +252,8 @@ namespace ARC_Itecture.DrawCommand
                 Point realP1 = new Point(line.X1, line.Y1);
                 Point realP2 = new Point(line.X2, line.Y2);
 
-                _walls.Add(new Rect(realP1, realP2));
+                _windowAvailableWalls.Add(new Rect(realP1, realP2));
+                _doorAvailableWalls.Add(new Rect(realP1, realP2));
                 Segment segment = _plan.AddWall(realP1, realP2);
 
                 Intersection intersection = MathUtil.LineIntersect(line, _currentWalls);
@@ -293,6 +350,48 @@ namespace ARC_Itecture.DrawCommand
             _canvas.Children.Add(rectangle);
 
             return rectangle;
+        }
+
+        public void UpdateAvailableWindowList(Rectangle rect)
+        {
+            /* MessageBox.Show("left : " + Canvas.GetLeft(rect));
+             MessageBox.Show("top : " + Canvas.GetTop(rect));
+             MessageBox.Show("width : " + rect.Width);
+             MessageBox.Show("height : " + rect.Height);*/
+
+            Line line = FindSegmentByWindow(rect);
+
+            Point realP1 = new Point(line.X1, line.Y1);
+            Point realP2 = new Point(line.X2, line.Y2);
+
+            _windowAvailableWalls.Add(new Rect(realP1, realP2));
+
+        }
+
+        private Line FindSegmentByWindow(Rectangle rect)
+        {
+            double x = Canvas.GetLeft(rect);
+            double y = Canvas.GetTop(rect);
+            double width = rect.Width;
+            double height = rect.Height;
+
+            Line wall = null;
+
+            foreach(UIElement element in _canvas.Children)
+            {
+                Line line = element as Line;
+                if(line != null)
+                {
+                    if(x > line.X1 && x +width < line.X2 ||
+                       x > line.X2 && x +width< line.X1 || 
+                       y > line.Y1 && y + height< line.Y2 ||
+                       y > line.Y2 && y + height< line.Y1)
+                    {
+                        wall = line;
+                    }
+                }
+            }
+            return wall;
         }
 
     }

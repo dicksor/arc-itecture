@@ -8,7 +8,6 @@ namespace ARC_Itecture.Utils
 {
     class MathUtil
     {
-
         public static double ComputeAngle(Point p1, Point p2)
         {
             double dX = Math.Abs(p2.X - p1.X);

@@ -34,6 +34,7 @@ public class Plan
     public List<Door> doors;
 
     private const string SEGMENT_STRING = "seg";
+    private const string DOOR_STRING = "door";
 
     public Plan()
     {
@@ -93,6 +94,7 @@ public class Plan
 
         Segment segment = new Segment(SEGMENT_STRING + Segment.nbSegment, start, stop);
         segments.Add(segment);
+
         return segment;
     }
 
@@ -100,6 +102,25 @@ public class Plan
     {
         entryPoint.Add((float) p.X);
         entryPoint.Add((float) p.Y);
+    }
+
+    public Door AddDoor(Point point1, Point point2, Point wall1, Point wall2)
+    {
+        Segment wall = FindSegmentByCoords(wall1, wall2);
+
+        Door.NbDoor++;
+        List<float> start = new List<float>() { (float)point1.X, (float)point1.Y };
+        List<float> stop = new List<float>() { (float)point2.X, (float)point2.Y };
+
+        Door door = new Door(DOOR_STRING + Door.NbDoor, start, stop);
+        Tuple<Segment, Segment> newSeg = door.BreakDoor(wall);
+        segments.Add(newSeg.Item1);
+        segments.Add(newSeg.Item2);
+        RemoveObject(wall);
+
+        doors.Add(door);
+
+        return door;
     }
 
     public void ImportDraw(Receiver receiver, Invoker invoker)

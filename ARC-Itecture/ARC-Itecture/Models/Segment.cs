@@ -31,8 +31,7 @@ public class Segment
     public Segment FindSegmentByCoord(Point p1, Point p2)
     {
         Segment s = null;
-        if(Window == null)
-        {
+
             if(Math.Floor(p1.X) == Math.Floor(Start[0]) && 
                Math.Floor(p1.Y) == Math.Floor(Start[1]) && 
                Math.Floor(p2.X) == Math.Floor(Stop[0]) && 
@@ -40,7 +39,7 @@ public class Segment
             {
                 s = this;
             }
-        }
+
         return s;
     }
 }
