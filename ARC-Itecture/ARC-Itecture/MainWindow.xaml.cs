@@ -30,7 +30,7 @@ namespace ARC_Itecture
             _snackbarMessageQueue = new SnackbarMessageQueue();
             Snackbar.MessageQueue = _snackbarMessageQueue;
 
-            DataContext = _viewModel.plan;
+            DataContext = _viewModel._plan;
 
             KeyDown += new KeyEventHandler(MainWindow_KeyDown);
 

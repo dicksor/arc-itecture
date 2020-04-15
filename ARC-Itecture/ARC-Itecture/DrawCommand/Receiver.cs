@@ -39,7 +39,7 @@ namespace ARC_Itecture.DrawCommand
             this._windowPoints = new Stack<Point>();
             this._currentWalls = new List<Line>();
             this._walls = new List<Rect>();
-            this._plan = viewModel.plan;
+            this._plan = viewModel._plan;
             this._viewModel = viewModel;
         }
 
@@ -83,7 +83,7 @@ namespace ARC_Itecture.DrawCommand
                                new Point(wall.X + wall.Width, wall.Y + wall.Height));
 
                             MainWindow.main.History = "Window";
-                            _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(rectangle, houseWindow, "Window"));
+                            _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(rectangle, houseWindow, "Window"));
 
                             _walls.Remove(wall);
 
@@ -138,7 +138,7 @@ namespace ARC_Itecture.DrawCommand
                 _canvas.Children.Add(tb);
 
                 MainWindow.main.History = "Area";
-                _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(tb, area, "Area"));
+                _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(tb, area, "Area"));
 
                 foreach(Object child in _canvas.Children)
                 {
@@ -173,7 +173,7 @@ namespace ARC_Itecture.DrawCommand
             _canvas.Children.Add(cameraImage);
 
             MainWindow.main.History = "Camera";
-            _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(cameraImage, cameraImage, "Camera"));
+            _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(cameraImage, cameraImage, "Camera"));
 
             _plan.AddCamera(p);
         }
@@ -226,7 +226,7 @@ namespace ARC_Itecture.DrawCommand
                 _currentWalls.Add(line);
 
                 MainWindow.main.History = "Wall";
-                _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(line, segment, "Wall"));
+                _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(line, segment, "Wall"));
 
                 line.MouseEnter += (s, e) => Mouse.OverrideCursor = Cursors.Cross;
                 line.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;

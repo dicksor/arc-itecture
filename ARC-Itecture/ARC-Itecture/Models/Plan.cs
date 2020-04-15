@@ -28,25 +28,28 @@ public class Plan
     [JsonProperty("doorH2")]
     public float DoorH2 { get; set; }
 
-    public List<float> entryPoint;
-    public List<Segment> segments;
-    public List<Area> areas;
-    public List<Door> doors;
+    public List<float> _entryPoint;
+    public List<Segment> _segments;
+    public List<Area> _areas;
+    public List<Door> _doors;
+
+    private double _gridRatio;
 
     private const string SEGMENT_STRING = "seg";
 
-    public Plan()
+    public Plan(Rect bounds)
     {
-        entryPoint = new List<float>(); // camera
-        segments = new List<Segment>(); // wall
-        areas = new List<Area>(); // areas
-        doors = new List<Door>(); // doors
+        this._gridRatio = bounds.Width;
+        _entryPoint = new List<float>(); // camera
+        _segments = new List<Segment>(); // wall
+        _areas = new List<Area>(); // areas
+        _doors = new List<Door>(); // doors
     }
 
     private Segment FindSegmentByCoords(Point p1, Point p2)
     {
         Segment segment = null;
-        foreach(Segment s in segments)
+        foreach(Segment s in _segments)
         {
             Segment currentOneTwo = s.FindSegmentByCoord(p1, p2);
             if(currentOneTwo != null)
@@ -65,6 +68,11 @@ public class Plan
 
     public HouseWindow AddWindow(Point window1, Point window2, Point wall1, Point wall2)
     {
+        ScaleGeometry(ref window1);
+        ScaleGeometry(ref window2);
+        ScaleGeometry(ref wall1);
+        ScaleGeometry(ref wall2);
+
         Segment wall = FindSegmentByCoords(wall1, wall2);
         HouseWindow houseWindow = new HouseWindow(new List<float>() { (float)window1.X, (float)window1.Y}, new List<float>() { (float)window2.X, (float)window2.Y});
         wall.Window = houseWindow;
@@ -73,6 +81,9 @@ public class Plan
 
     public Area AddArea(Point point1, Point point2, string areaTypeName)
     {
+        ScaleGeometry(ref point1);
+        ScaleGeometry(ref point2);
+
         List<List<float>> corners = new List<List<float>>
             {
                 new List<float>() { (float)point1.X, (float)point1.Y },
@@ -81,38 +92,43 @@ public class Plan
                 new List<float>() { (float)point1.X, (float)point2.Y }
             };
         Area area = new Area(areaTypeName, corners);
-        areas.Add(area);
+        _areas.Add(area);
         return area;
     }
 
     public Segment AddWall(Point point1, Point point2)
     {
+        ScaleGeometry(ref point1);
+        ScaleGeometry(ref point2);
+
         Segment.nbSegment++;
         List<float> start = new List<float>() { (float)point1.X, (float)point1.Y };
         List<float> stop = new List<float>() { (float)point2.X, (float)point2.Y };
 
         Segment segment = new Segment(SEGMENT_STRING + Segment.nbSegment, start, stop);
-        segments.Add(segment);
+        _segments.Add(segment);
         return segment;
     }
 
     public void AddCamera(Point p)
     {
-        entryPoint.Add((float) p.X);
-        entryPoint.Add((float) p.Y);
+        ScaleGeometry(ref p);
+
+        _entryPoint.Add((float) p.X);
+        _entryPoint.Add((float) p.Y);
     }
 
     public void ImportDraw(Receiver receiver, Invoker invoker)
     {
         // Entry points
         invoker.DrawCommand = new CameraCommand(receiver);
-        if(entryPoint.Count != 0)
+        if(_entryPoint.Count != 0)
         {
-            invoker.InvokeClick(new Point(entryPoint[0], entryPoint[1]));
+            invoker.InvokeClick(new Point(_entryPoint[0], _entryPoint[1]));
         }
 
         // Areas
-        foreach (Area area in areas)
+        foreach (Area area in _areas)
         {
             invoker.DrawCommand = new AreaCommand(receiver, area.Type);
             invoker.PreviewCommand = new PreviewAreaCommand(receiver);
@@ -128,7 +144,7 @@ public class Plan
         }
 
         // Segments
-        foreach(Segment segment in segments)
+        foreach(Segment segment in _segments)
         {
             invoker.DrawCommand = new WallCommand(receiver);
             invoker.InvokeClick(new Point(segment.Start[0], segment.Start[1]));
@@ -154,11 +170,11 @@ public class Plan
         switch(obj)
         {
             case Segment s:
-                segments.Remove(s);
+                _segments.Remove(s);
                 Debug.WriteLine("Remove segment");
                 break;
             case Area a:
-                areas.Remove(a);
+                _areas.Remove(a);
                 Debug.WriteLine("Remove area");
                 break;
             case HouseWindow w:
@@ -182,7 +198,7 @@ public class Plan
         List<HouseWindow> hw = ListWindows();
         
         int index = hw.IndexOf(w);
-        segments[index].Window = null;
+        _segments[index].Window = null;
 
         Debug.WriteLine(index);
     }
@@ -191,11 +207,17 @@ public class Plan
     {
         List<HouseWindow> hw = new List<HouseWindow>();
 
-        foreach(Segment s in segments)
+        foreach(Segment s in _segments)
         {
             hw.Add(s.Window);
         } 
 
         return hw;
+    }
+
+    private void ScaleGeometry(ref Point point)
+    {
+        point.X /= _gridRatio;
+        point.Y /= _gridRatio;
     }
 }

@@ -91,7 +91,7 @@
                             <DrawingBrush.Drawing>
                                 <GeometryDrawing Brush="Black">
                                     <GeometryDrawing.Geometry>
-                                        <RectangleGeometry Rect="0,0,20,20"/>
+                                        <RectangleGeometry x:Name="gridGeometry" Rect="0,0,20,20"/>
                                     </GeometryDrawing.Geometry>
                                     <GeometryDrawing.Pen>
                                         <Pen Brush="Gray" Thickness="0.2"/>
