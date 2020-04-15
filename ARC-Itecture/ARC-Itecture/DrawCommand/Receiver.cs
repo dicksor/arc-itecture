@@ -43,7 +43,7 @@ namespace ARC_Itecture.DrawCommand
             this._currentWalls = new List<Line>();
             this._windowAvailableWalls = new List<Rect>();
             this._doorAvailableWalls = new List<Rect>();
-            this._plan = viewModel.plan;
+            this._plan = viewModel._plan;
             this._viewModel = viewModel;
         }
 
@@ -86,7 +86,7 @@ namespace ARC_Itecture.DrawCommand
                                new Point(wall.X + wall.Width, wall.Y + wall.Height));
 
                             MainWindow.main.History = "Window";
-                            _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(rectangle, houseWindow, "Window"));
+                            _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(rectangle, houseWindow, "Window"));
 
                             _windowAvailableWalls.Remove(wall);
 
@@ -141,7 +141,7 @@ namespace ARC_Itecture.DrawCommand
                 _canvas.Children.Add(tb);
 
                 MainWindow.main.History = "Area";
-                _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(tb, area, "Area"));
+                _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(tb, area, "Area"));
 
                 _lastShape = null;
             }
@@ -171,7 +171,7 @@ namespace ARC_Itecture.DrawCommand
             _canvas.Children.Add(cameraImage);
 
             MainWindow.main.History = "Camera";
-            _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(cameraImage, cameraImage, "Camera"));
+            _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(cameraImage, cameraImage, "Camera"));
 
             _plan.AddCamera(p);
         }
@@ -215,7 +215,7 @@ namespace ARC_Itecture.DrawCommand
                                new Point(wall.X + wall.Width, wall.Y + wall.Height));
 
                             MainWindow.main.History = "Door";
-                            _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(rectangle, door, "Door"));
+                            _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(rectangle, door, "Door"));
 
                             break; // Allows not to draw 2 doors on parallel walls
                         }
@@ -283,7 +283,7 @@ namespace ARC_Itecture.DrawCommand
                 _currentWalls.Add(line);
 
                 MainWindow.main.History = "Wall";
-                _viewModel.stackHistory.Push(new Tuple<Object, Object, string>(line, segment, "Wall"));
+                _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(line, segment, "Wall"));
 
                 line.MouseEnter += (s, e) => Mouse.OverrideCursor = Cursors.Cross;
                 line.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;

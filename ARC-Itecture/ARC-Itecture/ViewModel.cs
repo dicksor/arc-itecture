@@ -18,8 +18,8 @@ namespace ARC_Itecture
         public MainWindow _mainWindow { get; private set; }
         private Invoker _invoker;
         public Receiver _receiver { get; private set; }
-        public Plan plan { get; private set; }
-        public Stack<Tuple<Object, Object, String>> stackHistory { get; set; }
+        public Plan _plan { get; private set; }
+        public Stack<Tuple<Object, Object, String>> _stackHistory { get; set; }
 
         public IDrawCommand Command => _invoker.DrawCommand;
 
@@ -27,10 +27,10 @@ namespace ARC_Itecture
 
         public ViewModel(MainWindow mainWindow)
         {
-            stackHistory = new Stack<Tuple<Object, Object, string>>();
-            _mainWindow = mainWindow;
+            this._stackHistory = new Stack<Tuple<Object, Object, string>>();
+            this._mainWindow = mainWindow;
             this._invoker = new Invoker();
-            plan = new Plan();
+            this._plan = new Plan(this._mainWindow.gridGeometry.Bounds);
             this._receiver = new Receiver(this);
         }
 
@@ -110,28 +110,27 @@ namespace ARC_Itecture
 
         public void LoadJson(string filename)
         {
-            plan = JsonConvert.DeserializeObject<Plan>(File.ReadAllText(filename));
-            plan.ImportDraw(_receiver, _invoker);
+            _plan = JsonConvert.DeserializeObject<Plan>(File.ReadAllText(filename));
+            _plan.ImportDraw(_receiver, _invoker);
 
-            _mainWindow.textBoxDoorH2.Text = plan.DoorH2.ToString();
-            _mainWindow.textBoxWallHeight.Text = plan.WallHeight.ToString();
-            _mainWindow.textBoxWallWidth.Text = plan.WallWidth.ToString();
-            _mainWindow.textBoxWindowH1.Text = plan.WindowH1.ToString();
-            _mainWindow.textBoxWindowH2.Text = plan.WindowH2.ToString();
+            _mainWindow.textBoxDoorH2.Text = _plan.DoorH2.ToString();
+            _mainWindow.textBoxWallHeight.Text = _plan.WallHeight.ToString();
+            _mainWindow.textBoxWallWidth.Text = _plan.WallWidth.ToString();
+            _mainWindow.textBoxWindowH1.Text = _plan.WindowH1.ToString();
+            _mainWindow.textBoxWindowH2.Text = _plan.WindowH2.ToString();
         }
 
         public void SaveJson(string filename)
         {
-            //MessageBox.Show(plan.segments[0].Window.Start[0].ToString());
             using (StreamWriter file = File.CreateText(filename))
             {
-                (new JsonSerializer()).Serialize(file, plan);
+                (new JsonSerializer()).Serialize(file, _plan);
             }
         }
 
         public void RemoveFromHistory()
         {
-            Tuple<Object, Object, String> shapeHistory = stackHistory.Pop();
+            Tuple<Object, Object, String> shapeHistory = _stackHistory.Pop();
 
             int index = _mainWindow.canvas.Children.IndexOf(shapeHistory.Item1 as UIElement);
             if(shapeHistory.Item3 == "Area")
@@ -149,16 +148,17 @@ namespace ARC_Itecture
                 _mainWindow.canvas.Children.RemoveAt(index);
             }
 
-            plan.RemoveObject(shapeHistory.Item2);
+            _plan.RemoveObject(shapeHistory.Item2);
         }
 
         public void ClearCanvas()
         {
             _mainWindow.canvas.Children.Clear();
-            plan = new Plan();
+            _plan = new Plan(_mainWindow.gridGeometry.Bounds);
             _receiver = new Receiver(this);
             _invoker = new Invoker();
             CameraCommand.ResetIsAlreadyUsed();
+            _stackHistory.Clear();
         }
 
         public void StartNewWall()

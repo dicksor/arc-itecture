@@ -30,7 +30,7 @@ namespace ARC_Itecture
             _snackbarMessageQueue = new SnackbarMessageQueue();
             Snackbar.MessageQueue = _snackbarMessageQueue;
 
-            DataContext = _viewModel.plan;
+            DataContext = _viewModel._plan;
 
             KeyDown += new KeyEventHandler(MainWindow_KeyDown);
 
@@ -118,34 +118,54 @@ namespace ARC_Itecture
 
         private void ButtonCreatePlan_Click(object sender, RoutedEventArgs e)
         {
+            CreatePlan();
+        }
+
+        private void CreatePlan()
+        {
             _viewModel.ClearCanvas();
+            listBoxHistory.Items.Clear();
 
             buttonAddArea.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
             buttonAddCamera.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
             buttonAddDoor.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
             buttonAddWindow.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
             buttonAddWall.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
+
+            _snackbarMessageQueue.Enqueue("New plan");
         }
 
         private void ButtonSavePlan_Click(object sender, RoutedEventArgs e)
         {
+            SaveDialog();
+        }
+
+        private void SaveDialog()
+        {
             SaveFileDialog dlg = new SaveFileDialog { FileName = "Plan", DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
 
-            if(dlg.ShowDialog() == true)
+            if (dlg.ShowDialog() == true)
             {
                 _viewModel.SaveJson(dlg.FileName);
+                _snackbarMessageQueue.Enqueue("Plan saved");
             }
         }
 
         private void ButtonLoadPlan_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog{DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
+            LoadDialog();
+        }
+
+        private void LoadDialog()
+        {
+            OpenFileDialog dlg = new OpenFileDialog { DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
 
             if (dlg.ShowDialog() == true)
             {
                 if (Path.GetExtension(dlg.FileName) == ".json")
                 {
                     _viewModel.LoadJson(dlg.FileName);
+                    _snackbarMessageQueue.Enqueue("Plan opened");
                 }
                 else
                 {
@@ -181,16 +201,29 @@ namespace ARC_Itecture
                 _viewModel.AddWall();
                 ColorCommand(FindName("buttonAddWall") as Button);
             }
-            else if(e.Key == Key.Escape)
+            else if (e.Key == Key.Escape)
             {
                 _viewModel.StartNewWall();
                 _snackbarMessageQueue.Enqueue("Will start drawing from new point");
             }
-            else if(e.Key == Key.Z && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            else if (e.Key == Key.Z && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
                 CleanHistory();
             }
+            else if (e.Key == Key.S && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                SaveDialog();
+            }
+            else if (e.Key == Key.O && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                LoadDialog();
+            }
+            else if (e.Key == Key.N && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                CreatePlan();
+            }
         }
+
         private void buttonRemoveLastHistory_Click(object sender, RoutedEventArgs e)
         {
 
