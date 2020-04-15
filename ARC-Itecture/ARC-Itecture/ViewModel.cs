@@ -152,6 +152,7 @@ namespace ARC_Itecture
             _receiver = new Receiver(this);
             _invoker = new Invoker();
             CameraCommand.ResetIsAlreadyUsed();
+            stackHistory.Clear();
         }
 
         public void StartNewWall()
