@@ -124,12 +124,15 @@ namespace ARC_Itecture
         private void CreatePlan()
         {
             _viewModel.ClearCanvas();
+            listBoxHistory.Items.Clear();
 
             buttonAddArea.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
             buttonAddCamera.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
             buttonAddDoor.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
             buttonAddWindow.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
             buttonAddWall.Style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
+
+            _snackbarMessageQueue.Enqueue("New plan");
         }
 
         private void ButtonSavePlan_Click(object sender, RoutedEventArgs e)
@@ -144,6 +147,7 @@ namespace ARC_Itecture
             if (dlg.ShowDialog() == true)
             {
                 _viewModel.SaveJson(dlg.FileName);
+                _snackbarMessageQueue.Enqueue("Plan saved");
             }
         }
 
@@ -161,6 +165,7 @@ namespace ARC_Itecture
                 if (Path.GetExtension(dlg.FileName) == ".json")
                 {
                     _viewModel.LoadJson(dlg.FileName);
+                    _snackbarMessageQueue.Enqueue("Plan opened");
                 }
                 else
                 {
