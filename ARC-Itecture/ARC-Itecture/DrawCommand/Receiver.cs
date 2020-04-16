@@ -236,6 +236,7 @@ namespace ARC_Itecture.DrawCommand
                         _canvas.Children.Add(rectangle);
 
                         Door door = _plan.AddDoor(doorAnchorPoints[0], doorAnchorPoints[1]);
+                        MainWindow.main.History = "Door";
                         _viewModel._stackHistory.Push(new Tuple<object, object, string>(rectangle, door, "Door"));
                     }
                 }    

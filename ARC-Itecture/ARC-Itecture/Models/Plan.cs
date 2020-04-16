@@ -215,6 +215,10 @@ public class Plan
                 this.RemoveWindow(w);
                 Debug.WriteLine("Remove window");
                 break;
+            case Door d:
+                _doors.Remove(d);
+                Debug.WriteLine("Remove door");
+                break;
             case System.Windows.Controls.Image i:
                 CameraCommand.ResetIsAlreadyUsed();
                 Debug.WriteLine("Remove camera");
