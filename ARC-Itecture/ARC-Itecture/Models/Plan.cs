@@ -76,10 +76,10 @@ public class Plan
 
     public HouseWindow AddWindow(Point window1, Point window2, Point wall1, Point wall2)
     {
-        ScaleGeometry(ref window1);
-        ScaleGeometry(ref window2);
-        ScaleGeometry(ref wall1);
-        ScaleGeometry(ref wall2);
+        ScaleGeometrySave(ref window1);
+        ScaleGeometrySave(ref window2);
+        ScaleGeometrySave(ref wall1);
+        ScaleGeometrySave(ref wall2);
 
         Segment wall = FindSegmentByCoords(wall1, wall2);
         HouseWindow houseWindow = new HouseWindow(new List<float>() { (float)window1.X, (float)window1.Y}, new List<float>() { (float)window2.X, (float)window2.Y});
@@ -89,8 +89,8 @@ public class Plan
 
     public Area AddArea(Point point1, Point point2, string areaTypeName)
     {
-        ScaleGeometry(ref point1);
-        ScaleGeometry(ref point2);
+        ScaleGeometrySave(ref point1);
+        ScaleGeometrySave(ref point2);
 
         List<List<float>> corners = new List<List<float>>
             {
@@ -106,8 +106,8 @@ public class Plan
 
     public Segment AddWall(Point point1, Point point2)
     {
-        ScaleGeometry(ref point1);
-        ScaleGeometry(ref point2);
+        ScaleGeometrySave(ref point1);
+        ScaleGeometrySave(ref point2);
 
         Segment.nbSegment++;
         List<float> start = new List<float>() { (float)point1.X, (float)point1.Y };
@@ -120,25 +120,19 @@ public class Plan
 
     public void AddCamera(Point p)
     {
-        ScaleGeometry(ref p);
-
+        ScaleGeometrySave(ref p);
+     
         _entryPoint.Add((float) p.X);
         _entryPoint.Add((float) p.Y);
     }
 
-    public Door AddDoor(Point point1, Point point2, Point wall1, Point wall2)
+    public Door AddDoor(Point point1, Point point2)
     {
-        Segment wall = FindSegmentByCoords(wall1, wall2);
-
         Door.NbDoor++;
         List<float> start = new List<float>() { (float)point1.X, (float)point1.Y };
         List<float> stop = new List<float>() { (float)point2.X, (float)point2.Y };
 
         Door door = new Door(DOOR_STRING + Door.NbDoor, start, stop);
-        Tuple<Segment, Segment> newSeg = door.BreakDoor(wall);
-        _segments.Add(newSeg.Item1);
-        _segments.Add(newSeg.Item2);
-        RemoveObject(wall);
 
         _doors.Add(door);
 
@@ -189,6 +183,19 @@ public class Plan
      
                 invoker.InvokeClick(new Point(segment.Window.Stop[0], segment.Window.Stop[1]));
             }
+        }
+
+        foreach(Door door in _doors)
+        {
+            invoker.DrawCommand = new DoorCommand(receiver);
+            invoker.PreviewCommand = new PreviewDoorCommand(receiver);
+
+            invoker.InvokeClick(new Point(door.Start[0], door.Start[1]));
+
+            invoker.InvokeMouseMove(new Point(door.Start[0], door.Start[1]));
+            invoker.InvokeMouseMove(new Point(door.Stop[0], door.Stop[1]));
+
+            invoker.InvokeClick(new Point(door.Stop[0], door.Stop[1]));
         }
     }
 
@@ -242,7 +249,7 @@ public class Plan
         return hw;
     }
 
-    private void ScaleGeometry(ref Point point)
+    private void ScaleGeometrySave(ref Point point)
     {
         point.X /= _gridRatio;
         point.Y /= _gridRatio;
