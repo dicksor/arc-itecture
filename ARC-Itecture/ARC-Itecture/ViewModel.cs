@@ -111,6 +111,7 @@ namespace ARC_Itecture
         public void LoadJson(string filename)
         {
             _plan = JsonConvert.DeserializeObject<Plan>(File.ReadAllText(filename));
+            _plan.GridRatio = _mainWindow.gridGeometry.Bounds.Width;
             _plan.ImportDraw(_receiver, _invoker);
 
             _mainWindow.textBoxDoorH2.Text = _plan.DoorH2.ToString();

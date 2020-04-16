@@ -40,6 +40,14 @@ public class Plan
     [JsonProperty("doors")]
     public List<Door> _doors;
 
+    public double GridRatio
+    {
+        set
+        {
+            _gridRatio = value;
+        }
+    }
+
     private double _gridRatio;
 
     private const string SEGMENT_STRING = "seg";
@@ -145,7 +153,8 @@ public class Plan
         invoker.DrawCommand = new CameraCommand(receiver);
         if(_entryPoint.Count != 0)
         {
-            invoker.InvokeClick(new Point(_entryPoint[0], _entryPoint[1]));
+            Point cameraPoint = ScaleGeometryLoad(new Point(_entryPoint[0], _entryPoint[1]));
+            invoker.InvokeClick(cameraPoint);
         }
 
         // Areas
@@ -155,33 +164,36 @@ public class Plan
             invoker.PreviewCommand = new PreviewAreaCommand(receiver);
 
             Tuple<PointF, PointF> minMaxPoints = area.GetMinMaxPoints();
+            Point areaTopLeftPoint = ScaleGeometryLoad(new Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
+            invoker.InvokeClick(areaTopLeftPoint);
+            invoker.InvokeMouseMove(areaTopLeftPoint);
 
-            invoker.InvokeClick(new Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
-
-            invoker.InvokeMouseMove(new Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
-            invoker.InvokeMouseMove(new Point(minMaxPoints.Item2.X, minMaxPoints.Item2.Y));
-
-            invoker.InvokeClick(new Point(minMaxPoints.Item2.X, minMaxPoints.Item2.Y));
+            Point areaBottomRightPoint = ScaleGeometryLoad(new Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
+            invoker.InvokeMouseMove(areaBottomRightPoint);
+            invoker.InvokeClick(areaBottomRightPoint);
         }
 
         // Segments
         foreach(Segment segment in _segments)
         {
             invoker.DrawCommand = new WallCommand(receiver);
-            invoker.InvokeClick(new Point(segment.Start[0], segment.Start[1]));
-            invoker.InvokeClick(new Point(segment.Stop[0], segment.Stop[1]));
+            Point wallStartPoint = ScaleGeometryLoad(new Point(segment.Start[0], segment.Start[1]));
+            invoker.InvokeClick(wallStartPoint);
+            Point wallEndPoint = ScaleGeometryLoad(new Point(segment.Stop[0], segment.Stop[1]));
+            invoker.InvokeClick(wallEndPoint);
 
             if (segment.Window != null)
             {
                 invoker.PreviewCommand = new PreviewWindowCommand(receiver);
                 invoker.DrawCommand = new WindowCommand(receiver);
 
-                invoker.InvokeClick(new Point(segment.Window.Start[0], segment.Window.Start[1]));
+                Point windowStartPoint = ScaleGeometryLoad(new Point(segment.Window.Start[0], segment.Window.Start[1]));
+                invoker.InvokeClick(windowStartPoint);
+                invoker.InvokeMouseMove(windowStartPoint);
 
-                invoker.InvokeMouseMove(new Point(segment.Window.Start[0], segment.Window.Start[1]));
-                invoker.InvokeMouseMove(new Point(segment.Window.Stop[0], segment.Window.Stop[1]));
-     
-                invoker.InvokeClick(new Point(segment.Window.Stop[0], segment.Window.Stop[1]));
+                Point windowEndPoint = ScaleGeometryLoad(new Point(segment.Window.Stop[0], segment.Window.Stop[1]));
+                invoker.InvokeMouseMove(windowEndPoint);
+                invoker.InvokeClick(windowEndPoint);
             }
         }
 
@@ -190,12 +202,13 @@ public class Plan
             invoker.DrawCommand = new DoorCommand(receiver);
             invoker.PreviewCommand = new PreviewDoorCommand(receiver);
 
-            invoker.InvokeClick(new Point(door.Start[0], door.Start[1]));
-
+            Point doorStart = ScaleGeometryLoad(new Point(door.Start[0], door.Start[1]));
+            invoker.InvokeClick(doorStart);
             invoker.InvokeMouseMove(new Point(door.Start[0], door.Start[1]));
-            invoker.InvokeMouseMove(new Point(door.Stop[0], door.Stop[1]));
 
-            invoker.InvokeClick(new Point(door.Stop[0], door.Stop[1]));
+            Point doorEnd = ScaleGeometryLoad(new Point(door.Stop[0], door.Stop[1]));
+            invoker.InvokeMouseMove(doorEnd);
+            invoker.InvokeClick(doorEnd);
         }
     }
 
@@ -252,5 +265,15 @@ public class Plan
     {
         point.X /= _gridRatio;
         point.Y /= _gridRatio;
+    }
+
+    private Point ScaleGeometryLoad(Point point)
+    {
+        Point canvasScaledPoint = new Point();
+
+        canvasScaledPoint.X = point.X * _gridRatio;
+        canvasScaledPoint.Y = point.Y * _gridRatio;
+
+        return canvasScaledPoint;
     }
 }
