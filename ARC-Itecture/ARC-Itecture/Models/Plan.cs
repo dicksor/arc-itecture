@@ -205,23 +205,18 @@ public class Plan
         {
             case Segment s:
                 _segments.Remove(s);
-                Debug.WriteLine("Remove segment");
                 break;
             case Area a:
                 _areas.Remove(a);
-                Debug.WriteLine("Remove area");
                 break;
             case HouseWindow w:
                 this.RemoveWindow(w);
-                Debug.WriteLine("Remove window");
                 break;
             case Door d:
                 _doors.Remove(d);
-                Debug.WriteLine("Remove door");
                 break;
             case System.Windows.Controls.Image i:
                 CameraCommand.ResetIsAlreadyUsed();
-                Debug.WriteLine("Remove camera");
                 break;
             default:
                 Debug.WriteLine("<unknown shape>");
