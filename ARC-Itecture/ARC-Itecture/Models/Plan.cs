@@ -1,4 +1,13 @@
-﻿using ARC_Itecture;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+
+using ARC_Itecture;
 using ARC_Itecture.DrawCommand;
 using ARC_Itecture.DrawCommand.Commands;
 using Newtonsoft.Json;
@@ -62,6 +71,13 @@ public class Plan
         _doors = new List<Door>(); // doors
     }
 
+    /// <summary>
+    /// Find segment in the plan list by this coordinates.
+    /// Find segment from point 1 to point 2 and from point 2 to point 1.
+    /// </summary>
+    /// <param name="p1">Segment point 1</param>
+    /// <param name="p2">Segment point 2</param>
+    /// <returns>The finded segment</returns>
     private Segment FindSegmentByCoords(Point p1, Point p2)
     {
         Segment segment = null;
@@ -82,6 +98,14 @@ public class Plan
         return segment;
     }
 
+    /// <summary>
+    /// Add a window to a plan.  
+    /// </summary>
+    /// <param name="window1">Window first point</param>
+    /// <param name="window2">Window second point</param>
+    /// <param name="wall1">Attached wall first point</param>
+    /// <param name="wall2">Attached wall second point</param>
+    /// <returns>Created HouseWindow object</returns>
     public HouseWindow AddWindow(Point window1, Point window2, Point wall1, Point wall2)
     {
         ScaleGeometrySave(ref window1);
@@ -95,6 +119,14 @@ public class Plan
         return houseWindow;
     }
 
+    /// <summary>
+    /// Add a area to a plan.
+    /// Area is exactly large enough to contain the two specified points.
+    /// </summary>
+    /// <param name="point1">Area first point</param>
+    /// <param name="point2">Area second point</param>
+    /// <param name="areaTypeName">Area type</param>
+    /// <returns>Created Area object</returns>
     public Area AddArea(Point point1, Point point2, string areaTypeName)
     {
         ScaleGeometrySave(ref point1);
@@ -112,6 +144,12 @@ public class Plan
         return area;
     }
 
+    /// <summary>
+    /// Add a wall to a plan
+    /// </summary>
+    /// <param name="point1">Wall first point</param>
+    /// <param name="point2">Wall second point</param>
+    /// <returns>Created wall object</returns>
     public Segment AddWall(Point point1, Point point2)
     {
         ScaleGeometrySave(ref point1);
@@ -126,6 +164,10 @@ public class Plan
         return segment;
     }
 
+    /// <summary>
+    /// Add a camera to a plan
+    /// </summary>
+    /// <param name="p">Camera location</param>
     public void AddCamera(Point p)
     {
         ScaleGeometrySave(ref p);
@@ -134,6 +176,12 @@ public class Plan
         _entryPoint.Add((float) p.Y);
     }
 
+    /// <summary>
+    /// Add a door to a plan
+    /// </summary>
+    /// <param name="point1">Door first point</param>
+    /// <param name="point2">Door second point</param>
+    /// <returns>Created door object</returns>
     public Door AddDoor(Point point1, Point point2)
     {
         Door.NbDoor++;
@@ -147,6 +195,12 @@ public class Plan
         return door;
     }
 
+    /// <summary>
+    /// Import plan content. Draw the plan content on the canvas.
+    /// Loop throught each plan List (Door, Area, Wall) an entry point to create the plan
+    /// </summary>
+    /// <param name="receiver">Receiver object</param>
+    /// <param name="invoker">Invoker object</param>
     public void ImportDraw(Receiver receiver, Invoker invoker)
     {
         // Entry points
@@ -212,6 +266,10 @@ public class Plan
         }
     }
 
+    /// <summary>
+    /// Remove an object in a plan
+    /// </summary>
+    /// <param name="obj">Object from all type</param>
     public void RemoveObject(Object obj)
     {
         switch(obj)
@@ -239,6 +297,10 @@ public class Plan
         }
     }
 
+    /// <summary>
+    /// Remove a window from a plan
+    /// </summary>
+    /// <param name="w">HouseWindow object</param>
     public void RemoveWindow(HouseWindow w)
     {
         List<HouseWindow> hw = ListWindows();
@@ -249,6 +311,10 @@ public class Plan
         Debug.WriteLine(index);
     }
 
+    /// <summary>
+    /// Create a list of all windows
+    /// </summary>
+    /// <returns>All windows in the plan</returns>
     public List<HouseWindow> ListWindows()
     {
         List<HouseWindow> hw = new List<HouseWindow>();
@@ -261,12 +327,24 @@ public class Plan
         return hw;
     }
 
+    /// <summary>
+    /// Rescale a point from the grid ratio.
+    /// The point is passed by ref.
+    /// Must be used for save.
+    /// </summary>
+    /// <param name="point">Point to rescale</param>
     private void ScaleGeometrySave(ref Point point)
     {
         point.X /= _gridRatio;
         point.Y /= _gridRatio;
     }
 
+    /// <summary>
+    /// Rescale a point from the grid ratio.
+    /// Must be used for load.
+    /// </summary>
+    /// <param name="point">Point to rescale</param>
+    /// <returns>New rescaled point</returns>
     private Point ScaleGeometryLoad(Point point)
     {
         Point canvasScaledPoint = new Point();

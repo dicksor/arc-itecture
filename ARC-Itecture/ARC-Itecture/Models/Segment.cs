@@ -1,4 +1,13 @@
-﻿using ARC_Itecture;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+
+using ARC_Itecture;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -28,6 +37,12 @@ public class Segment
         this.Stop = stop;
     }
 
+    /// <summary>
+    /// Allow to find a segment from its coordinates
+    /// </summary>
+    /// <param name="p1">Segment first point</param>
+    /// <param name="p2">Segment second point</param>
+    /// <returns>The finded segment, null otherwise</returns>
     public Segment FindSegmentByCoord(Point p1, Point p2)
     {
         Segment s = null;

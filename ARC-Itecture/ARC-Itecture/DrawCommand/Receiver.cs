@@ -1,4 +1,13 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+
+using System.Collections.Generic;
 using System;
 using System.Windows;
 using System.Windows.Controls;

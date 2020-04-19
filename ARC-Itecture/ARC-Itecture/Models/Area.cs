@@ -1,4 +1,12 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Drawing;
@@ -10,7 +18,7 @@ public class Area
     public string Type { get; set; }
     public List<List<float>> Points { get; set; }
     public Boolean IsLightOn { get; set; }
-
+    
     public Area(string type, List<List<float>> points)
     {
         this.Type = type;

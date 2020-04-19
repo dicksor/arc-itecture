@@ -1,4 +1,12 @@
-﻿using ARC_Itecture;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+using ARC_Itecture;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Runtime.Serialization;

@@ -1,4 +1,12 @@
-﻿using ARC_Itecture;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+using ARC_Itecture;
 using ARC_Itecture.Utils;
 using Newtonsoft.Json;
 using System;
@@ -23,7 +31,7 @@ public class Door
     [JsonProperty("stop")]
     public List<float> Stop { get; set; }
 
-    public static int NbDoor = 0;
+    public static int NbDoor = 0; // Number of door in the plan 
 
     public Door(string name, List<float> start, List<float> stop)
     {

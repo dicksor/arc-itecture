@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -28,6 +36,10 @@ namespace ARC_Itecture.Utils
             }
         }
 
+        /// <summary>
+        /// Compute a random Color
+        /// </summary>
+        /// <returns>Random color</returns>
         public static Color RandomColor()
         {
             

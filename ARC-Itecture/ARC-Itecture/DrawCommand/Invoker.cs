@@ -1,4 +1,13 @@
-﻿using ARC_Itecture.DrawCommand.Commands;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+
+using ARC_Itecture.DrawCommand.Commands;
 using System.Collections.Generic;
 using System.Windows;
 

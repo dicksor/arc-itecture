@@ -1,4 +1,13 @@
-﻿using ARC_Itecture.DrawCommand;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+
+using ARC_Itecture.DrawCommand;
 using ARC_Itecture.DrawCommand.Commands;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
@@ -11,9 +20,6 @@ using System.Windows.Media;
 
 namespace ARC_Itecture
 {
-    /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private ViewModel _viewModel;
@@ -37,6 +43,10 @@ namespace ARC_Itecture
             main = this;
         }
 
+        /// <summary>
+        /// Change the color of the seleted tool
+        /// </summary>
+        /// <param name="button">Button to change the tool</param>
         private void ColorCommand(Button button)
         {
             Style style = FindResource("MaterialDesignFloatingActionDarkButton") as Style;
@@ -121,6 +131,9 @@ namespace ARC_Itecture
             CreatePlan();
         }
 
+        /// <summary>
+        /// Create a new plan
+        /// </summary>
         private void CreatePlan()
         {
             _viewModel.ClearCanvas();
@@ -140,6 +153,9 @@ namespace ARC_Itecture
             SaveDialog();
         }
 
+        /// <summary>
+        /// Allow to save a plan with a dialog
+        /// </summary>
         private void SaveDialog()
         {
             SaveFileDialog dlg = new SaveFileDialog { FileName = "Plan", DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
@@ -156,6 +172,9 @@ namespace ARC_Itecture
             LoadDialog();
         }
 
+        /// <summary>
+        /// Allow to load a plan with a dialog
+        /// </summary>
         private void LoadDialog()
         {
             OpenFileDialog dlg = new OpenFileDialog { DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
@@ -174,6 +193,11 @@ namespace ARC_Itecture
             }
         }
 
+        /// <summary>
+        /// Allow to select the cuurent command
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.A)
@@ -226,10 +250,12 @@ namespace ARC_Itecture
 
         private void buttonRemoveLastHistory_Click(object sender, RoutedEventArgs e)
         {
-
             CleanHistory();
         }
 
+        /// <summary>
+        /// Clean history
+        /// </summary>
         private void CleanHistory()
         {
             if(listBoxHistory.Items.Count > 0)

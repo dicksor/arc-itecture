@@ -1,4 +1,12 @@
-﻿using ARC_Itecture.DrawCommand;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+using ARC_Itecture.DrawCommand;
 using ARC_Itecture.DrawCommand.Commands;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
@@ -34,29 +42,44 @@ namespace ARC_Itecture
             this._receiver = new Receiver(this);
         }
 
+        /// <summary>
+        /// Add an area to the canvas
+        /// </summary>
         public void AddArea()
         {
             _invoker.DrawCommand = new AreaCommand(this._receiver);
             _invoker.PreviewCommand = new PreviewAreaCommand(this._receiver);
         }
 
+        /// <summary>
+        /// Add the camera to the canvas
+        /// </summary>
         public void AddCamera()
         {
             _invoker.DrawCommand = new CameraCommand(this._receiver);
         }
 
+        /// <summary>
+        /// Add a door to the canavas
+        /// </summary>
         public void AddDoor()
         {
             _invoker.DrawCommand = new DoorCommand(this._receiver);
             _invoker.PreviewCommand = new PreviewDoorCommand(this._receiver);
         }
 
+        /// <summary>
+        /// Add a wall to the canavas
+        /// </summary>
         public void AddWall()
         {
             _invoker.DrawCommand = new WallCommand(this._receiver);
             _invoker.PreviewCommand = new PreviewWallCommand(this._receiver);
         }
 
+        /// <summary>
+        /// Add a window to the canavas
+        /// </summary>
         public void AddWindow()
         {
             _invoker.DrawCommand = new WindowCommand(this._receiver);
@@ -73,16 +96,22 @@ namespace ARC_Itecture
             _invoker.InvokeMouseMove(p);
         }
 
+        /// <summary>
+        /// Allow to create the dialog the dialog for specifying the field type after creation
+        /// </summary>
+        /// <returns>Async string tha represent the area type name</returns>
         public async Task<string> ShowAreaDialog()
         {
+            List<string> areaTypes = new List<string>() { "LivingRoom", "Room", "Kitchen", "Bathroom" };
+
             TextBlock textBlock = new TextBlock();
             textBlock.Text = "Add area type name";
 
             ComboBox comboBox = new ComboBox();
-            comboBox.Items.Add("LivingRoom");
-            comboBox.Items.Add("Room");
-            comboBox.Items.Add("Kitchen");
-            comboBox.Items.Add("Bathroom");
+            foreach(string areaType in areaTypes)
+            {
+                comboBox.Items.Add(areaType);
+            }
             comboBox.SelectedIndex = 0;
             comboBox.HorizontalAlignment = HorizontalAlignment.Stretch;
             comboBox.Margin = new Thickness(0, 12, 0, 0);
@@ -108,12 +137,17 @@ namespace ARC_Itecture
             return areaTypeName;
         }
 
+        /// <summary>
+        /// Load a JSON plan
+        /// </summary>
+        /// <param name="filename">Filename of the plan to load</param>
         public void LoadJson(string filename)
         {
             _plan = JsonConvert.DeserializeObject<Plan>(File.ReadAllText(filename));
             _plan.GridRatio = _mainWindow.gridGeometry.Bounds.Width;
             _plan.ImportDraw(_receiver, _invoker);
 
+            //Set the plan properties on the GUI
             _mainWindow.textBoxDoorH2.Text = _plan.DoorH2.ToString();
             _mainWindow.textBoxWallHeight.Text = _plan.WallHeight.ToString();
             _mainWindow.textBoxWallWidth.Text = _plan.WallWidth.ToString();
@@ -121,6 +155,10 @@ namespace ARC_Itecture
             _mainWindow.textBoxWindowH2.Text = _plan.WindowH2.ToString();
         }
 
+        /// <summary>
+        /// Save the plan on the computer
+        /// </summary>
+        /// <param name="filename">Filname of the plan to save</param>
         public void SaveJson(string filename)
         {
             using (StreamWriter file = File.CreateText(filename))
@@ -129,6 +167,9 @@ namespace ARC_Itecture
             }
         }
 
+        /// <summary>
+        /// Remove the last drawed items from the history stack
+        /// </summary>
         public void RemoveFromHistory()
         {
             Tuple<Object, Object, String> shapeHistory = _stackHistory.Pop();
@@ -152,6 +193,12 @@ namespace ARC_Itecture
             _plan.RemoveObject(shapeHistory.Item2);
         }
 
+        /// <summary>
+        /// Clear all elements in the canavas.
+        /// Create a new plan.
+        /// Reinstanciate Invoker and Receiver
+        /// Clear history
+        /// </summary>
         public void ClearCanvas()
         {
             _mainWindow.canvas.Children.Clear();
