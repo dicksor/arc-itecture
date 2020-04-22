@@ -12,6 +12,7 @@ using ARC_Itecture.DrawCommand.Commands;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +25,7 @@ namespace ARC_Itecture
     {
         private ViewModel _viewModel;
         private bool _isDrawing;
+        private Rect _canvasRect;
         private SnackbarMessageQueue _snackbarMessageQueue;
 
         public MainWindow()
@@ -93,20 +95,33 @@ namespace ARC_Itecture
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!_isDrawing)
+            Point p = Mouse.GetPosition(this.canvas);
+            Rect _canvasRect = new Rect(0, 0, canvas.ActualWidth, canvas.ActualHeight);
+
+            if (_canvasRect.Contains(p))
             {
-                _isDrawing = true;
+                if (!_isDrawing)
+                {
+                    _isDrawing = true;
+                    Mouse.Capture(canvas);
+                }
+                else
+                {
+                    Mouse.Capture(null);
+                }
 
-                Point p = Mouse.GetPosition(this.canvas);
                 _viewModel.CanvasClick(p);
-
-                Mouse.Capture(canvas);
+            }
+            else
+            {
+                Mouse.Capture(null);
+                _viewModel.StartNewWall(); 
             }
         }
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (_isDrawing)
+            if (_isDrawing && !(_viewModel.Command is WallCommand))
             {
                 _isDrawing = false;
 

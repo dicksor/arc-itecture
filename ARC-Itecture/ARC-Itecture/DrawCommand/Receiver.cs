@@ -97,12 +97,15 @@ namespace ARC_Itecture.DrawCommand
                                new Point(wall.X, wall.Y),
                                new Point(wall.X + wall.Width, wall.Y + wall.Height));
 
-                            MainWindow.main.History = "Window";
-                            _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(rectangle, houseWindow, "Window"));
+                            if (houseWindow != null)
+                            {
+                                MainWindow.main.History = "Window";
+                                _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(rectangle, houseWindow, "Window"));
 
-                            _windowAvailableWalls.Remove(wall);
+                                _windowAvailableWalls.Remove(wall);
 
-                            break; // Allows not to draw 2 windows on parallel walls
+                                break; // Allows not to draw 2 windows on parallel walls
+                            }
                         }
                     }
                 }

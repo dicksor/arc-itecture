@@ -114,9 +114,17 @@ public class Plan
         ScaleGeometrySave(ref wall2);
 
         Segment wall = FindSegmentByCoords(wall1, wall2);
-        HouseWindow houseWindow = new HouseWindow(new List<float>() { (float)window1.X, (float)window1.Y}, new List<float>() { (float)window2.X, (float)window2.Y});
-        wall.Window = houseWindow;
-        return houseWindow;
+
+        if (wall != null)
+        {
+            HouseWindow houseWindow = new HouseWindow(new List<float>() { (float)window1.X, (float)window1.Y }, new List<float>() { (float)window2.X, (float)window2.Y });
+            wall.Window = houseWindow;
+            return houseWindow;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /// <summary>
