@@ -134,10 +134,19 @@ namespace ARC_Itecture
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
+            _canvasRect = new Rect(0,0,canvas.ActualWidth,canvas.ActualHeight);
             if(_isDrawing)
             {
                 Point p = Mouse.GetPosition(this.canvas);
-                _viewModel.CanvasMouseMove(p);
+                if(_canvasRect.Contains(p))
+                {
+                    _viewModel.CanvasMouseMove(p);
+                }
+                else
+                {
+                    _viewModel.StartNewWall();
+                    Debug.WriteLine("new wall");
+                }
             }
         }
 

@@ -370,6 +370,10 @@ namespace ARC_Itecture.DrawCommand
 
         public void StartNewWall()
         {
+            Line lastWall = _lastShape as Line;
+            if (lastWall != null)
+                _canvas.Children.Remove(lastWall);
+
             _wallPoints.Clear();
             _currentWalls.Clear();
         }
