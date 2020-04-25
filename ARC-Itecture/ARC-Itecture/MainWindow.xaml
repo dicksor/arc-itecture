@@ -31,7 +31,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel DockPanel.Dock="Top">
                         <TextBlock Style="{StaticResource MaterialDesignHeadline3TextBlock}" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold" Margin="0,0,0,10">Arc-Itecture</TextBlock>
-                        <Button x:Name="buttonClearPlan" Click="ButtonClearPlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,5">Clear plan</Button>
+                        <Button x:Name="buttonClearPlan" Click="ButtonClearPlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,5">Clear the plan</Button>
                         <Button x:Name="buttonSavePlan" Click="ButtonSavePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,5">Save the plan</Button>
                         <Button x:Name="buttonLoadPlan" Click="ButtonLoadPlan_Click"  Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,0">Load a plan</Button>
                         <Separator Style="{StaticResource MaterialDesignDarkSeparator}" />
