@@ -85,7 +85,7 @@
                 </ScrollViewer>
             </materialDesign:Card>
             <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="20,10,10,10" materialDesign:ShadowAssist.ShadowDepth="Depth5">
-                <Canvas x:Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Canvas x:Name="canvas" PreviewMouseDown="Canvas_PreviewMouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Canvas.LayoutTransform>
                         <ScaleTransform ScaleX="1" ScaleY="-1"/>
                     </Canvas.LayoutTransform>

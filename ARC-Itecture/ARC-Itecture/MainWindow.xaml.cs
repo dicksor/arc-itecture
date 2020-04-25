@@ -91,7 +91,7 @@ namespace ARC_Itecture
             _viewModel.AddWall();
         }
 
-        private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Canvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             Point p = Mouse.GetPosition(this.canvas);
             Rect _canvasRect = new Rect(0, 0, canvas.ActualWidth, canvas.ActualHeight);
