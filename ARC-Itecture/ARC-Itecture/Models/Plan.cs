@@ -18,6 +18,11 @@ using System.Windows;
 using System.Windows.Shapes;
 using System.Drawing;
 using Point = System.Windows.Point;
+using System.Linq;
+using ARC_Itecture.Utils;
+using System.Web.UI.WebControls;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 [System.Serializable]
 public class Plan
@@ -167,7 +172,7 @@ public class Plan
         List<float> start = new List<float>() { (float)point1.X, (float)point1.Y };
         List<float> stop = new List<float>() { (float)point2.X, (float)point2.Y };
 
-        Segment segment = new Segment(SEGMENT_STRING + Segment.nbSegment, start, stop);
+        Segment segment = new Segment(SEGMENT_STRING + Segment.nbSegment, start, stop, new HouseWindow());
         _segments.Add(segment);
         return segment;
     }
@@ -192,6 +197,9 @@ public class Plan
     /// <returns>Created door object</returns>
     public Door AddDoor(Point point1, Point point2)
     {
+        ScaleGeometrySave(ref point1);
+        ScaleGeometrySave(ref point2);
+
         Door.NbDoor++;
         List<float> start = new List<float>() { (float)point1.X, (float)point1.Y };
         List<float> stop = new List<float>() { (float)point2.X, (float)point2.Y };
@@ -211,66 +219,25 @@ public class Plan
     /// <param name="invoker">Invoker object</param>
     public void ImportDraw(Receiver receiver, Invoker invoker)
     {
-        // Entry points
+        ImportCamera(receiver, invoker);
+        Area.ImportAreas(_areas, receiver, invoker, ScaleGeometryLoad);
+        Segment.ImportSegments(_segments, receiver, invoker, ScaleGeometryLoad);
+        HouseWindow.ImportWindows(ListWindows(), receiver, invoker, ScaleGeometryLoad);
+        Door.ImportDoors(_doors, receiver, invoker, ScaleGeometryLoad);
+    }
+
+    /// <summary>
+    /// Import camera in canvas
+    /// </summary>
+    /// <param name="receiver">Receiver object</param>
+    /// <param name="invoker">Invoker object</param>
+    private void ImportCamera(Receiver receiver, Invoker invoker)
+    {
         invoker.DrawCommand = new CameraCommand(receiver);
-        if(_entryPoint.Count != 0)
+        if (_entryPoint.Count != 0)
         {
             Point cameraPoint = ScaleGeometryLoad(new Point(_entryPoint[0], _entryPoint[1]));
             invoker.InvokeClick(cameraPoint);
-        }
-
-        // Areas
-        foreach (Area area in _areas)
-        {
-            invoker.DrawCommand = new AreaCommand(receiver, area.Type);
-            invoker.PreviewCommand = new PreviewAreaCommand(receiver);
-
-            Tuple<PointF, PointF> minMaxPoints = area.GetMinMaxPoints();
-            Point areaTopLeftPoint = ScaleGeometryLoad(new Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
-            invoker.InvokeClick(areaTopLeftPoint);
-            invoker.InvokeMouseMove(areaTopLeftPoint);
-
-            Point areaBottomRightPoint = ScaleGeometryLoad(new Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
-            invoker.InvokeMouseMove(areaBottomRightPoint);
-            invoker.InvokeClick(areaBottomRightPoint);
-        }
-
-        // Segments
-        foreach(Segment segment in _segments)
-        {
-            invoker.DrawCommand = new WallCommand(receiver);
-            Point wallStartPoint = ScaleGeometryLoad(new Point(segment.Start[0], segment.Start[1]));
-            invoker.InvokeClick(wallStartPoint);
-            Point wallEndPoint = ScaleGeometryLoad(new Point(segment.Stop[0], segment.Stop[1]));
-            invoker.InvokeClick(wallEndPoint);
-
-            if (segment.Window != null)
-            {
-                invoker.PreviewCommand = new PreviewWindowCommand(receiver);
-                invoker.DrawCommand = new WindowCommand(receiver);
-
-                Point windowStartPoint = ScaleGeometryLoad(new Point(segment.Window.Start[0], segment.Window.Start[1]));
-                invoker.InvokeClick(windowStartPoint);
-                invoker.InvokeMouseMove(windowStartPoint);
-
-                Point windowEndPoint = ScaleGeometryLoad(new Point(segment.Window.Stop[0], segment.Window.Stop[1]));
-                invoker.InvokeMouseMove(windowEndPoint);
-                invoker.InvokeClick(windowEndPoint);
-            }
-        }
-
-        foreach(Door door in _doors)
-        {
-            invoker.DrawCommand = new DoorCommand(receiver);
-            invoker.PreviewCommand = new PreviewDoorCommand(receiver);
-
-            Point doorStart = ScaleGeometryLoad(new Point(door.Start[0], door.Start[1]));
-            invoker.InvokeClick(doorStart);
-            invoker.InvokeMouseMove(new Point(door.Start[0], door.Start[1]));
-
-            Point doorEnd = ScaleGeometryLoad(new Point(door.Stop[0], door.Stop[1]));
-            invoker.InvokeMouseMove(doorEnd);
-            invoker.InvokeClick(doorEnd);
         }
     }
 
@@ -315,8 +282,6 @@ public class Plan
         
         int index = hw.IndexOf(w);
         _segments[index].Window = null;
-
-        Debug.WriteLine(index);
     }
 
     /// <summary>
@@ -329,7 +294,10 @@ public class Plan
 
         foreach(Segment s in _segments)
         {
-            hw.Add(s.Window);
+            if(s.Window.Start != null)
+            {
+                hw.Add(s.Window);
+            }
         } 
 
         return hw;

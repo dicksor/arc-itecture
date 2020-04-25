@@ -143,16 +143,18 @@ namespace ARC_Itecture
         /// <param name="filename">Filename of the plan to load</param>
         public void LoadJson(string filename)
         {
-            _plan = JsonConvert.DeserializeObject<Plan>(File.ReadAllText(filename));
-            _plan.GridRatio = _mainWindow.gridGeometry.Bounds.Width;
-            _plan.ImportDraw(_receiver, _invoker);
 
-            //Set the plan properties on the GUI
-            _mainWindow.textBoxDoorH2.Text = _plan.DoorH2.ToString();
-            _mainWindow.textBoxWallHeight.Text = _plan.WallHeight.ToString();
-            _mainWindow.textBoxWallWidth.Text = _plan.WallWidth.ToString();
-            _mainWindow.textBoxWindowH1.Text = _plan.WindowH1.ToString();
-            _mainWindow.textBoxWindowH2.Text = _plan.WindowH2.ToString();
+                _plan = JsonConvert.DeserializeObject<Plan>(File.ReadAllText(filename));
+                _plan.GridRatio = _mainWindow.gridGeometry.Bounds.Width;
+                _plan.ImportDraw(_receiver, _invoker);
+
+                //Set the plan properties on the GUI
+                _mainWindow.textBoxDoorH2.Text = _plan.DoorH2.ToString();
+                _mainWindow.textBoxWallHeight.Text = _plan.WallHeight.ToString();
+                _mainWindow.textBoxWallWidth.Text = _plan.WallWidth.ToString();
+                _mainWindow.textBoxWindowH1.Text = _plan.WindowH1.ToString();
+                _mainWindow.textBoxWindowH2.Text = _plan.WindowH2.ToString();
+
         }
 
         /// <summary>

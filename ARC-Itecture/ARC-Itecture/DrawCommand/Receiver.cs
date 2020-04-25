@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 using ARC_Itecture.Utils;
 using ARC_Itecture.Geometry;
 using System.Windows.Input;
-using System.Diagnostics;
-using System.Windows.Interop;
-using MaterialDesignThemes.Wpf;
 using System.Linq;
 
 namespace ARC_Itecture.DrawCommand
@@ -150,6 +147,7 @@ namespace ARC_Itecture.DrawCommand
                 tb.Width = 70;
                 tb.Height = 20;
                 tb.TextAlignment = TextAlignment.Center;
+                tb.LayoutTransform = new ScaleTransform(1, -1);
 
                 Canvas.SetLeft(tb, Canvas.GetLeft(_lastShape) + (_lastShape.Width / 2) - (tb.Width/2));
                 Canvas.SetTop(tb, Canvas.GetTop(_lastShape) + (_lastShape.Height / 2) - (tb.Height / 2));
@@ -180,6 +178,7 @@ namespace ARC_Itecture.DrawCommand
 
             Image cameraImage = new Image();
             cameraImage.Source = ImageUtil.ImageSourceFromBitmap(cameraBitmap);
+            cameraImage.LayoutTransform = new ScaleTransform(1, -1);
 
             Canvas.SetLeft(cameraImage, p.X);
             Canvas.SetTop(cameraImage, p.Y);
@@ -311,49 +310,53 @@ namespace ARC_Itecture.DrawCommand
             {
                 Point clickedP1 = _wallPoints.Dequeue();
                 Point clickedP2 = _wallPoints.Dequeue();
-                Line line = DrawSegment(clickedP1, clickedP2);
 
-                Point realP1 = new Point(line.X1, line.Y1);
-                Point realP2 = new Point(line.X2, line.Y2);
-
-                _windowAvailableWalls.Add(new Rect(realP1, realP2));
-
-                _doorAvailablePoints.Add(realP1);
-                _doorAvailablePoints.Add(realP2);
-
-                Segment segment = _plan.AddWall(realP1, realP2);
-
-                Intersection intersection = MathUtil.LineIntersect(line, _currentWalls);
-                if(intersection.IntersectionPoint != null)
+                if(clickedP1 != clickedP2)
                 {
-                    if (intersection.L2.Equals(this._currentWalls[0]))
+                    Line line = DrawSegment(clickedP1, clickedP2);
+
+                    Point realP1 = new Point(line.X1, line.Y1);
+                    Point realP2 = new Point(line.X2, line.Y2);
+
+                    _windowAvailableWalls.Add(new Rect(realP1, realP2));
+
+                    _doorAvailablePoints.Add(realP1);
+                    _doorAvailablePoints.Add(realP2);
+
+                    Segment segment = _plan.AddWall(realP1, realP2);
+
+                    Intersection intersection = MathUtil.LineIntersect(line, _currentWalls);
+                    if (intersection.IntersectionPoint != null)
                     {
-                        line.X2 = intersection.IntersectionPoint.Value.X;
-                        line.Y2 = intersection.IntersectionPoint.Value.Y;
+                        if (intersection.L2.Equals(this._currentWalls[0]))
+                        {
+                            line.X2 = intersection.IntersectionPoint.Value.X;
+                            line.Y2 = intersection.IntersectionPoint.Value.Y;
 
-                        intersection.L2.X1 = line.X2;
-                        intersection.L2.Y1 = line.Y2;
+                            intersection.L2.X1 = line.X2;
+                            intersection.L2.Y1 = line.Y2;
 
-                        _currentWalls.Clear();
+                            _currentWalls.Clear();
+                        }
+                        else
+                        {
+                            _wallPoints.Enqueue(new Point(line.X2, line.Y2));
+                        }
                     }
                     else
                     {
                         _wallPoints.Enqueue(new Point(line.X2, line.Y2));
                     }
+
+                    _canvas.Children.Remove(_lastShape as Line);
+                    _currentWalls.Add(line);
+
+                    MainWindow.main.History = "Wall";
+                    _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(line, segment, "Wall"));
+
+                    line.MouseEnter += (s, e) => Mouse.OverrideCursor = Cursors.Cross;
+                    line.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;
                 }
-                else
-                {
-                    _wallPoints.Enqueue(new Point(line.X2, line.Y2));
-                }
-
-                _canvas.Children.Remove(_lastShape as Line);
-                _currentWalls.Add(line);
-
-                MainWindow.main.History = "Wall";
-                _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(line, segment, "Wall"));
-
-                line.MouseEnter += (s, e) => Mouse.OverrideCursor = Cursors.Cross;
-                line.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 

@@ -31,7 +31,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel DockPanel.Dock="Top">
                         <TextBlock Style="{StaticResource MaterialDesignHeadline3TextBlock}" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold" Margin="0,0,0,10">Arc-Itecture</TextBlock>
-                        <Button x:Name="buttonCreatePlan" Click="ButtonCreatePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,5">Create a plan</Button>
+                        <Button x:Name="buttonClearPlan" Click="ButtonClearPlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,5">Clear plan</Button>
                         <Button x:Name="buttonSavePlan" Click="ButtonSavePlan_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,5">Save the plan</Button>
                         <Button x:Name="buttonLoadPlan" Click="ButtonLoadPlan_Click"  Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,0">Load a plan</Button>
                         <Separator Style="{StaticResource MaterialDesignDarkSeparator}" />
@@ -86,6 +86,9 @@
             </materialDesign:Card>
             <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="20,10,10,10" materialDesign:ShadowAssist.ShadowDepth="Depth5">
                 <Canvas x:Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Canvas.LayoutTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="-1"/>
+                    </Canvas.LayoutTransform>
                     <Canvas.Background>
                         <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
                             <DrawingBrush.Drawing>

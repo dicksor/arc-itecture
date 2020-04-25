@@ -6,8 +6,8 @@
  * .NET Course
  */
 
-
-using ARC_Itecture;
+using ARC_Itecture.DrawCommand;
+using ARC_Itecture.DrawCommand.Commands;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -30,11 +30,12 @@ public class Segment
     [JsonProperty("window")]
     public HouseWindow Window { get; set; }
 
-    public Segment(string name, List<float> start, List<float> stop)
+    public Segment(string name, List<float> start, List<float> stop, HouseWindow hw)
     {
         this.Name = name;
         this.Start = start;
         this.Stop = stop;
+        this.Window = hw;
     }
 
     /// <summary>
@@ -56,5 +57,26 @@ public class Segment
             }
 
         return s;
+    }
+
+    /// <summary>
+    /// Import segments in the canvas
+    /// </summary>
+    /// <param name="doors">Segments list</param>
+    /// <param name="receiver">Receiver object</param>
+    /// <param name="invoker">Invoker object</param>
+    /// <param name="scaleGeometryLoad">Scale geometry load function</param>
+    public static void ImportSegments(List<Segment> segments, Receiver receiver, Invoker invoker, Func<Point, Point> scaleGeometryLoad)
+    {
+        invoker.DrawCommand = new WallCommand(receiver);
+        foreach (Segment segment in segments)
+        {
+            Point wallStartPoint = scaleGeometryLoad(new Point(segment.Start[0], segment.Start[1]));
+            Point wallEndPoint = scaleGeometryLoad(new Point(segment.Stop[0], segment.Stop[1]));
+
+            invoker.InvokeClick(wallStartPoint);
+            invoker.InvokeClick(wallEndPoint);
+            receiver.StartNewWall();
+        }
     }
 }

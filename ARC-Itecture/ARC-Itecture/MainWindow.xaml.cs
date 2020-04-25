@@ -7,7 +7,6 @@
  */
 
 
-using ARC_Itecture.DrawCommand;
 using ARC_Itecture.DrawCommand.Commands;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
@@ -17,7 +16,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace ARC_Itecture
 {
@@ -150,15 +148,15 @@ namespace ARC_Itecture
             }
         }
 
-        private void ButtonCreatePlan_Click(object sender, RoutedEventArgs e)
+        private void ButtonClearPlan_Click(object sender, RoutedEventArgs e)
         {
-            CreatePlan();
+            ClearPlan();
         }
 
         /// <summary>
         /// Create a new plan
         /// </summary>
-        private void CreatePlan()
+        private void ClearPlan()
         {
             _viewModel.ClearCanvas();
             listBoxHistory.Items.Clear();
@@ -201,21 +199,30 @@ namespace ARC_Itecture
         /// </summary>
         private void LoadDialog()
         {
-            OpenFileDialog dlg = new OpenFileDialog { DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
-
-            if (dlg.ShowDialog() == true)
+            if (canvas.Children.Count == 0)
             {
-                if (Path.GetExtension(dlg.FileName) == ".json")
-                {
-                    _viewModel.LoadJson(dlg.FileName);
-                    _snackbarMessageQueue.Enqueue("Plan opened");
-                }
-                else
-                {
-                    MessageBox.Show("The file must have the .sjson extension !");
-                }
+
+
+                    OpenFileDialog dlg = new OpenFileDialog { DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
+
+                    if (dlg.ShowDialog() == true)
+                    {
+                        if (Path.GetExtension(dlg.FileName) == ".json")
+                        {
+                            _viewModel.LoadJson(dlg.FileName);
+                            _snackbarMessageQueue.Enqueue("Plan opened");
+                        }
+                        else
+                        {
+                            MessageBox.Show("The file must have the .sjson extension !");
+                        }
+                    }
+             }
+            else
+            {
+                MessageBox.Show("The canvas must be empty to load a plan");
             }
-        }
+}
 
         /// <summary>
         /// Allow to select the cuurent command
@@ -268,7 +275,7 @@ namespace ARC_Itecture
             }
             else if (e.Key == Key.N && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
-                CreatePlan();
+                ClearPlan();
             }
         }
 

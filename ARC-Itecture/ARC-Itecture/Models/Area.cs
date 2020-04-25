@@ -10,7 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Drawing;
-using ARC_Itecture;
+using ARC_Itecture.DrawCommand;
+using ARC_Itecture.DrawCommand.Commands;
 
 [System.Serializable]
 public class Area
@@ -50,5 +51,31 @@ public class Area
         float maxY = maxPoints[1];
 
         return new Tuple<PointF, PointF>(new PointF(minX, minY), new PointF(maxX, maxY));
+    }
+
+    /// <summary>
+    /// Import areas in the canvas
+    /// </summary>
+    /// <param name="doors">Areas list</param>
+    /// <param name="receiver">Receiver object</param>
+    /// <param name="invoker">Invoker object</param>
+    /// <param name="scaleGeometryLoad">Scale geometry load function</param>
+    public static void ImportAreas(List<Area> areas, Receiver receiver, Invoker invoker, Func<System.Windows.Point, System.Windows.Point> scaleGeometryLoad)
+    {
+        foreach (Area area in areas)
+        {
+            invoker.DrawCommand = new AreaCommand(receiver, area.Type);
+            invoker.PreviewCommand = new PreviewAreaCommand(receiver);
+
+            Tuple<PointF, PointF> minMaxPoints = area.GetMinMaxPoints();
+
+            System.Windows.Point areaTopLeftPoint = scaleGeometryLoad(new System.Windows.Point(minMaxPoints.Item1.X, minMaxPoints.Item1.Y));
+            invoker.InvokeClick(areaTopLeftPoint);
+            invoker.InvokeMouseMove(areaTopLeftPoint);
+
+            System.Windows.Point areaBottomRightPoint = scaleGeometryLoad(new System.Windows.Point(minMaxPoints.Item2.X, minMaxPoints.Item2.Y));
+            invoker.InvokeMouseMove(areaBottomRightPoint);
+            invoker.InvokeClick(areaBottomRightPoint);
+        }
     }
 }
