@@ -59,6 +59,7 @@ namespace ARC_Itecture
             button.Style = FindResource("MaterialDesignFloatingActionLightButton") as Style;
 
             _isDrawing = false;
+            _viewModel.RemoveLastPreview();
         }
 
         private void ButtonAddArea_Click(object sender, EventArgs e)

@@ -343,6 +343,11 @@ namespace ARC_Itecture.DrawCommand
                 _lastShape = DrawRectangle(_windowPoints.Peek(), p);
         }
 
+        public void RemoveLastPreview()
+        {
+            _canvas.Children.Remove(_lastShape);
+        }
+
         public void StartNewWall()
         {
             if (_lastShape is Line lastWall)
@@ -466,6 +471,5 @@ namespace ARC_Itecture.DrawCommand
             }
             return wall;
         }
-
     }
 }

@@ -215,5 +215,10 @@ namespace ARC_Itecture
         {
             _receiver.StartNewWall();
         }
+
+        public void RemoveLastPreview()
+        {
+            _receiver.RemoveLastPreview();
+        }
     }
 }
