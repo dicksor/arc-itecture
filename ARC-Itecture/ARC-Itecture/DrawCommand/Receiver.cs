@@ -74,20 +74,22 @@ namespace ARC_Itecture.DrawCommand
                 
                 Area area = _plan.AddArea(p1, p2, areaTypeName);
 
-                TextBlock tb = new TextBlock();
-                tb.Text = areaTypeName;
-                tb.Foreground = Brushes.White;
-                tb.Width = 70;
-                tb.Height = 20;
-                tb.TextAlignment = TextAlignment.Center;
-                tb.LayoutTransform = new ScaleTransform(1, -1);
+                TextBlock textBlock = new TextBlock
+                {
+                    Text = areaTypeName,
+                    Foreground = Brushes.White,
+                    Width = 70,
+                    Height = 20,
+                    TextAlignment = TextAlignment.Center,
+                    LayoutTransform = new ScaleTransform(1, -1)
+                };
 
-                Canvas.SetLeft(tb, Canvas.GetLeft(_lastShape) + (_lastShape.Width / 2) - (tb.Width / 2));
-                Canvas.SetTop(tb, Canvas.GetTop(_lastShape) + (_lastShape.Height / 2) - (tb.Height / 2));
-                _canvas.Children.Add(tb);
+                Canvas.SetLeft(textBlock, Canvas.GetLeft(_lastShape) + (_lastShape.Width / 2) - (textBlock.Width / 2));
+                Canvas.SetTop(textBlock, Canvas.GetTop(_lastShape) + (_lastShape.Height / 2) - (textBlock.Height / 2));
+                _canvas.Children.Add(textBlock);
 
                 MainWindow.main.History = "Area";
-                _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(tb, area, "Area"));
+                _viewModel._stackHistory.Push(new Tuple<Object, Object, string>(textBlock, area, "Area"));
 
                 _lastShape = null;
             }
@@ -95,12 +97,11 @@ namespace ARC_Itecture.DrawCommand
 
         public void DrawAreaPreview(Point p)
         {
-            Rectangle lastRectangle = _lastShape as Rectangle;
 
-            if (lastRectangle != null)
+            if (_lastShape is Rectangle lastRectangle)
                 _canvas.Children.Remove(lastRectangle);
-            
-            if(_areaPoints.Count > 0)
+
+            if (_areaPoints.Count > 0)
                 _lastShape = DrawRectangle(_areaPoints.Peek(), p);
         }
 
@@ -109,9 +110,11 @@ namespace ARC_Itecture.DrawCommand
             System.Drawing.Bitmap cameraBitmap = Properties.Resources.camera_icon;
             cameraBitmap.MakeTransparent(cameraBitmap.GetPixel(1, 1));
 
-            Image cameraImage = new Image();
-            cameraImage.Source = ImageUtil.ImageSourceFromBitmap(cameraBitmap);
-            cameraImage.LayoutTransform = new ScaleTransform(1, -1);
+            Image cameraImage = new Image
+            {
+                Source = ImageUtil.ImageSourceFromBitmap(cameraBitmap),
+                LayoutTransform = new ScaleTransform(1, -1)
+            };
 
             Canvas.SetLeft(cameraImage, p.X);
             Canvas.SetTop(cameraImage, p.Y);
@@ -153,8 +156,10 @@ namespace ARC_Itecture.DrawCommand
                     if (pointsDoorDistance > DOOR_MINIMUM_DISTANCE && pointsDoorDistance < DOOR_MAXIMUM_DISTANCE && !IsDoorOnWall(doorAnchorPoints[0], doorAnchorPoints[1]))
                     {
 
-                        Rectangle rectangle = new Rectangle();
-                        rectangle.Fill = Application.Current.TryFindResource("PrimaryHueLightBrush") as SolidColorBrush;
+                        Rectangle rectangle = new Rectangle
+                        {
+                            Fill = Application.Current.TryFindResource("PrimaryHueLightBrush") as SolidColorBrush
+                        };
 
                         doorAnchorPoints = doorAnchorPoints.OrderBy(point => point.X).ToList();
                         Canvas.SetLeft(rectangle, doorAnchorPoints[0].X);
@@ -194,9 +199,8 @@ namespace ARC_Itecture.DrawCommand
         public void DrawDoorPreview(Point p)
         {
             _fillBrush = new SolidColorBrush(Color.FromArgb(50, 255, 255, 255));
-            Rectangle lastRectangle = _lastShape as Rectangle;
 
-            if (lastRectangle != null)
+            if (_lastShape is Rectangle lastRectangle)
                 _canvas.Children.Remove(lastRectangle);
 
             if (_doorPoints.Count > 0)
@@ -263,9 +267,8 @@ namespace ARC_Itecture.DrawCommand
 
         public void DrawWallPreview(Point p)
         {
-            Line lastWall = _lastShape as Line;
 
-            if (lastWall != null)
+            if (_lastShape is Line lastWall)
                 _canvas.Children.Remove(lastWall);
 
             if (_wallPoints.Count > 0)
@@ -294,8 +297,10 @@ namespace ARC_Itecture.DrawCommand
                         if ((intersect.X > wall.X && intersect.X + intersect.Width < wall.X + wall.Width) ||
                             (intersect.Y > wall.Y && intersect.Y + intersect.Height < wall.Y + wall.Height))
                         {
-                            Rectangle rectangle = new Rectangle();
-                            rectangle.Fill = Application.Current.TryFindResource("PrimaryHueDarkBrush") as SolidColorBrush;
+                            Rectangle rectangle = new Rectangle
+                            {
+                                Fill = Application.Current.TryFindResource("PrimaryHueDarkBrush") as SolidColorBrush
+                            };
 
                             Canvas.SetLeft(rectangle, intersect.X - (COMPONENT_OFFSET / 2));
                             Canvas.SetTop(rectangle, intersect.Y - (COMPONENT_OFFSET / 2));
@@ -330,9 +335,8 @@ namespace ARC_Itecture.DrawCommand
         public void DrawWindowPreview(Point p)
         {
             _fillBrush = new SolidColorBrush(Color.FromArgb(50, 255, 255, 255));
-            Rectangle lastRectangle = _lastShape as Rectangle;
 
-            if (lastRectangle != null)
+            if (_lastShape is Rectangle lastRectangle)
                 _canvas.Children.Remove(lastRectangle);
 
             if (_windowPoints.Count > 0)
@@ -341,8 +345,7 @@ namespace ARC_Itecture.DrawCommand
 
         public void StartNewWall()
         {
-            Line lastWall = _lastShape as Line;
-            if (lastWall != null)
+            if (_lastShape is Line lastWall)
                 _canvas.Children.Remove(lastWall);
 
             _wallPoints.Clear();
@@ -371,8 +374,7 @@ namespace ARC_Itecture.DrawCommand
 
             foreach (UIElement element in _canvas.Children)
             {
-                Line line = element as Line;
-                if (line != null)
+                if (element is Line line)
                 {
                     List<double> segmentPointsX = new List<double>() { Math.Floor(line.X1), Math.Floor(line.X2) };
                     segmentPointsX.Sort();
@@ -394,11 +396,12 @@ namespace ARC_Itecture.DrawCommand
 
         private Rectangle DrawRectangle(Point p1, Point p2)
         {
-            Rectangle rectangle = new Rectangle();
-            rectangle.Fill = _fillBrush;
-
-            rectangle.Width = Math.Abs(p2.X - p1.X);
-            rectangle.Height = Math.Abs(p2.Y - p1.Y);
+            Rectangle rectangle = new Rectangle
+            {
+                Fill = _fillBrush,
+                Width = Math.Abs(p2.X - p1.X),
+                Height = Math.Abs(p2.Y - p1.Y)
+            };
 
             double leftMostX = p2.X > p1.X ? p1.X : p2.X;
             double topMostY = p2.Y > p1.Y ? p1.Y : p2.Y;
@@ -412,9 +415,11 @@ namespace ARC_Itecture.DrawCommand
 
         private Line DrawSegment(Point p1, Point p2)
         {
-            Line line = new Line();
-            line.StrokeThickness = 1;
-            line.Stroke = this._strokeBrush;
+            Line line = new Line
+            {
+                StrokeThickness = 1,
+                Stroke = this._strokeBrush
+            };
 
             double dX = Math.Abs(p2.X - p1.X);
             double dY = Math.Abs(p2.Y - p1.Y);
@@ -448,11 +453,10 @@ namespace ARC_Itecture.DrawCommand
 
             foreach(UIElement element in _canvas.Children)
             {
-                Line line = element as Line;
-                if(line != null)
+                if (element is Line line)
                 {
-                    if(x > line.X1 && x + width < line.X2 ||
-                       x > line.X2 && x + width < line.X1 || 
+                    if (x > line.X1 && x + width < line.X2 ||
+                       x > line.X2 && x + width < line.X1 ||
                        y > line.Y1 && y + height < line.Y2 ||
                        y > line.Y2 && y + height < line.Y1)
                     {
