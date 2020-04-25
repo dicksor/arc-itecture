@@ -77,6 +77,12 @@
     <Compile Include="DrawCommand\Commands\PreviewDoorCommand.cs" />
     <Compile Include="DrawCommand\Commands\PreviewWallCommand.cs" />
     <Compile Include="DrawCommand\Commands\PreviewWindowCommand.cs" />
+    <Compile Include="DrawCommand\Drawers\AreaDrawer.cs" />
+    <Compile Include="DrawCommand\Drawers\CameraDrawer.cs" />
+    <Compile Include="DrawCommand\Drawers\DoorDrawer.cs" />
+    <Compile Include="DrawCommand\Drawers\Drawer.cs" />
+    <Compile Include="DrawCommand\Drawers\WallDrawer.cs" />
+    <Compile Include="DrawCommand\Drawers\WindowDrawer.cs" />
     <Compile Include="Geometry\Intersection.cs" />
     <Compile Include="Utils\ImageUtil.cs" />
     <Compile Include="Utils\MathUtil.cs" />
