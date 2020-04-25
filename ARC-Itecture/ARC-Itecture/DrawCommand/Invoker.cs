@@ -13,6 +13,12 @@ using System.Windows;
 
 namespace ARC_Itecture.DrawCommand
 {
+
+    /// <summary>
+    /// Manages the current selected tools
+    /// There is one tool for the shape's preview
+    /// and one tool to draw the final shape
+    /// </summary>
     public class Invoker
     {
         private IDrawCommand _drawCommand;
@@ -41,6 +47,10 @@ namespace ARC_Itecture.DrawCommand
             }
         }
 
+        /// <summary>
+        /// Used to draw the final shape
+        /// </summary>
+        /// <param name="point">Clicked point</param>
         public void InvokeClick(Point point)
         {
             if(this._drawCommand != null)
@@ -52,7 +62,11 @@ namespace ARC_Itecture.DrawCommand
                 MessageBox.Show("Select a tool to draw");
             }
         }
-
+        
+        /// <summary>
+        /// Used to draw the shape preview
+        /// </summary>
+        /// <param name="point">Current mouse point</param>
         public void InvokeMouseMove(Point point)
         {
             if (this._previewCommand != null)

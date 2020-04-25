@@ -23,6 +23,11 @@ namespace ARC_Itecture.Utils
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeleteObject([In] IntPtr hObject);
 
+        /// <summary>
+        /// Makes an image source from a given bitmap image
+        /// </summary>
+        /// <param name="bmp">Bitmap image</param>
+        /// <returns>ImageSource</returns>
         public static ImageSource ImageSourceFromBitmap(System.Drawing.Bitmap bmp)
         {
             var handle = bmp.GetHbitmap();

@@ -211,11 +211,17 @@ namespace ARC_Itecture
             _stackHistory.Clear();
         }
 
+        /// <summary>
+        /// Tells the receiver to start drawing a wall from a new point
+        /// </summary>
         public void StartNewWall()
         {
             _receiver.StartNewWall();
         }
 
+        /// <summary>
+        /// Tells the receiver to cancel the last shape preview
+        /// </summary>
         public void RemoveLastPreview()
         {
             _receiver.RemoveLastPreview();

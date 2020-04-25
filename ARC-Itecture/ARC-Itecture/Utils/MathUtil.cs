@@ -87,6 +87,12 @@ namespace ARC_Itecture.Utils
             return intersection;
         }
 
+        /// <summary>
+        /// Checks if intersection is through a vertical line
+        /// </summary>
+        /// <param name="l1">First line</param>
+        /// <param name="l2">Second line</param>
+        /// <returns>True if intersection is through a vertical line</returns>
         private static Boolean IsThroughVerticalLine(Line l1, Line l2)
         {
             Boolean isVerticalCross = l1.Y1 < l2.Y1 && l1.Y2 > l2.Y1 || l1.Y1 > l2.Y1 && l1.Y2 < l2.Y1;
@@ -94,6 +100,12 @@ namespace ARC_Itecture.Utils
             return isVerticalCross && isBetweenX;
         }
 
+        /// <summary>
+        /// Checks if intersection is through a horizontal line
+        /// </summary>
+        /// <param name="l1">First line</param>
+        /// <param name="l2">Second line</param>
+        /// <returns>True if intersection is through a horizontal line</returns>
         private static Boolean IsThroughHorizontalLine(Line l1, Line l2)
         {
             Boolean isHorizontalCross = l1.X1 < l2.X1 && l1.X2 > l2.X1 || l1.X1 > l2.X1 && l1.X2 < l2.X1;

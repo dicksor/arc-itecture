@@ -17,6 +17,9 @@ using System.Windows.Shapes;
 
 namespace ARC_Itecture.Geometry
 {
+    /// <summary>
+    /// Contains the necessary information for the intersection of two segments
+    /// </summary>    
     class Intersection
     {
         public Point? IntersectionPoint { get; set; }
