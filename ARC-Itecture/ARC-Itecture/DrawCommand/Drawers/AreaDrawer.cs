@@ -49,6 +49,7 @@ namespace ARC_Itecture.DrawCommand.Drawers
         {
             _areaPoints.Push(p);
 
+            //Count two point to create the rectangle area
             if (_areaPoints.Count == 2)
             {
                 Point p2 = _areaPoints.Pop();
@@ -56,13 +57,15 @@ namespace ARC_Itecture.DrawCommand.Drawers
 
                 this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
 
+                // It the area type name is null, it come from the message box input
                 if (_areaTypeName == "")
                 {
                     _areaTypeName = await _receiver.ViewModel.ShowAreaDialog();
                 }
 
-                Area area = _receiver.ViewModel._plan.AddArea(p1, p2, _areaTypeName);
+                Area area = _receiver.ViewModel._plan.AddArea(p1, p2, _areaTypeName); // Add to the plan
 
+                // Create the TextBlock object that contain the area name
                 TextBlock textBlock = new TextBlock
                 {
                     Text = _areaTypeName,
@@ -73,10 +76,12 @@ namespace ARC_Itecture.DrawCommand.Drawers
                     LayoutTransform = new ScaleTransform(1, -1)
                 };
 
+                //Add the textBlock to the canvas
                 InkCanvas.SetLeft(textBlock, InkCanvas.GetLeft(_receiver.LastShape) + (_receiver.LastShape.Width / 2) - (textBlock.Width / 2));
                 InkCanvas.SetTop(textBlock, InkCanvas.GetTop(_receiver.LastShape) + (_receiver.LastShape.Height / 2) - (textBlock.Height / 2));
                 _receiver.ViewModel._mainWindow.canvas.Children.Add(textBlock);
 
+                // Add to the history
                 MainWindow.main.History = "Area";
                 _receiver.ViewModel._stackHistory.Push(new Tuple<Object, Object, string>(textBlock, area, "Area"));
 
@@ -84,6 +89,10 @@ namespace ARC_Itecture.DrawCommand.Drawers
             }
         }
 
+        /// <summary>
+        /// Area draw preview method
+        /// </summary>
+        /// <param name="p">Preview point</param>
         public override void DrawPreview(Point p)
         {
             if (_receiver.LastShape is Rectangle lastRectangle)

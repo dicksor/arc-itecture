@@ -24,8 +24,8 @@ namespace ARC_Itecture.DrawCommand.Drawers
     class WallDrawer : Drawer
     {
         private List<Line> _currentWalls;
-        private List<Point> _doorAvailablePoints;
-        private List<Rect> _windowAvailableWalls;
+        private List<Point> _doorAvailablePoints; // Contains all the points available for the design of a door
+        private List<Rect> _windowAvailableWalls; // Contains all the points available for drawing a window
         private Queue<Point> _wallPoints;
 
         public WallDrawer(Receiver receiver, ref List<Point> doorAvailablePoints, ref List<Rect> windowAvailableWalls)
@@ -37,10 +37,15 @@ namespace ARC_Itecture.DrawCommand.Drawers
             this._wallPoints = new Queue<Point>();  
         }
 
+        /// <summary>
+        /// Draw a wall to the canvas 
+        /// </summary>
+        /// <param name="p">Wall point</param>
         public override void Draw(Point p)
         {
             this._wallPoints.Enqueue(p);
 
+            //Count two point to create the rectangle area
             if (this._wallPoints.Count % 2 == 0)
             {
                 Point clickedP1 = _wallPoints.Dequeue();
@@ -50,23 +55,28 @@ namespace ARC_Itecture.DrawCommand.Drawers
                 {
                     Line line = DrawSegment(clickedP1, clickedP2);
 
+                    //Contain the line points
                     Point realP1 = new Point(line.X1, line.Y1);
                     Point realP2 = new Point(line.X2, line.Y2);
 
-                    _windowAvailableWalls.Add(new Rect(realP1, realP2));
+                    _windowAvailableWalls.Add(new Rect(realP1, realP2));  // Add the wall in the available wall list
 
+                    // Add this point to available door points
                     _doorAvailablePoints.Add(realP1);
                     _doorAvailablePoints.Add(realP2);
 
-                    Segment segment = _receiver.ViewModel._plan.AddWall(realP1, realP2);
+                    Segment segment = _receiver.ViewModel._plan.AddWall(realP1, realP2); // Add the wall to the plan
 
+                    //Search for a intersection between two line
                     Intersection intersection = MathUtil.LineIntersect(line, _currentWalls);
                     if (intersection.IntersectionPoint != null)
                     {
+                        //If two walls intersect, they're cut off
                         if (intersection.L2.Equals(this._currentWalls[0]))
                         {
-                            _receiver.ViewModel._plan.UpdateWall(intersection.L1, intersection.L2, intersection.IntersectionPoint);
+                            _receiver.ViewModel._plan.UpdateWall(intersection.L1, intersection.L2, intersection.IntersectionPoint); //If there is an intersection and the wall is shortened it has to be updated in the plan
 
+                            // Shortcut the 2 intersecting walls
                             line.X2 = intersection.IntersectionPoint.Value.X;
                             line.Y2 = intersection.IntersectionPoint.Value.Y;
 
@@ -88,6 +98,7 @@ namespace ARC_Itecture.DrawCommand.Drawers
                     _receiver.ViewModel._mainWindow.canvas.Children.Remove(_receiver.LastShape as Line);
                     _currentWalls.Add(line);
 
+                    // Add the wall to the history
                     MainWindow.main.History = "Wall";
                     _receiver.ViewModel._stackHistory.Push(new Tuple<Object, Object, string>(line, segment, "Wall"));
 
@@ -97,6 +108,10 @@ namespace ARC_Itecture.DrawCommand.Drawers
             }
         }
 
+        /// <summary>
+        /// Draw the wall preview
+        /// </summary>
+        /// <param name="p"></param>
         public override void DrawPreview(Point p)
         {
             if (_receiver.LastShape is Line lastWall)

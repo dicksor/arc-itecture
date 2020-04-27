@@ -96,6 +96,12 @@ public class Plan
         return segment;
     }
 
+    /// <summary>
+    /// Update a wall when two wall reach an intersection
+    /// </summary>
+    /// <param name="oldL1">First old wall</param>
+    /// <param name="oldL2">Second old wall</param>
+    /// <param name="intersection">New intersection point</param>
     public void UpdateWall(Line oldL1, Line oldL2, Point? intersection)
     {
         Point p1L1 = new Point(oldL1.X1, oldL1.Y1);

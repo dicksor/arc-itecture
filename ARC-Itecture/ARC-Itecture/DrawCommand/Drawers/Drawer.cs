@@ -43,6 +43,12 @@ namespace ARC_Itecture.DrawCommand.Drawers
         /// <param name="p">Point on the canvas</param>
         public abstract void DrawPreview(Point p);
 
+        /// <summary>
+        /// Draw a rectangle on the canvas
+        /// </summary>
+        /// <param name="p1">Rectangle first point</param>
+        /// <param name="p2">Rectangle second  point</param>
+        /// <returns>Drawed rectangle</returns>
         protected Rectangle DrawRectangle(Point p1, Point p2)
         {
             Rectangle rectangle = new Rectangle
@@ -52,6 +58,7 @@ namespace ARC_Itecture.DrawCommand.Drawers
                 Height = Math.Abs(p2.Y - p1.Y)
             };
 
+            // Draw the recatngle to the canvas
             double leftMostX = p2.X > p1.X ? p1.X : p2.X;
             double topMostY = p2.Y > p1.Y ? p1.Y : p2.Y;
             InkCanvas.SetLeft(rectangle, leftMostX);
@@ -62,6 +69,12 @@ namespace ARC_Itecture.DrawCommand.Drawers
             return rectangle;
         }
 
+        /// <summary>
+        /// Draw a line to the canvas
+        /// </summary>
+        /// <param name="p1">Line first point</param>
+        /// <param name="p2">Line second point</param>
+        /// <returns>Drawed line</returns>
         protected Line DrawSegment(Point p1, Point p2)
         {
             Line line = new Line
@@ -86,7 +99,7 @@ namespace ARC_Itecture.DrawCommand.Drawers
                 line.X2 = p1.X;
                 line.Y2 = p2.Y;
             }
-            _receiver.ViewModel._mainWindow.canvas.Children.Add(line);
+            _receiver.ViewModel._mainWindow.canvas.Children.Add(line); // Add the line to the canvas
 
             return line;
         }
