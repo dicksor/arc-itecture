@@ -7,11 +7,9 @@
  */
 
 
-using ARC_Itecture.DrawCommand.Commands;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;

@@ -6,7 +6,6 @@
  * .NET Course
  */
 
-using System;
 using System.Windows;
 
 namespace ARC_Itecture.DrawCommand.Commands

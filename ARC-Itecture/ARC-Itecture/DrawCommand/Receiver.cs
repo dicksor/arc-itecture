@@ -8,15 +8,8 @@
 
 
 using System.Collections.Generic;
-using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Shapes;
-using ARC_Itecture.Utils;
-using ARC_Itecture.Geometry;
-using System.Windows.Input;
-using System.Linq;
 using ARC_Itecture.DrawCommand.Drawers;
 
 namespace ARC_Itecture.DrawCommand
