@@ -65,6 +65,8 @@ namespace ARC_Itecture.DrawCommand.Drawers
                     {
                         if (intersection.L2.Equals(this._currentWalls[0]))
                         {
+                            _receiver.ViewModel._plan.UpdateWall(intersection.L1, intersection.L2, intersection.IntersectionPoint);
+
                             line.X2 = intersection.IntersectionPoint.Value.X;
                             line.Y2 = intersection.IntersectionPoint.Value.Y;
 

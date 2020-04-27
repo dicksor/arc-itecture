@@ -103,6 +103,32 @@ public class Plan
         return segment;
     }
 
+    public void UpdateWall(Line oldL1, Line oldL2, Point? intersection)
+    {
+        Point p1L1 = new Point(oldL1.X1, oldL1.Y1);
+        Point p2L1 = new Point(oldL1.X2, oldL1.Y2);
+        Point p1L2 = new Point(oldL2.X1, oldL2.Y1);
+        Point p2L2 = new Point(oldL2.X2, oldL2.Y2);
+        Point scaledIntersection = new Point((float)intersection?.X, (float)intersection?.Y);
+
+        ScaleGeometrySave(ref p1L1);
+        ScaleGeometrySave(ref p2L1);
+        ScaleGeometrySave(ref p1L2);
+        ScaleGeometrySave(ref p2L2);
+        ScaleGeometrySave(ref scaledIntersection);
+
+        Segment s1 = FindSegmentByCoords(p1L1, p2L1);
+        Segment s2 = FindSegmentByCoords(p1L2, p2L2);
+
+        s1.Stop.Clear();
+        s1.Stop.Add((float)scaledIntersection.X);
+        s1.Stop.Add((float)scaledIntersection.Y);
+
+        s2.Start.Clear();
+        s2.Start.Add((float)scaledIntersection.X);
+        s2.Start.Add((float)scaledIntersection.Y);
+    }
+
     /// <summary>
     /// Add a window to a plan.  
     /// </summary>
