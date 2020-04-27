@@ -7,7 +7,6 @@
  */
 
 
-using ARC_Itecture;
 using ARC_Itecture.DrawCommand;
 using ARC_Itecture.DrawCommand.Commands;
 using Newtonsoft.Json;
@@ -15,14 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Shapes;
-using System.Drawing;
 using Point = System.Windows.Point;
-using System.Linq;
-using ARC_Itecture.Utils;
-using System.Web.UI.WebControls;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 [System.Serializable]
 public class Plan
