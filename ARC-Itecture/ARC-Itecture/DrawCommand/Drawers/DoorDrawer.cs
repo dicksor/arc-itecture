@@ -55,9 +55,10 @@ namespace ARC_Itecture.DrawCommand.Drawers
                 List<Point> doorAnchorPoints = new List<Point>(); // Contains the points inside the selection rectangle preview
 
                 // Loop through the points available for the drawing of a door, If these points are in the selection rectangle they are added to the list of selected points
+                // Check also if the point isn't already in the list
                 foreach (Point doorPoint in _doorAvailablePoints)
                 {
-                    if (rect.Contains(doorPoint))
+                    if (rect.Contains(doorPoint) && !doorAnchorPoints.Contains(doorPoint))
                     {
                         doorAnchorPoints.Add(doorPoint);
                     }
@@ -152,15 +153,11 @@ namespace ARC_Itecture.DrawCommand.Drawers
                 if (element is Line line)
                 {
                     List<double> segmentPointsX = new List<double>() { Math.Floor(line.X1), Math.Floor(line.X2) };
-                    segmentPointsX.Sort();
-                    if (doorPointsX[0] == segmentPointsX[0] && doorPointsX[1] == segmentPointsX[1])
-                    {
-                        isDoorOnWall = true;
-                    }
-
                     List<double> segmentPointsY = new List<double>() { Math.Floor(line.Y1), Math.Floor(line.Y2) };
+                    segmentPointsX.Sort();
                     segmentPointsY.Sort();
-                    if (doorPointsY[0] == segmentPointsY[0] && doorPointsY[1] == segmentPointsY[1])
+
+                    if ((doorPointsX[0] == segmentPointsX[0] && doorPointsX[1] == segmentPointsX[1]) && (doorPointsY[0] == segmentPointsY[0] && doorPointsY[1] == segmentPointsY[1]))
                     {
                         isDoorOnWall = true;
                     }
