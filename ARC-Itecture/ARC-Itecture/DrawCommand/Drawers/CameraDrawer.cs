@@ -34,8 +34,8 @@ namespace ARC_Itecture.DrawCommand.Drawers
                 LayoutTransform = new ScaleTransform(1, -1)
             };
 
-            Canvas.SetLeft(cameraImage, p.X);
-            Canvas.SetTop(cameraImage, p.Y);
+            InkCanvas.SetLeft(cameraImage, p.X);
+            InkCanvas.SetTop(cameraImage, p.Y);
             _receiver.ViewModel._mainWindow.canvas.Children.Add(cameraImage);
 
             MainWindow.main.History = "Camera";

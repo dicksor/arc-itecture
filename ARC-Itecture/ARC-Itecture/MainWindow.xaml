@@ -85,11 +85,12 @@
                 </ScrollViewer>
             </materialDesign:Card>
             <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="20,10,10,10" materialDesign:ShadowAssist.ShadowDepth="Depth5">
-                <Canvas x:Name="canvas" PreviewMouseDown="Canvas_PreviewMouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <Canvas.LayoutTransform>
+                <InkCanvas x:Name="canvas" PreviewMouseDown="Canvas_PreviewMouseDown" MouseMove="Canvas_MouseMove"
+                           EditingMode="GestureOnly" ForceCursor="True" Cursor="Pen" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <InkCanvas.LayoutTransform>
                         <ScaleTransform ScaleX="1" ScaleY="-1"/>
-                    </Canvas.LayoutTransform>
-                    <Canvas.Background>
+                    </InkCanvas.LayoutTransform>
+                    <InkCanvas.Background>
                         <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
                             <DrawingBrush.Drawing>
                                 <GeometryDrawing Brush="Black">
@@ -102,8 +103,8 @@
                                 </GeometryDrawing>
                             </DrawingBrush.Drawing>
                         </DrawingBrush>
-                    </Canvas.Background>
-                </Canvas>
+                    </InkCanvas.Background>
+                </InkCanvas>
             </materialDesign:Card>
             <materialDesign:Card Grid.Row="0" Grid.Column="2" Padding="10" Margin="10,10,10,10" materialDesign:ShadowAssist.ShadowDepth="Depth5">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">

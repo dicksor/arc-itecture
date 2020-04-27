@@ -48,7 +48,7 @@ namespace ARC_Itecture.DrawCommand.Drawers
 
                 this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
 
-                Rect rect = new Rect(Canvas.GetLeft(_receiver.LastShape), Canvas.GetTop(_receiver.LastShape), _receiver.LastShape.Width, _receiver.LastShape.Height);
+                Rect rect = new Rect(InkCanvas.GetLeft(_receiver.LastShape), InkCanvas.GetTop(_receiver.LastShape), _receiver.LastShape.Width, _receiver.LastShape.Height);
 
                 List<Point> doorAnchorPoints = new List<Point>();
 
@@ -73,10 +73,10 @@ namespace ARC_Itecture.DrawCommand.Drawers
                         };
 
                         doorAnchorPoints = doorAnchorPoints.OrderBy(point => point.X).ToList();
-                        Canvas.SetLeft(rectangle, doorAnchorPoints[0].X);
+                        InkCanvas.SetLeft(rectangle, doorAnchorPoints[0].X);
 
                         doorAnchorPoints = doorAnchorPoints.OrderBy(point => point.Y).ToList();
-                        Canvas.SetTop(rectangle, doorAnchorPoints[0].Y);
+                        InkCanvas.SetTop(rectangle, doorAnchorPoints[0].Y);
 
                         double width = Math.Abs(doorAnchorPoints[1].X - doorAnchorPoints[0].X);
                         double height = Math.Abs(doorAnchorPoints[1].Y - doorAnchorPoints[0].Y);

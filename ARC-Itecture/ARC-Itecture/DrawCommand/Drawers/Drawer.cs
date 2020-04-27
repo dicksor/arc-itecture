@@ -54,8 +54,8 @@ namespace ARC_Itecture.DrawCommand.Drawers
 
             double leftMostX = p2.X > p1.X ? p1.X : p2.X;
             double topMostY = p2.Y > p1.Y ? p1.Y : p2.Y;
-            Canvas.SetLeft(rectangle, leftMostX);
-            Canvas.SetTop(rectangle, topMostY);
+            InkCanvas.SetLeft(rectangle, leftMostX);
+            InkCanvas.SetTop(rectangle, topMostY);
 
             _receiver.ViewModel._mainWindow.canvas.Children.Add(rectangle);
 

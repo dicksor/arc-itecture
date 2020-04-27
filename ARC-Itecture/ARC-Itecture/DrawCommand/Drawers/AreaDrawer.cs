@@ -73,8 +73,8 @@ namespace ARC_Itecture.DrawCommand.Drawers
                     LayoutTransform = new ScaleTransform(1, -1)
                 };
 
-                Canvas.SetLeft(textBlock, Canvas.GetLeft(_receiver.LastShape) + (_receiver.LastShape.Width / 2) - (textBlock.Width / 2));
-                Canvas.SetTop(textBlock, Canvas.GetTop(_receiver.LastShape) + (_receiver.LastShape.Height / 2) - (textBlock.Height / 2));
+                InkCanvas.SetLeft(textBlock, InkCanvas.GetLeft(_receiver.LastShape) + (_receiver.LastShape.Width / 2) - (textBlock.Width / 2));
+                InkCanvas.SetTop(textBlock, InkCanvas.GetTop(_receiver.LastShape) + (_receiver.LastShape.Height / 2) - (textBlock.Height / 2));
                 _receiver.ViewModel._mainWindow.canvas.Children.Add(textBlock);
 
                 MainWindow.main.History = "Area";

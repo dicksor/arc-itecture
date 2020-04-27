@@ -22,8 +22,6 @@ namespace ARC_Itecture
     public partial class MainWindow : Window
     {
         private ViewModel _viewModel;
-        private bool _isDrawing;
-        private Rect _canvasRect;
         private SnackbarMessageQueue _snackbarMessageQueue;
 
         public MainWindow()
@@ -31,7 +29,6 @@ namespace ARC_Itecture
             InitializeComponent();
 
             _viewModel = new ViewModel(this);
-            _isDrawing = false;
 
             _snackbarMessageQueue = new SnackbarMessageQueue();
             Snackbar.MessageQueue = _snackbarMessageQueue;
@@ -58,7 +55,6 @@ namespace ARC_Itecture
 
             button.Style = FindResource("MaterialDesignFloatingActionLightButton") as Style;
 
-            _isDrawing = false;
             _viewModel.RemoveLastPreview();
         }
 
@@ -95,58 +91,13 @@ namespace ARC_Itecture
         private void Canvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             Point p = Mouse.GetPosition(this.canvas);
-            Rect _canvasRect = new Rect(0, 0, canvas.ActualWidth, canvas.ActualHeight);
-
-            if (_canvasRect.Contains(p))
-            {
-                if (!_isDrawing)
-                {
-                    _isDrawing = true;
-                    Mouse.Capture(canvas);
-                }
-                else
-                {
-                    Mouse.Capture(null);
-                }
-
-                _viewModel.CanvasClick(p);
-            }
-            else
-            {
-                Mouse.Capture(null);
-                _viewModel.StartNewWall(); 
-            }
-        }
-
-        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (_isDrawing && !(_viewModel.Command is WallCommand))
-            {
-                _isDrawing = false;
-
-                Point p = Mouse.GetPosition(this.canvas);
-                _viewModel.CanvasClick(p);
-
-                Mouse.Capture(null);
-            }
+            _viewModel.CanvasClick(p);
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            _canvasRect = new Rect(0,0,canvas.ActualWidth,canvas.ActualHeight);
-            if(_isDrawing)
-            {
-                Point p = Mouse.GetPosition(this.canvas);
-                if(_canvasRect.Contains(p))
-                {
-                    _viewModel.CanvasMouseMove(p);
-                }
-                else
-                {
-                    _viewModel.StartNewWall();
-                    Debug.WriteLine("new wall");
-                }
-            }
+            Point p = Mouse.GetPosition(this.canvas);
+            _viewModel.CanvasMouseMove(p);
         }
 
         private void ButtonClearPlan_Click(object sender, RoutedEventArgs e)
@@ -202,22 +153,20 @@ namespace ARC_Itecture
         {
             if (canvas.Children.Count == 0)
             {
+                OpenFileDialog dlg = new OpenFileDialog { DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
 
-
-                    OpenFileDialog dlg = new OpenFileDialog { DefaultExt = ".json", Filter = "JSON file (.json)|*.json" };
-
-                    if (dlg.ShowDialog() == true)
+                if (dlg.ShowDialog() == true)
+                {
+                    if (Path.GetExtension(dlg.FileName) == ".json")
                     {
-                        if (Path.GetExtension(dlg.FileName) == ".json")
-                        {
-                            _viewModel.LoadJson(dlg.FileName);
-                            _snackbarMessageQueue.Enqueue("Plan opened");
-                        }
-                        else
-                        {
-                            MessageBox.Show("The file must have the .sjson extension !");
-                        }
+                        _viewModel.LoadJson(dlg.FileName);
+                        _snackbarMessageQueue.Enqueue("Plan opened");
                     }
+                    else
+                    {
+                        MessageBox.Show("The file must have the .sjson extension !");
+                    }
+                }
              }
             else
             {
@@ -257,7 +206,7 @@ namespace ARC_Itecture
                 _viewModel.AddWall();
                 ColorCommand(FindName("buttonAddWall") as Button);
             }
-            else if (e.Key == Key.Escape)
+            else if (e.Key == Key.N)
             {
                 _viewModel.StartNewWall();
                 _snackbarMessageQueue.Enqueue("Will start drawing from new point");

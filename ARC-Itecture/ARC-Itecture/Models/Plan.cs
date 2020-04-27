@@ -281,7 +281,8 @@ public class Plan
         List<HouseWindow> hw = ListWindows();
         
         int index = hw.IndexOf(w);
-        _segments[index].Window = new HouseWindow();
+        if(index >= 0)
+            _segments[index].Window = new HouseWindow();
     }
 
     /// <summary>

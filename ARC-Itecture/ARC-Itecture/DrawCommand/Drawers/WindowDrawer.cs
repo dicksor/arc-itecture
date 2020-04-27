@@ -44,7 +44,7 @@ namespace ARC_Itecture.DrawCommand.Drawers
 
                 this._fillBrush = new SolidColorBrush(ImageUtil.RandomColor());
 
-                Rect rect = new Rect(Canvas.GetLeft(_receiver.LastShape), Canvas.GetTop(_receiver.LastShape), _receiver.LastShape.Width, _receiver.LastShape.Height);
+                Rect rect = new Rect(InkCanvas.GetLeft(_receiver.LastShape), InkCanvas.GetTop(_receiver.LastShape), _receiver.LastShape.Width, _receiver.LastShape.Height);
 
                 foreach (Rect wall in _windowAvailableWalls)
                 {
@@ -60,8 +60,8 @@ namespace ARC_Itecture.DrawCommand.Drawers
                                 Fill = Application.Current.TryFindResource("PrimaryHueDarkBrush") as SolidColorBrush
                             };
 
-                            Canvas.SetLeft(rectangle, intersect.X - (COMPONENT_OFFSET / 2));
-                            Canvas.SetTop(rectangle, intersect.Y - (COMPONENT_OFFSET / 2));
+                            InkCanvas.SetLeft(rectangle, intersect.X - (COMPONENT_OFFSET / 2));
+                            InkCanvas.SetTop(rectangle, intersect.Y - (COMPONENT_OFFSET / 2));
 
                             rectangle.Width = intersect.Width + COMPONENT_OFFSET;
                             rectangle.Height = intersect.Height + COMPONENT_OFFSET;
@@ -113,8 +113,8 @@ namespace ARC_Itecture.DrawCommand.Drawers
 
         private Line FindSegmentByWindow(Rectangle rect)
         {
-            double x = Canvas.GetLeft(rect);
-            double y = Canvas.GetTop(rect);
+            double x = InkCanvas.GetLeft(rect);
+            double y = InkCanvas.GetTop(rect);
             double width = rect.Width;
             double height = rect.Height;
 
