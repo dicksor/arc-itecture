@@ -47,7 +47,7 @@ public class Door
     /// <param name="scaleGeometryLoad">Scale geometry load function</param>
     public static void ImportDoors(List<Door> doors, Receiver receiver, Invoker invoker, Func<Point, Point> scaleGeometryLoad)
     {
-        foreach (Door door in doors)
+        foreach (Door door in doors.ToArray())
         {
             invoker.DrawCommand = new DoorCommand(receiver);
             invoker.PreviewCommand = new PreviewDoorCommand(receiver);

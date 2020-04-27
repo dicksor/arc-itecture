@@ -69,7 +69,7 @@ public class Segment
     public static void ImportSegments(List<Segment> segments, Receiver receiver, Invoker invoker, Func<Point, Point> scaleGeometryLoad)
     {
         invoker.DrawCommand = new WallCommand(receiver);
-        foreach (Segment segment in segments)
+        foreach (Segment segment in segments.ToArray())
         {
             Point wallStartPoint = scaleGeometryLoad(new Point(segment.Start[0], segment.Start[1]));
             Point wallEndPoint = scaleGeometryLoad(new Point(segment.Stop[0], segment.Stop[1]));

@@ -44,7 +44,7 @@ public class HouseWindow
     /// <param name="scaleGeometryLoad">Scale geometry load function</param>
     public static void ImportWindows(List<HouseWindow> windows, Receiver receiver, Invoker invoker, Func<Point, Point> scaleGeometryLoad)
     {
-        foreach (HouseWindow hw in windows)
+        foreach (HouseWindow hw in windows.ToArray())
         {
             invoker.PreviewCommand = new PreviewWindowCommand(receiver);
             invoker.DrawCommand = new WindowCommand(receiver);

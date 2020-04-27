@@ -62,7 +62,7 @@ public class Area
     /// <param name="scaleGeometryLoad">Scale geometry load function</param>
     public static void ImportAreas(List<Area> areas, Receiver receiver, Invoker invoker, Func<System.Windows.Point, System.Windows.Point> scaleGeometryLoad)
     {
-        foreach (Area area in areas)
+        foreach (Area area in areas.ToList())
         {
             invoker.DrawCommand = new AreaCommand(receiver, area.Type);
             invoker.PreviewCommand = new PreviewAreaCommand(receiver);

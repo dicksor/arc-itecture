@@ -37,9 +37,10 @@ namespace ARC_Itecture.DrawCommand
         public Receiver(ViewModel viewModel)
         {
             this.ViewModel = viewModel;
+            this._doorAvailablePoints = new List<Point>();
+            this._windowAvailableWalls = new List<Rect>();
             this._areaDrawer = new AreaDrawer(this);
             this._cameraDrawer = new CameraDrawer(this);
-            this._doorAvailablePoints = new List<Point>();
             this._doorDrawer = new DoorDrawer(this, ref _doorAvailablePoints);
             this._windowAvailableWalls = new List<Rect>();
             this._wallDrawer = new WallDrawer(this, ref _doorAvailablePoints, ref _windowAvailableWalls);
