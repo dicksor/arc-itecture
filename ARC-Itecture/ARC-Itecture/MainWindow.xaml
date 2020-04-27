@@ -109,7 +109,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel DockPanel.Dock="Top">
                         <TextBlock Style="{StaticResource MaterialDesignHeadline4TextBlock}" TextWrapping="Wrap" TextAlignment="Center" Margin="0,0,0,10">History</TextBlock>
-                        <Button x:Name="buttonRemoveLastHistory" Click="buttonRemoveLastHistory_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,5">Remove last</Button>
+                        <Button x:Name="buttonRemoveLastHistory" Click="ButtonRemoveLastHistory_Click" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10,0,10,5">Remove last</Button>
                         <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
                         <ListBox x:Name="listBoxHistory" Margin="5,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Top"></ListBox>
                     </StackPanel>

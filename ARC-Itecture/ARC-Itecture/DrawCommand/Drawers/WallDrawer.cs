@@ -1,15 +1,26 @@
-﻿using ARC_Itecture.Geometry;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+
+using ARC_Itecture.Geometry;
 using ARC_Itecture.Utils;
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace ARC_Itecture.DrawCommand.Drawers
 {
+
+    /// <summary>
+    /// Performs all the walls drawing
+    /// </summary>
     class WallDrawer : Drawer
     {
         private List<Line> _currentWalls;
@@ -93,6 +104,9 @@ namespace ARC_Itecture.DrawCommand.Drawers
                 _receiver.LastShape = DrawSegment(_wallPoints.Peek(), p);
         }
 
+        /// <summary>
+        /// Allows to start a wall from a new point
+        /// </summary>
         public void StartNewWall()
         {
             if (_receiver.LastShape is Line lastWall)

@@ -1,4 +1,13 @@
-﻿using ARC_Itecture.Utils;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+
+using ARC_Itecture.Utils;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,8 +31,16 @@ namespace ARC_Itecture.DrawCommand.Drawers
             this._strokeBrush = new SolidColorBrush(Colors.White);
         }
 
+        /// <summary>
+        /// Draws a shape
+        /// </summary>
+        /// <param name="p">Point on the canvas</param>
         public abstract void Draw(Point p);
 
+        /// <summary>
+        /// Draws a shape preview
+        /// </summary>
+        /// <param name="p">Point on the canvas</param>
         public abstract void DrawPreview(Point p);
 
         protected Rectangle DrawRectangle(Point p1, Point p2)

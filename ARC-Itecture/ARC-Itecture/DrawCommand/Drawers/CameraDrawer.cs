@@ -1,4 +1,12 @@
-﻿using ARC_Itecture.Utils;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+using ARC_Itecture.Utils;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,6 +14,10 @@ using System.Windows.Media;
 
 namespace ARC_Itecture.DrawCommand.Drawers
 {
+
+    /// <summary>
+    /// Performs the camera drawing
+    /// </summary>
     class CameraDrawer : Drawer
     {
 

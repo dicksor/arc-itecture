@@ -21,6 +21,10 @@ using ARC_Itecture.DrawCommand.Drawers;
 
 namespace ARC_Itecture.DrawCommand
 {
+
+    /// <summary>
+    /// Commands receiver, performs the various drawing on the canvas
+    /// </summary>
     public class Receiver
     {
         private AreaDrawer _areaDrawer;

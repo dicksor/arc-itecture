@@ -1,4 +1,13 @@
-﻿using ARC_Itecture.Utils;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+
+using ARC_Itecture.Utils;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -8,6 +17,10 @@ using System.Windows.Shapes;
 
 namespace ARC_Itecture.DrawCommand.Drawers
 {
+
+    /// <summary>
+    /// Performs all the areas drawing
+    /// </summary>
     class AreaDrawer : Drawer
     {
 
@@ -28,6 +41,10 @@ namespace ARC_Itecture.DrawCommand.Drawers
             this._areaTypeName = "";
         }
 
+        /// <summary>
+        /// Draws the area and open a dialog to pick up a name for the area
+        /// </summary>
+        /// <param name="p"></param>
         public override async void Draw(Point p)
         {
             _areaPoints.Push(p);

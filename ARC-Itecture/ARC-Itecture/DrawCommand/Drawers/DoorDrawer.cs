@@ -1,9 +1,16 @@
-﻿using ARC_Itecture.Utils;
+﻿/*
+ * ARC-Itecture
+ * Romain Capocasale, Vincent Moulin and Jonas Freiburghaus
+ * He-Arc, INF3dlm-a
+ * 2019-2020
+ * .NET Course
+ */
+
+
+using ARC_Itecture.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,7 +18,11 @@ using System.Windows.Shapes;
 
 namespace ARC_Itecture.DrawCommand.Drawers
 {
-    internal class DoorDrawer : Drawer
+
+    /// <summary>
+    /// Peforms all the doors drawing
+    /// </summary>
+    class DoorDrawer : Drawer
     {
         private List<Point> _doorAvailablePoints;
         private Stack<Point> _doorPoints;
