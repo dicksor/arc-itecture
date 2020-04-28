@@ -165,6 +165,7 @@ namespace ARC_Itecture
         /// <param name="filename">Filname of the plan to save</param>
         public void SaveJson(string filename)
         {
+            File.Delete(filename);
             using (StreamWriter file = File.CreateText(filename))
             {
                 (new JsonSerializer()).Serialize(file, _plan);
