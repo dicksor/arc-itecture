@@ -9,6 +9,7 @@
 
 using ARC_Itecture.DrawCommand;
 using ARC_Itecture.DrawCommand.Commands;
+using ARC_Itecture.Geometry;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -99,16 +100,18 @@ public class Plan
     /// <summary>
     /// Update a wall when two wall reach an intersection
     /// </summary>
-    /// <param name="oldL1">First old wall</param>
-    /// <param name="oldL2">Second old wall</param>
-    /// <param name="intersection">New intersection point</param>
-    public void UpdateWall(Line oldL1, Line oldL2, Point? intersection)
+    /// <param name="intersection">Intersection point</param>
+    public void UpdateWall(Intersection intersection)
     {
+        Line oldL1 = intersection.L1;
+        Line oldL2 = intersection.L2;
+        Point? intersectionPoint = intersection.IntersectionPoint;
+
         Point p1L1 = new Point(oldL1.X1, oldL1.Y1);
         Point p2L1 = new Point(oldL1.X2, oldL1.Y2);
         Point p1L2 = new Point(oldL2.X1, oldL2.Y1);
         Point p2L2 = new Point(oldL2.X2, oldL2.Y2);
-        Point scaledIntersection = new Point((float)intersection?.X, (float)intersection?.Y);
+        Point scaledIntersection = new Point((float)intersectionPoint?.X, (float)intersectionPoint?.Y);
 
         ScaleGeometrySave(ref p1L1);
         ScaleGeometrySave(ref p2L1);

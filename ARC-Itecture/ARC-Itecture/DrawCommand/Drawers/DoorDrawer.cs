@@ -131,6 +131,8 @@ namespace ARC_Itecture.DrawCommand.Drawers
                 _receiver.LastShape = DrawRectangle(_doorPoints.Peek(), p);
         }
 
+
+
         /// <summary>
         /// Check if a door is on a wall
         /// </summary>

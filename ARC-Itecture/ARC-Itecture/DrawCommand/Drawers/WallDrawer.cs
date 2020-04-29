@@ -74,7 +74,9 @@ namespace ARC_Itecture.DrawCommand.Drawers
                         //If two walls intersect, they're cut off
                         if (intersection.L2.Equals(this._currentWalls[0]))
                         {
-                            _receiver.ViewModel._plan.UpdateWall(intersection.L1, intersection.L2, intersection.IntersectionPoint); //If there is an intersection and the wall is shortened it has to be updated in the plan
+                            _receiver.ViewModel._plan.UpdateWall(intersection); //If there is an intersection and the wall is shortened it has to be updated in the plan
+
+                            Intersection oldIntersection = new Intersection(intersection);
 
                             // Shortcut the 2 intersecting walls
                             line.X2 = intersection.IntersectionPoint.Value.X;
@@ -82,6 +84,8 @@ namespace ARC_Itecture.DrawCommand.Drawers
 
                             intersection.L2.X1 = line.X2;
                             intersection.L2.Y1 = line.Y2;
+
+                            UpdateDoorsAndWindowsList(oldIntersection, intersection);
 
                             _currentWalls.Clear();
                         }
@@ -106,6 +110,46 @@ namespace ARC_Itecture.DrawCommand.Drawers
                     line.MouseLeave += (s, e) => Mouse.OverrideCursor = Cursors.Arrow;
                 }
             }
+        }
+
+        /// <summary>
+        /// Update the door anchor point list and the windows wall anchor list
+        /// </summary>
+        /// <param name="oldI">Old intersection object</param>
+        /// <param name="newI">New intersection object</param>
+        public void UpdateDoorsAndWindowsList(Intersection oldI, Intersection newI)
+         {
+            //Crate the old and new line  
+            Line oldL1 = oldI.L1;
+            Line oldL2 = oldI.L2;
+            Line newL1 = newI.L1;
+            Line newL2 = newI.L2;
+
+            //Delete old door points
+            _doorAvailablePoints.Remove(new Point(oldL1.X1, oldL1.Y1));
+            _doorAvailablePoints.Remove(new Point(oldL1.X2, oldL1.Y2));
+            _doorAvailablePoints.Remove(new Point(oldL2.X1, oldL2.Y1));
+            _doorAvailablePoints.Remove(new Point(oldL2.X2, oldL2.Y2));
+
+            // Create new door points
+            _doorAvailablePoints.Add(new Point(newL1.X1, newL1.Y1));
+            _doorAvailablePoints.Add(new Point(newL1.X2, newL1.Y2));
+            _doorAvailablePoints.Add(new Point(newL2.X1, newL2.Y1));
+            _doorAvailablePoints.Add(new Point(newL2.X2, newL2.Y2));
+
+            //Delete old window anchor walls
+            for(int i = _windowAvailableWalls.Count -1; i >= 0; i--)
+            {
+                if(_windowAvailableWalls[i].Contains(new Point(oldL1.X1, oldL1.Y1)) && _windowAvailableWalls[i].Contains(new Point(oldL1.X2, oldL1.Y2))
+                    || _windowAvailableWalls[i].Contains(new Point(oldL2.X1, oldL2.Y1)) && _windowAvailableWalls[i].Contains(new Point(oldL2.X2, oldL2.Y2)))
+                {
+                    _windowAvailableWalls.RemoveAt(i);
+                }
+            }
+
+            //Create new window anchor walls
+            _windowAvailableWalls.Add(new Rect(new Point(newL1.X1, newL1.Y1), new Point(newL1.X2, newL1.Y2)));
+            _windowAvailableWalls.Add(new Rect(new Point(newL2.X1, newL2.Y1), new Point(newL2.X2, newL2.Y2)));
         }
 
         /// <summary>
